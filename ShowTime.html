@@ -111,31 +111,49 @@
         <div class="container mt-3">
           <div class="row">
             <div class="col-md-3 col-sm-6">
-              <img class="img-fluid" src="/image/你名.jpg" />
-              <p class="text-center fw-bolder mt-2">你的名字</p>
+              <img class="img-fluid" :src="selectedMovie?.image" />
+              <p class="text-center fw-bolder mt-2">
+                {{ selectedMovie?.name }}
+              </p>
             </div>
 
             <div class="col-md-9 col-sm-6">
               <h5 class="fw-bolder">選擇日期</h5>
               <div class="d-flex">
                 <div class="date" v-for="day in moviedates" :key="day.id">
-                  <button class="btn btn-outline-primary m-2">
+                  <button
+                    class="btn m-2"
+                    :class="{'btn-primary': selectedDate === day.id, 'btn-outline-primary': selectedDate !== day.id}"
+                    v-on:click="selectDate(day.id)"
+                    data-bs-toggle="button"
+                  >
                     {{ day.date }}
                   </button>
                 </div>
               </div>
 
-              <div class="col mt-5">
+              <!-- 顯示選擇時間的部分 -->
+              <div class="col mt-5" v-show="choiceTime">
                 <h5 class="fw-bolder">選擇時間</h5>
                 <div class="d-flex">
                   <div class="time" v-for="t in movietimes" :key="t.id">
-                    <button class="btn btn-outline-primary m-2">
+                    <button
+                      class="btn m-2"
+                      :class="{'btn-primary': selectedTime === t.id, 'btn-outline-primary': selectedTime !== t.id}"
+                      v-on:click="selectTime(t.id)"
+                    >
                       {{ t.time }}
                     </button>
                   </div>
                 </div>
               </div>
             </div>
+          </div>
+          <div class="text-end">
+            <a href="ChoiceMovies.html" class="btn btn-outline-danger"
+              >上一頁</a
+            >
+            <button class="btn btn-outline-primary m-2">下一頁</button>
           </div>
         </div>
       </section>
@@ -148,7 +166,7 @@
     ></script>
     <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
     <script>
-      const { createApp, ref } = Vue;
+      const { createApp, ref, onMounted } = Vue;
       const config = {
         setup() {
           const moviedates = ref([
@@ -164,7 +182,40 @@
             { id: 3, time: "19:00" },
             { id: 4, time: "23:00" },
           ]);
-          return { moviedates, movietimes };
+
+          const selectedMovie = ref(null);
+          const selectedDate = ref(null); // 儲存目前選擇的日期
+          const selectedTime = ref(null); // 儲存目前選擇的時間
+          const choiceTime = ref(false); // 控制是否顯示選擇時間
+
+          const selectDate = (id) => {
+            selectedDate.value = id;
+            choiceTime.value = true;
+            selectedTime.value = null;
+          };
+
+          const selectTime = (id) => {
+            selectedTime.value = id;
+          };
+
+          onMounted(() => {
+            // 從 localStorage 讀取選擇的電影資料
+            const movie = JSON.parse(localStorage.getItem("selectedMovie"));
+            if (movie) {
+              selectedMovie.value = movie;
+            }
+          });
+
+          return {
+            moviedates,
+            movietimes,
+            selectedMovie,
+            selectDate,
+            selectTime,
+            choiceTime,
+            selectedDate,
+            selectedTime,
+          };
         },
       };
       const app = createApp(config);
