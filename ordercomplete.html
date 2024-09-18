@@ -12,30 +12,6 @@
       crossorigin="anonymous"
     />
     <link rel="stylesheet" href="/css/styles.css" />
-    <style>
-      .card {
-        width: 200px;
-        height: 300px;
-        overflow: hidden;
-        display: block;
-        justify-content: center;
-        margin: 10px;
-      }
-      .card img {
-        width: 80%;
-        height: 80%;
-        object-fit: cover;
-      }
-
-      .card-body {
-        display: flex;
-        margin-top: 10px;
-        margin-left: 10px;
-      }
-      .card-body a {
-        width: 200px;
-      }
-    </style>
   </head>
   <body>
     <div id="app" class="container">
@@ -126,32 +102,59 @@
       <section class="login-section">
         <h2 class="text">線上訂票步驟</h2>
         <div class="step-bar">
-          <div class="step-item fw-bolder">1.選擇電影</div>
+          <div class="step-item">1.選擇電影</div>
           <div class="step-item">2.場次選擇</div>
           <div class="step-item">3.確認訂單</div>
-          <div class="step-item">4.訂單完成</div>
+          <div class="step-item fw-bolder">4.訂單完成</div>
         </div>
 
-        <div class="container">
-          <div
-            class="col d-flex flex-wrap"
-            style="justify-content: space-around"
-          >
-            <div
-              class="card border-0 text-center"
-              v-for="c in cards"
-              :key="c.id"
-            >
-              <img :src="c.image" />
-              <div class="text-center">
-                <a :href="c.url"
-                  ><a @click="bookMovie(c)" class="btn btn-primary mt-2"
-                    >立即購票</a
-                  ></a
-                >
-              </div>
-            </div>
-          </div>
+        <section class="order-completion mt-5">
+          <h2 class="text-center">感謝您使用訂票平台</h2>
+
+          <!-- 訂單資訊表格 -->
+          <table class="table table-bordered mt-3">
+            <tbody>
+              <tr>
+                <th>訂單時間</th>
+                <td>{{orderInfo}}</td>
+              </tr>
+              <tr>
+                <th>電影名稱</th>
+                <td>{{ selectedMovie?.name }}</td>
+              </tr>
+              <tr>
+                <th>日期場次</th>
+                <td>{{ selectedDate?.date }} {{ selectedTime?.time }}</td>
+              </tr>
+              <tr>
+                <th>影廳</th>
+                <td>{{ movieInfo.hall }}</td>
+              </tr>
+              <tr>
+                <th>票種</th>
+                <td>
+                  <span v-for="(ticket, index) in selectedTickets" :key="index">
+                    {{ ticket.name }}:{{ ticket.quantity }}張
+                  </span>
+                </td>
+              </tr>
+              <tr>
+                <th>座位</th>
+                <td>
+                  <span> {{ formattedSeats }} </span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </section>
+
+        <div class="text-end mt-3">
+          <button @click="goBack" class="btn btn-outline-danger">
+            回到首頁
+          </button>
+          <button @click="goToNextPage" class="btn btn-outline-primary ms-2">
+            前往票夾
+          </button>
         </div>
       </section>
     </div>
@@ -163,46 +166,96 @@
     ></script>
     <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
     <script>
-      const { createApp, ref } = Vue;
+      const { createApp, ref, onMounted } = Vue;
+
       const config = {
         setup() {
-          const cards = ref([
-            {
-              id: 1,
-              image: "/image/腦筋.jpg",
-              url: "choicedate.html",
-              name: "腦筋急轉彎",
-            },
-            {
-              id: 2,
-              image: "/image/元素.jpg",
-              url: "choicedate.html",
-              name: "元素方程式",
-            },
-            {
-              id: 3,
-              image: "/image/你名.jpg",
-              url: "choicedate.html",
-              name: "你的名字",
-            },
-            {
-              id: 4,
-              image: "/image/小丑.jpg",
-              url: "choicedate.html",
-              name: "小丑",
-            },
-          ]);
+          const selectedMovie = ref(null);
+          const selectedDate = ref(null);
+          const selectedTime = ref(null);
 
-          const bookMovie = (card) => {
-            // 將電影資訊儲存到 localStorage 中
-            localStorage.setItem("selectedMovie", JSON.stringify(card));
-            // 跳轉到下一頁
-            window.location.href = card.url;
+          const goToNextPage = () => {
+            window.location.href = ""; // 跳轉到下一頁
           };
 
-          return { cards, bookMovie };
+          const orderInfo = ref(
+            new Date().toLocaleString("zh-TW", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              second: "2-digit",
+              hour12: false,
+            })
+          );
+
+          const movieInfo = ref({
+            hall: "A廳",
+          });
+
+          const tickets = ref([{ type: "全票", quantity: 2 }]);
+
+          const goBack = () => {
+            // 返回首頁或其他處理邏輯
+            window.location.href = ""; // 跳轉到首頁
+          };
+
+          onMounted(() => {
+            // 從 localStorage 讀取選擇的電影資料
+            const movie = JSON.parse(localStorage.getItem("selectedMovie"));
+            if (movie) {
+              selectedMovie.value = movie;
+            }
+            const date = JSON.parse(localStorage.getItem("selectedDate"));
+            const time = JSON.parse(localStorage.getItem("selectedTime"));
+
+            if (date) {
+              selectedDate.value = date;
+            }
+            if (time) {
+              selectedTime.value = time;
+            }
+          });
+
+          const selectedTickets = JSON.parse(
+            localStorage.getItem("selectedTickets")
+          );
+
+          const ticketNames = selectedTickets
+            .map((ticket) => ticket.name)
+            .join(", ");
+          const ticketPrices = selectedTickets
+            .map((ticket) => ticket.price)
+            .join(", ");
+          const ticketQuantities = selectedTickets
+            .map((ticket) => ticket.quantity)
+            .join(", ");
+
+          const selectedSeats = JSON.parse(
+            localStorage.getItem("selectedSeats")
+          );
+          const formattedSeats = selectedSeats.join(", ");
+
+          return {
+            goToNextPage,
+            orderInfo,
+            movieInfo,
+            tickets,
+            goBack,
+            selectedMovie,
+            selectedDate,
+            selectedTime,
+            selectedTickets,
+            ticketNames,
+            ticketPrices,
+            ticketQuantities,
+            selectedSeats,
+            formattedSeats,
+          };
         },
       };
+
       const app = createApp(config);
       app.mount("#app");
     </script>

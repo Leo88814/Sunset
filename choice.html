@@ -119,6 +119,10 @@
 
             <div class="col-md-9 col-sm-6">
               <h5 class="fw-bolder">選擇日期</h5>
+              <!-- 日期選擇錯誤提示 -->
+              <p v-if="errorDateMessage" class="text-danger">
+                {{ errorDateMessage }}
+              </p>
               <div class="d-flex">
                 <div class="date" v-for="day in moviedates" :key="day.id">
                   <button
@@ -135,6 +139,10 @@
               <!-- 顯示選擇時間的部分 -->
               <div class="col mt-5" v-show="choiceTime">
                 <h5 class="fw-bolder">選擇時間</h5>
+                <!-- 時間選擇錯誤提示 -->
+                <p v-if="errorTimeMessage" class="text-danger">
+                  {{ errorTimeMessage }}
+                </p>
                 <div class="d-flex">
                   <div class="time" v-for="t in movietimes" :key="t.id">
                     <button
@@ -148,12 +156,68 @@
                 </div>
               </div>
             </div>
+            <div class="container mt-3">
+              <!-- 票種選擇部分 -->
+              <div class="row mt-3">
+                <h5 class="fw-bolder">選擇票種</h5>
+                <div class="row">
+                  <!-- 全票 -->
+                  <div class="col-4">
+                    全票 230元
+                    <select v-model="selectedFullTicket" class="form-select">
+                      <option
+                        v-for="n in availableOptions('full')"
+                        :key="n"
+                        :value="n"
+                      >
+                        {{ n }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- 優待票 -->
+                  <div class="col-4">
+                    優待票 200元
+                    <select
+                      v-model="selectedDiscountTicket"
+                      class="form-select"
+                    >
+                      <option
+                        v-for="n in availableOptions('discount')"
+                        :key="n"
+                        :value="n"
+                      >
+                        {{ n }}
+                      </option>
+                    </select>
+                  </div>
+                  <!-- 愛心票 -->
+                  <div class="col-4">
+                    愛心票 180元
+                    <select v-model="selectedSpecialTicket" class="form-select">
+                      <option
+                        v-for="n in availableOptions('special')"
+                        :key="n"
+                        :value="n"
+                      >
+                        {{ n }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <!-- 顯示票種錯誤訊息 -->
+                <div class="text-danger" v-if="ticketError">
+                  {{ ticketError }}
+                </div>
+              </div>
+            </div>
           </div>
           <div class="text-end">
-            <a href="ChoiceMovies.html" class="btn btn-outline-danger"
-              >上一頁</a
-            >
-            <button class="btn btn-outline-primary m-2">下一頁</button>
+            <button @click="goToPreviousPage" class="btn btn-outline-danger">
+              上一頁
+            </button>
+            <button @click="goToNextPage" class="btn btn-outline-primary ms-2">
+              下一頁
+            </button>
           </div>
         </div>
       </section>
@@ -167,6 +231,7 @@
     <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
     <script>
       const { createApp, ref, onMounted } = Vue;
+
       const config = {
         setup() {
           const moviedates = ref([
@@ -187,19 +252,115 @@
           const selectedDate = ref(null); // 儲存目前選擇的日期
           const selectedTime = ref(null); // 儲存目前選擇的時間
           const choiceTime = ref(false); // 控制是否顯示選擇時間
+          const errorDateMessage = ref(""); // 儲存日期錯誤訊息
+          const errorTimeMessage = ref(""); // 儲存時間錯誤訊息
 
           const selectDate = (id) => {
             selectedDate.value = id;
             choiceTime.value = true;
             selectedTime.value = null;
+            errorDateMessage.value = ""; // 清除日期錯誤訊息
           };
 
           const selectTime = (id) => {
             selectedTime.value = id;
+            errorTimeMessage.value = ""; // 清除時間錯誤訊息
+          };
+
+          // 票種選擇邏輯
+          const maxTickets = ref(5); // 每個票種最大選擇數量
+          const maxTotalTickets = ref(5); // 總共最大票數限制
+          const selectedFullTicket = ref(0);
+          const selectedDiscountTicket = ref(0);
+          const selectedSpecialTicket = ref(0);
+          const selectedSeats = ref([]); // 座位選擇
+
+          const ticketError = ref(""); // 票種錯誤訊息
+          const seatError = ref(""); // 座位錯誤訊息
+
+          const availableSeats = ref([
+            /* 座位資料 */
+          ]);
+
+          const totalTickets = computed(() => {
+            return (
+              selectedFullTicket.value +
+              selectedDiscountTicket.value +
+              selectedSpecialTicket.value
+            );
+          });
+
+          const availableOptions = (type) => {
+            const remainingTickets = maxTotalTickets.value - totalTickets.value;
+            const currentSelected = {
+              full: selectedFullTicket.value,
+              discount: selectedDiscountTicket.value,
+              special: selectedSpecialTicket.value,
+            }[type];
+
+            return Array.from(
+              {
+                length:
+                  Math.min(
+                    remainingTickets + currentSelected,
+                    maxTickets.value
+                  ) + 1,
+              },
+              (_, i) => i
+            );
+          };
+
+          const filteredSeats = (index) => {
+            const selected = selectedSeats.value.filter(
+              (seat, i) => i !== index
+            );
+            return availableSeats.value.filter(
+              (seat) => !selected.includes(seat)
+            );
+          };
+
+          const validateSelection = () => {
+            let valid = true;
+
+            if (totalTickets.value === 0) {
+              ticketError.value = "請至少選擇一種票種！";
+              valid = false;
+            } else {
+              ticketError.value = "";
+            }
+
+            if (
+              selectedSeats.value.length < totalTickets.value ||
+              selectedSeats.value.includes("")
+            ) {
+              seatError.value = "請選擇對應數量的座位！";
+              valid = false;
+            } else {
+              seatError.value = "";
+            }
+
+            return valid;
+          };
+
+          const goToNextPage = () => {
+            if (!selectedDate.value) {
+              errorDateMessage.value = "請選擇日期";
+              return;
+            }
+            if (!selectedTime.value) {
+              errorTimeMessage.value = "請選擇時間";
+              return;
+            }
+            if (validateSelection()) {
+              window.location.href = "checkorder.html";
+            }
+          };
+
+          const goToPreviousPage = () => {
+            window.location.href = "choicemovies.html";
           };
 
           onMounted(() => {
-            // 從 localStorage 讀取選擇的電影資料
             const movie = JSON.parse(localStorage.getItem("selectedMovie"));
             if (movie) {
               selectedMovie.value = movie;
@@ -215,9 +376,23 @@
             choiceTime,
             selectedDate,
             selectedTime,
+            goToNextPage,
+            goToPreviousPage,
+            errorDateMessage,
+            errorTimeMessage,
+            selectedFullTicket,
+            selectedDiscountTicket,
+            selectedSpecialTicket,
+            selectedSeats,
+            totalTickets,
+            availableOptions,
+            filteredSeats,
+            ticketError,
+            seatError,
           };
         },
       };
+
       const app = createApp(config);
       app.mount("#app");
     </script>
