@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Q&A</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/header.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+  </head>
+  <body>
+    <div id="app">
+      <div class="page-container">
+        <header-component></header-component>
+        <div class="content-wrap">
+          <main class="container">
+            <div class="row">
+              <div class="col-12">
+                <h1 class="mt-5">常見問題</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <ul class="list-unstyled">
+                  <li class="mt-3">預訂的票無法於電影開始1小時前取消</li>
+                  <li class="mt-3">
+                    票種分類:全票$230、優待票$200、愛心票$180
+                  </li>
+                  <li class="mt-3">
+                    請於電影開演前30分鐘，持訂單編號或此確認單及相關證明文件（購買優待票、愛心票者須出示相關身
+                    分證明文件）至售票櫃台取票，逾時完成取票者，此訂票紀錄作廢。
+                  </li>
+                  <li class="mt-3">優待票：學生證、軍警相關証件。</li>
+                  <li class="mt-3">
+                    愛心票：年滿65歲以上入場需出示証件，身心障礙人士需出示身心障礙證件，可有一名陪同者享此優惠
+                  </li>
+                  <li class="mt-3">
+                    配合電影分級制度請持身分証件查驗，敬請合作。
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </main>
+        </div>
+        <footer-component></footer-component>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/header-component.js"></script>
+    <script src="js/footer-component.js"></script>
+    <script>
+      const { createApp, ref } = Vue;
+
+      const app = createApp({
+        components: {
+          "header-component": HeaderComponent,
+          "footer-component": FooterComponent,
+        },
+        setup() {},
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>
