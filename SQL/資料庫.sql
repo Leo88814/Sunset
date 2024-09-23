@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [BookMovie]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Database [BookMovie]    Script Date: 2024/9/23 下午 03:03:59 ******/
 CREATE DATABASE [BookMovie]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,12 +84,12 @@ ALTER DATABASE [BookMovie] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP
 GO
 USE [BookMovie]
 GO
-/****** Object:  User [sa5]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  User [sa5]    Script Date: 2024/9/23 下午 03:03:59 ******/
 CREATE USER [sa5] FOR LOGIN [sa5] WITH DEFAULT_SCHEMA=[dbo]
 GO
 ALTER ROLE [db_owner] ADD MEMBER [sa5]
 GO
-/****** Object:  Table [dbo].[Auditoriums]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[Auditoriums]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -106,7 +106,7 @@ CREATE TABLE [dbo].[Auditoriums](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cinemas]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[Cinemas]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -122,7 +122,7 @@ CREATE TABLE [dbo].[Cinemas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CustomerService]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[CustomerService]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -137,7 +137,7 @@ CREATE TABLE [dbo].[CustomerService](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Members]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[Members]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -161,7 +161,7 @@ CREATE TABLE [dbo].[Members](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieGenres]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[MovieGenres]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -175,14 +175,13 @@ CREATE TABLE [dbo].[MovieGenres](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieImages]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[MovieImages]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[MovieImages](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[MainPicture] [varchar](100) NOT NULL,
 	[stills] [varchar](100) NOT NULL,
  CONSTRAINT [PK_MovieImages] PRIMARY KEY CLUSTERED 
 (
@@ -190,7 +189,7 @@ CREATE TABLE [dbo].[MovieImages](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieRatings]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[MovieRatings]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -207,7 +206,7 @@ CREATE TABLE [dbo].[MovieRatings](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieReleaseSchedules]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[MovieReleaseSchedules]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -224,7 +223,7 @@ CREATE TABLE [dbo].[MovieReleaseSchedules](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Movies]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[Movies]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -246,14 +245,13 @@ CREATE TABLE [dbo].[Movies](
 	[Duration] [varchar](20) NOT NULL,
 	[Distributor] [varchar](100) NOT NULL,
 	[MainPicture] [varchar](100) NOT NULL,
-	[Stills] [varchar](100) NOT NULL,
  CONSTRAINT [PK_Movies] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OrderDetails]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[OrderDetails]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -271,7 +269,7 @@ CREATE TABLE [dbo].[OrderDetails](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orders]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -289,7 +287,7 @@ CREATE TABLE [dbo].[Orders](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Seats]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[Seats]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -305,7 +303,7 @@ CREATE TABLE [dbo].[Seats](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Showtimes]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[Showtimes]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -323,7 +321,7 @@ CREATE TABLE [dbo].[Showtimes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Topups]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[Topups]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -339,7 +337,7 @@ CREATE TABLE [dbo].[Topups](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TransactionHistory]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[TransactionHistory]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -356,7 +354,7 @@ CREATE TABLE [dbo].[TransactionHistory](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 2024/9/23 上午 11:44:53 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 2024/9/23 下午 03:04:00 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -468,6 +466,10 @@ ALTER TABLE [dbo].[TransactionHistory]  WITH CHECK ADD  CONSTRAINT [FK_Transacti
 REFERENCES [dbo].[Members] ([Id])
 GO
 ALTER TABLE [dbo].[TransactionHistory] CHECK CONSTRAINT [FK_TransactionHistory_Members]
+GO
+ALTER TABLE [dbo].[MovieRatings]  WITH CHECK ADD  CONSTRAINT [CK_MovieRatings] CHECK  (([Rating]>(0) AND [Rating]<(6)))
+GO
+ALTER TABLE [dbo].[MovieRatings] CHECK CONSTRAINT [CK_MovieRatings]
 GO
 USE [master]
 GO
