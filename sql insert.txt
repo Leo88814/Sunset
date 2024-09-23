@@ -1,0 +1,125 @@
+INSERT INTO Cinemas (CinemasName, Location, Description) VALUES
+(N'星光影城', N'台北市信義區信義路5段7號', N'位於台北101附近的豪華影城'),
+(N'夢幻戲院', N'台中市西屯區台灣大道3段251號', N'中部最大的IMAX影廳'),
+(N'海洋影城', N'高雄市前鎮區中華五路789號', N'南台灣首屈一指的3D影院'),
+(N'森林電影院', N'新竹市東區光復路二段101號', N'結合自然與科技的特色影院'),
+(N'陽光戲院', N'台南市安平區永華路二段15號', N'古都中的現代化影城'),
+(N'山水影城', N'宜蘭市中山路二段238號', N'環境優美的休閒影院');
+
+INSERT INTO Auditoriums (CinemaId, AuditoriumName, SeatCapacity, AuditoriumStatus) VALUES
+(1, N'星光廳', 200, N'可使用'),
+(2, N'夢幻IMAX廳', 300, N'可使用'),
+(3, N'海洋3D廳', 150, N'可使用');
+
+INSERT INTO CustomerService (Question, Answer) VALUES
+(N'如何訂票？', N'您可以透過我們的官網或手機APP進行線上訂票。'),
+(N'可以退票嗎？', N'是的，您可以在電影開始前2小時取消訂票並獲得全額退款。'),
+(N'有學生票嗎？', N'是的，我們提供學生優惠票，請在購票時出示有效學生證。'),
+(N'最晚可以幾點入場？', N'為了不影響其他觀眾，我們建議您最晚在電影開始後15分鐘內入場。'),
+(N'可以帶外食嗎？', N'很抱歉，為了維護影廳環境，我們不允許攜帶外食入場。'),
+(N'有無障礙設施嗎？', N'是的，我們的影城設有無障礙坡道和專用座位。'),
+(N'如何成為會員？', N'您可以在我們的官網或APP上註冊成為會員，享受更多優惠。'),
+(N'有哪些付款方式？', N'我們接受現金、信用卡、行動支付等多種付款方式。'),
+(N'影城內有哪些餐飲選擇？', N'我們提供爆米花、飲料、熱狗等多種餐飲選擇。'),
+(N'如何聯繫客服？', N'您可以撥打我們的客服專線或發送電子郵件給我們。');
+
+INSERT INTO Members (MemberName, Password, Email, PhoneNumber, CurrentBalance, Name, DateOfBirth, Address, MemberStatus, IsConfirmed, ConfirmCode) VALUES
+(N'阿明', 'password123', 'ming@email.com', '0912345678', 500, N'王小明', '1990-05-15', N'台北市中正區忠孝東路100號', 1, 1, NULL),
+(N'小華', 'securepass', 'hua@email.com', '0923456789', 300, N'陳小華', '1985-08-20', N'新北市板橋區文化路200號', 1, 1, NULL),
+(N'美美', 'prettygirl', 'mei@email.com', '0934567890', 1000, N'林美美', '1995-03-10', N'台中市西屯區福星路300號', 1, 1, NULL),
+(N'大雄', 'doraemon', 'xiong@email.com', '0945678901', 200, N'張大雄', '1988-12-05', N'高雄市鼓山區鼓山一路400號', 1, 1, NULL),
+(N'小蘭', 'blueflower', 'lan@email.com', '0956789012', 700, N'李小蘭', '1992-07-25', N'台南市東區長榮路500號', 1, 1, NULL),
+(N'阿強', 'strongman', 'qiang@email.com', '0967890123', 150, N'黃阿強', '1987-01-30', N'新竹市東區光復路600號', 1, 1, NULL),
+(N'小玉', 'jadegirl', 'yu@email.com', '0978901234', 450, N'吳小玉', '1993-09-18', N'彰化市中山路700號', 1, 1, NULL),
+(N'志明', 'smartboy', 'zhi@email.com', '0989012345', 600, N'趙志明', '1991-11-22', N'嘉義市西區民生路800號', 1, 1, NULL),
+(N'淑芬', 'elegantlady', 'shu@email.com', '0990123456', 800, N'周淑芬', '1986-04-12', N'宜蘭市中山路900號', 1, 1, NULL),
+(N'建國', 'patriot', 'guo@email.com', '0901234567', 250, N'劉建國', '1989-10-10', N'花蓮市國聯一路1000號', 1, 1, NULL);
+
+INSERT INTO MovieGenres (GenreName) VALUES
+(N'普遍級'),
+(N'保護級'),
+(N'輔導級'),
+(N'限制級'),
+(N'成人級');
+
+INSERT INTO MovieImages (MainPicture, stills) VALUES
+('/images/movie1_main.jpg', '/images/movie1_still.jpg'),
+('/images/movie2_main.jpg', '/images/movie2_still.jpg'),
+('/images/movie3_main.jpg', '/images/movie3_still.jpg'),
+('/images/movie4_main.jpg', '/images/movie4_still.jpg'),
+('/images/movie5_main.jpg', '/images/movie5_still.jpg');
+
+INSERT INTO Movies (GenerId, MovieImageId, MovieName, EnglishName, Grading, description, TrailerURL, PremiereDate, OnAir, Director, Cast, Language, Duration, Distributor, MainPicture, Stills) VALUES
+(2, 1, N'魔戒：王者再臨', 'The Lord of the Rings: The Return of the King', N'保護級', N'魔戒圓環的故事進入最後篇章...', 'https://youtu.be/r5X-hFf6Bwo', '2003-12-17', 0, N'彼得·傑克遜', N'伊利亞·伍德,維果·莫天森,伊恩·麥克連', N'英語', '201分鐘', N'華納兄弟', '/images/lotr_main.jpg', '/images/lotr_still.jpg'),
+(1, 2, N'玩具總動員', 'Toy Story', N'普遍級', N'一群玩具的冒險故事...', 'https://youtu.be/v-PjgYDrg70', '1995-11-22', 0, N'約翰·拉塞特', N'湯姆·漢克斯,提姆·艾倫', N'英語', '81分鐘', N'皮克斯動畫工作室', '/images/toystory_main.jpg', '/images/toystory_still.jpg'),
+(3, 3, N'全面啟動', 'Inception', N'輔導級', N'一個關於夢境入侵的故事...', 'https://youtu.be/YoHD9XEInc0', '2010-07-16', 0, N'克里斯多福·諾蘭', N'李奧納多·狄卡皮歐,約瑟夫·高登-李維特', N'英語', '148分鐘', N'華納兄弟', '/images/inception_main.jpg', '/images/inception_still.jpg'),
+(2, 4, N'星際大戰四部曲：曙光乍現', 'Star Wars: Episode IV - A New Hope', N'保護級', N'在遙遠的銀河系中...', 'https://youtu.be/vZ734NWnAHA', '1977-05-25', 0, N'喬治·盧卡斯', N'馬克·哈米爾,哈里森·福特,凱莉·費雪', N'英語', '121分鐘', N'二十世紀福斯', '/images/starwars_main.jpg', '/images/starwars_still.jpg'),
+(1, 5, N'冰雪奇緣', 'Frozen', N'普遍級', N'一個關於姐妹之愛的故事...', 'https://youtu.be/TbQm5doF_Uc', '2013-11-27', 0, N'克里斯·巴克,珍妮佛·李', N'克莉絲汀·貝爾,伊迪娜·曼佐', N'英語', '102分鐘', N'華特迪士尼', '/images/frozen_main.jpg', '/images/frozen_still.jpg');
+
+INSERT INTO Showtimes (MovieId, AuditoriumId, ShowtimeDate, StartTime, EndTime) VALUES
+(1, 1, '2023-09-01', '14:00:00', '16:30:00'),
+(2, 2, '2023-09-02', '15:00:00', '17:00:00'),
+(3, 3, '2023-09-03', '16:00:00', '18:30:00'),
+(4, 1, '2023-09-04', '17:00:00', '19:00:00'),
+(5, 2, '2023-09-05', '18:00:00', '20:00:00');
+
+INSERT INTO Orders (MemberId, ShowtimeId, OrderDate, TotalAmount, PaymentStatus) VALUES
+(1, 1, '2023-09-01 10:00:00', 300, N'已付款'),
+(2, 2, '2023-09-02 11:00:00', 250, N'已付款'),
+(3, 3, '2023-09-03 12:00:00', 350, N'已付款'),
+(4, 4, '2023-09-04 13:00:00', 200, N'已付款');
+
+INSERT INTO MovieRatings (MemberId, MovieId, OrderId, Rating) VALUES
+(1, 1, 1, 5),
+(2, 2, 2, 4),
+(3, 3, 3, 5),
+(4, 4, 4, 3);
+
+INSERT INTO MovieReleaseSchedules (MovieId, AuditoriumId, ShowtimeId, ReleaseDate) VALUES
+(1, 1, 1, '2023-09-01'),
+(2, 2, 2, '2023-09-02'),
+(3, 3, 3, '2023-09-03'),
+(4, 1, 4, '2023-09-04'),
+(5, 2, 5, '2023-09-05');
+
+INSERT INTO Seats (AuditoriumId, SeatNumber, SeatStatus) VALUES
+(1, 'A1', N'可使用'),
+(1, 'A2', N'可使用'),
+(1, 'A3', N'可使用'),
+(1, 'A4', N'可使用'),
+(1, 'A5', N'可使用'),
+(2, 'B1', N'可使用'),
+(2, 'B2', N'可使用'),
+(2, 'B3', N'可使用'),
+(2, 'B4', N'可使用'),
+(2, 'B5', N'可使用');
+
+INSERT INTO OrderDetails (OrderId, SeatId, TicketType, TicketPrice, TicketNumber) VALUES
+(1, 1, N'全票', 300, 'A001'),
+(2, 2, N'優待票', 250, 'B002'),
+(3, 3, N'全票', 350, 'C003'),
+(4, 4, N'學生票', 200, 'D004');
+
+INSERT INTO Topups (MemberId, TopUpAmount, OrderTime) VALUES
+(1, 500, '2023-09-01 09:00:00'),
+(2, 300, '2023-09-02 10:00:00'),
+(3, 1000, '2023-09-03 11:00:00'),
+(4, 200, '2023-09-04 12:00:00'),
+(5, 700, '2023-09-05 13:00:00');
+
+INSERT INTO TransactionHistory (MemberId, TransactionDate, TopUpAmount, Amount) VALUES
+(1, '2023-09-01 09:00:00', 500, 500),
+(2, '2023-09-02 10:00:00', 300, 300),
+(3, '2023-09-03 11:00:00', 1000, 1000),
+(4, '2023-09-04 12:00:00', 200, 200),
+(5, '2023-09-05 13:00:00', 700, 700),
+(1, '2023-09-06 14:00:00', 0, -300),
+(2, '2023-09-07 15:00:00', 0, -250),
+(3, '2023-09-08 16:00:00', 0, -350);
+
+INSERT INTO Users (Account, Password) VALUES
+(N'admin', 'admin123'),
+(N'manager', 'manager456'),
+(N'staff1', 'staff789'),
+(N'staff2', 'staff101'),
+(N'staff3', 'staff202');
