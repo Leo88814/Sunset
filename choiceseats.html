@@ -14,7 +14,28 @@
     <link rel="stylesheet" href="/css/styles.css" />
     <style>
       #seats {
-        max-width: 80vw;
+        max-width: 95%;
+        display: grid;
+        grid-template-columns: repeat(16, 1fr);
+        gap: 10px;
+      }
+      .seat {
+        width: 40px;
+        height: 40px;
+        background-color: lightgray;
+        text-align: center;
+        line-height: 40px;
+        cursor: pointer;
+      }
+      .selected {
+        background-color: green !important;
+      }
+      .unavailable {
+        background-color: red;
+        cursor: not-allowed;
+      }
+      #choiceseats {
+        max-width: 95%;
       }
     </style>
   </head>
@@ -97,12 +118,6 @@
           </div>
         </nav>
       </header>
-      <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
-        <ol class="breadcrumb ms-3">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">線上訂票</li>
-        </ol>
-      </nav>
 
       <section class="login-section">
         <h2 class="text">線上訂票步驟</h2>
@@ -132,7 +147,11 @@
                   :key="ticket.name"
                 >
                   {{ ticket.name }} {{ ticket.price }}元
-                  <select v-model="ticket.selected" class="form-select">
+                  <select
+                    v-model="ticket.selected"
+                    class="form-select"
+                    @change="validateSelection"
+                  >
                     <option
                       v-for="n in availableOptions(ticket)"
                       :key="n"
@@ -151,26 +170,28 @@
           </div>
         </div>
 
-        <img src="/seats/座位圖.jpg" class="mt-3" id="seats" />
-        <!-- 顯示座位選擇 -->
-        <div class="row mt-3">
-          <h5 class="fw-bolder">選擇座位</h5>
-          <div class="col-12">
-            <div v-for="n in totalTickets" :key="n" class="mt-2">
-              座位選擇 {{ n }}
-              <select v-model="selectedSeats[n - 1]" class="form-select">
-                <option
-                  v-for="seat in filteredSeats(n - 1)"
-                  :key="seat"
-                  :value="seat"
-                >
-                  {{ seat }}
-                </option>
-              </select>
+        <div class="col-12">
+          <img src="/seats/座位圖.jpg" class="mt-3" id="choiceseats" />
+        </div>
+
+        <div class="container mt-3">
+          <div class="row">
+            <h5 class="fw-bolder">選擇座位</h5>
+
+            <div id="seats">
+              <div
+                class="seat"
+                v-for="seat in seats"
+                :key="seat.id"
+                :class="{ selected: seat.selected, unavailable: seat.unavailable }"
+                @click="toggleSeatSelection(seat)"
+              >
+                {{ seat.id }}
+              </div>
             </div>
+            <!-- 座位選擇錯誤訊息 -->
+            <div class="text-danger" v-if="seatError">{{ seatError }}</div>
           </div>
-          <!-- 顯示座位錯誤訊息 -->
-          <div class="text-danger" v-if="seatError">{{ seatError }}</div>
         </div>
 
         <div class="text-end mt-3">
@@ -197,6 +218,9 @@
         setup() {
           const maxTickets = ref(5); // 每個票種最大選擇數量
           const maxTotalTickets = ref(5); // 總共最大票數限制
+          const seatError = ref(""); // 座位選擇錯誤訊息
+          const ticketError = ref(""); // 票種錯誤訊息
+          const selectedTicketInfo = ref("");
 
           // 票種資料
           const ticketTypes = ref([
@@ -205,97 +229,9 @@
             { name: "愛心票", price: 180, selected: 0 },
           ]);
 
-          const selectedSeats = ref([]); // 座位選擇
-          const ticketError = ref(""); // 票種錯誤訊息
-          const seatError = ref(""); // 座位錯誤訊息
-
-          // 所有可用的座位
-          const availableSeats = ref([
-            "A1",
-            "A2",
-            "A3",
-            "A4",
-            "A5",
-            "A6",
-            "A7",
-            "A8",
-            "A9",
-            "A10",
-            "A11",
-            "A12",
-            "A13",
-            "A14",
-            "A15",
-            "A16",
-            "B1",
-            "B2",
-            "B3",
-            "B4",
-            "B5",
-            "B6",
-            "B7",
-            "B8",
-            "B9",
-            "B10",
-            "B11",
-            "B12",
-            "B13",
-            "B14",
-            "B15",
-            "B16",
-            "C1",
-            "C2",
-            "C3",
-            "C4",
-            "C5",
-            "C6",
-            "C7",
-            "C8",
-            "C9",
-            "C10",
-            "C11",
-            "C12",
-            "C13",
-            "C14",
-            "C15",
-            "C16",
-            "D1",
-            "D2",
-            "D3",
-            "D4",
-            "D5",
-            "D6",
-            "D7",
-            "D8",
-            "D9",
-            "D10",
-            "D11",
-            "D12",
-            "D13",
-            "D14",
-            "D15",
-            "D16",
-            "E1",
-            "E2",
-            "E3",
-            "E4",
-            "E5",
-            "E6",
-            "E7",
-            "E8",
-            "E9",
-            "E10",
-            "E11",
-            "E12",
-            "E13",
-            "E14",
-            "E15",
-            "E16",
-          ]);
-
           const totalTickets = computed(() => {
             return ticketTypes.value.reduce(
-              (sum, ticket) => sum + ticket.selected,
+              (total, ticket) => total + ticket.selected,
               0
             );
           });
@@ -315,71 +251,84 @@
             );
           };
 
-          const filteredSeats = (index) => {
-            const selected = selectedSeats.value.filter(
-              (seat, i) => i !== index
-            );
-            return availableSeats.value.filter(
-              (seat) => !selected.includes(seat)
-            );
-          };
-
           const validateSelection = () => {
-            let valid = true;
-
-            if (totalTickets.value === 0) {
-              ticketError.value = "請至少選擇一種票種！";
-              valid = false;
-            } else {
-              ticketError.value = "";
+            if (totalTickets.value > maxTotalTickets.value) {
+              ticketError.value = `最多只能選擇 ${maxTotalTickets.value} 張票`;
+              return false;
             }
+            ticketError.value = "";
+            return true;
+          };
 
+          // 定義座位，根據不同的列（A 到 E）和座位編號（1 到 16）
+          const seats = ref([
+            ...Array.from({ length: 16 }, (_, i) => ({
+              id: `A${i + 1}`,
+              selected: false,
+              unavailable: false,
+            })),
+            ...Array.from({ length: 16 }, (_, i) => ({
+              id: `B${i + 1}`,
+              selected: false,
+              unavailable: false,
+            })),
+            ...Array.from({ length: 16 }, (_, i) => ({
+              id: `C${i + 1}`,
+              selected: false,
+              unavailable: false,
+            })),
+            ...Array.from({ length: 16 }, (_, i) => ({
+              id: `D${i + 1}`,
+              selected: false,
+              unavailable: false,
+            })),
+            ...Array.from({ length: 16 }, (_, i) => ({
+              id: `E${i + 1}`,
+              selected: false,
+              unavailable: false,
+            })),
+          ]);
+
+          const selectedSeats = computed(() => {
+            return seats.value.filter((seat) => seat.selected).length;
+          });
+
+          const toggleSeatSelection = (seat) => {
             if (
-              selectedSeats.value.length < totalTickets.value ||
-              selectedSeats.value.includes("")
+              seat.unavailable ||
+              (selectedSeats.value >= totalTickets.value && !seat.selected)
             ) {
-              seatError.value = "請選擇對應數量的座位！";
-              valid = false;
-            } else {
-              seatError.value = "";
+              seatError.value = "選擇的座位不能超過總票數";
+              return;
             }
-
-            return valid;
-          };
-
-          // 儲存票種類型資料
-          const saveTicketSelection = () => {
-            const selectedTicketInfo = ticketTypes.value
-              .filter((ticket) => ticket.selected > 0)
-              .map((ticket) => ({
-                name: ticket.name,
-                price: ticket.price,
-                quantity: ticket.selected,
-              }));
-
-            localStorage.setItem(
-              "selectedTickets",
-              JSON.stringify(selectedTicketInfo)
-            );
-          };
-
-          // 儲存座位資料
-          const saveSeatSelection = () => {
-            localStorage.setItem(
-              "selectedSeats",
-              JSON.stringify(selectedSeats.value)
-            );
-          };
-
-          // 儲存所有選擇 (調用各自的儲存函數)
-          const saveAllSelections = () => {
-            saveTicketSelection();
-            saveSeatSelection();
+            seat.selected = !seat.selected;
+            seatError.value = "";
           };
 
           const goToNextPage = () => {
-            if (validateSelection()) {
-              saveAllSelections();
+            if (selectedSeats.value !== totalTickets.value) {
+              seatError.value = `您需要選擇 ${totalTickets.value} 個座位`;
+            } else {
+              seatError.value = "";
+              const selectedSeatIds = seats.value
+                .filter((seat) => seat.selected)
+                .map((seat) => seat.id);
+              localStorage.setItem(
+                "selectedSeats",
+                JSON.stringify(selectedSeatIds)
+              );
+              const selectedTicketInfo = ticketTypes.value
+                .filter((ticket) => ticket.selected > 0)
+                .map((ticket) => ({
+                  name: ticket.name,
+                  price: ticket.price,
+                  quantity: ticket.selected,
+                }));
+
+              localStorage.setItem(
+                "selectedTickets",
+                JSON.stringify(selectedTicketInfo)
+              );
               window.location.href = "checkorder.html";
             }
           };
@@ -392,18 +341,16 @@
             maxTickets,
             maxTotalTickets,
             ticketTypes,
-            selectedSeats,
             totalTickets,
             availableOptions,
-            availableSeats,
-            filteredSeats,
             ticketError,
-            seatError,
             goToNextPage,
             goToPreviousPage,
-            saveTicketSelection,
-            saveSeatSelection,
-            saveAllSelections,
+            toggleSeatSelection,
+            selectedSeats,
+            seats,
+            validateSelection,
+            seatError,
           };
         },
       };
