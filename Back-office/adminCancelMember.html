@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>註銷會員</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/Back-office.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+      .btn-deactivated {
+        background-color: #ffc107;
+        color: white;
+        border: none;
+        cursor: default;
+      }
+
+      .btn-deactivate {
+        background-color: #6c757d;
+        color: white;
+        border: none;
+        cursor: pointer;
+      }
+
+      .modal {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(0, 0, 0, 0.5);
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        z-index: 1000;
+      }
+
+      .modal-content {
+        background-color: #ffd77a;
+        padding: 20px;
+        border-radius: 8px;
+        text-align: center;
+      }
+
+      .modal-button {
+        margin: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <sidebar-component></sidebar-component>
+      <header-component></header-component>
+      <div class="content">
+        <h3>註銷會員</h3>
+        <table class="table table-bordered table-hover">
+          <thead class="table-primary">
+            <tr>
+              <th>姓名</th>
+              <th>電子信箱</th>
+              <th>電話</th>
+              <th>生日</th>
+              <th>地址</th>
+              <th>註銷</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="member in members" :key="member.id">
+              <td>{{ member.name }}</td>
+              <td>{{ member.email }}</td>
+              <td>{{ member.phone }}</td>
+              <td>{{ member.birthday }}</td>
+              <td>{{ member.address }}</td>
+              <td>
+                <button
+                  v-if="!member.isDeactivated"
+                  class="btn btn-deactivate"
+                  @click="checkBlacklist(member)"
+                >
+                  註銷
+                </button>
+                <button v-else class="btn btn-deactivated" disabled>
+                  已註銷
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div v-if="showBlacklistModal" class="modal">
+          <div class="modal-content">
+            <p>此會員可列入黑名單，確定要註銷？</p>
+            <button
+              class="btn btn-danger modal-button"
+              @click="confirmDeactivate"
+            >
+              確定
+            </button>
+            <button
+              class="btn btn-secondary modal-button"
+              @click="cancelDeactivate"
+            >
+              取消
+            </button>
+          </div>
+        </div>
+
+        <div v-if="showNotEligibleModal" class="modal">
+          <div class="modal-content">
+            <p>此會員不符合註銷資格</p>
+            <button class="btn btn-secondary modal-button" @click="closeModal">
+              返回
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+      const { ref, onMounted } = Vue;
+
+      const app = Vue.createApp({
+        components: {
+          "sidebar-component": common,
+          "header-component": header,
+        },
+        setup() {
+          const members = ref([
+            {
+              id: 1,
+              name: "Xxx",
+              email: "Xxx@gmail.com",
+              phone: "0912345678",
+              birthday: "80/05/24",
+              address: "Xx市xx區...",
+              isDeactivated: false,
+            },
+            {
+              id: 2,
+              name: "Aaa",
+              email: "Aaa@yahoo.com",
+              phone: "0123456789",
+              birthday: "60/12/26",
+              address: "Aa縣 aa市...",
+              isDeactivated: false,
+            },
+            {
+              id: 3,
+              name: "Bbb",
+              email: "Bbb@ntub.edu.tw",
+              phone: "0213456789",
+              birthday: "77/02/03",
+              address: "Bb縣 bb鎮...",
+              isDeactivated: true,
+            },
+          ]);
+
+          const showBlacklistModal = ref(false);
+          const showNotEligibleModal = ref(false);
+          const selectedMember = ref(null);
+
+          const checkBlacklist = (member) => {
+            selectedMember.value = member;
+            if (member.id % 2 === 0) {
+              showBlacklistModal.value = true;
+            } else {
+              showNotEligibleModal.value = true;
+            }
+          };
+
+          const confirmDeactivate = () => {
+            selectedMember.value.isDeactivated = true;
+            alert(`${selectedMember.value.name} 已成功註銷！`);
+            showBlacklistModal.value = false;
+          };
+
+          const cancelDeactivate = () => {
+            showBlacklistModal.value = false;
+          };
+
+          const closeModal = () => {
+            showNotEligibleModal.value = false;
+          };
+
+          return {
+            members,
+            showBlacklistModal,
+            showNotEligibleModal,
+            selectedMember,
+            checkBlacklist,
+            confirmDeactivate,
+            cancelDeactivate,
+            closeModal,
+          };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

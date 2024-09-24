@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>影廳放映場次</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/Back-office.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    <div id="app">
+      <sidebar-component></sidebar-component>
+      <header-component></header-component>
+      <div class="content">
+        <!-- 影廳放映場次的內容 -->
+        <div class="container mt-4">
+          <h1 class="mb-4">{{ theater.name }} - 放映場次</h1>
+
+          <!-- 新增場次按鈕 -->
+          <button class="btn btn-primary mb-3" @click="openAddModal">
+            新增場次
+          </button>
+
+          <!-- 日期搜索 -->
+          <div class="mb-3">
+            <label for="searchDate" class="form-label">搜索日期：</label>
+            <input
+              type="date"
+              id="searchDate"
+              v-model="searchDate"
+              class="form-control"
+              @change="searchByDate"
+            />
+          </div>
+
+          <!-- 放映場次列表 -->
+          <div class="list-group">
+            <div
+              v-for="showtime in paginatedShowtimes"
+              :key="showtime.id"
+              class="list-group-item d-flex justify-content-between align-items-center"
+            >
+              <div>
+                <h5 class="mb-1">{{ showtime.movieTitle }}</h5>
+                <p class="mb-1">
+                  時間: {{ formatDateTime(showtime.startTime) }}
+                </p>
+                <p class="mb-1">剩餘座位: {{ showtime.availableSeats }}</p>
+              </div>
+              <button
+                class="btn btn-danger"
+                @click="deleteShowtime(showtime.id)"
+              >
+                刪除
+              </button>
+            </div>
+          </div>
+
+          <!-- 分頁控制 -->
+          <nav aria-label="Page navigation" class="mt-3">
+            <ul class="pagination">
+              <li class="page-item" :class="{ disabled: currentPage === 1 }">
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="changePage(currentPage - 1)"
+                  >上一頁</a
+                >
+              </li>
+              <li
+                v-for="page in totalPages"
+                :key="page"
+                class="page-item"
+                :class="{ active: currentPage === page }"
+              >
+                <a class="page-link" href="#" @click.prevent="changePage(page)"
+                  >{{ page }}</a
+                >
+              </li>
+              <li
+                class="page-item"
+                :class="{ disabled: currentPage === totalPages }"
+              >
+                <a
+                  class="page-link"
+                  href="#"
+                  @click.prevent="changePage(currentPage + 1)"
+                  >下一頁</a
+                >
+              </li>
+            </ul>
+          </nav>
+
+          <!-- 新增場次的彈出視窗 -->
+          <div
+            v-if="addingShowtime"
+            class="modal fade show"
+            style="display: block"
+            tabindex="-1"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">新增場次</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    @click="closeAddModal"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <div class="mb-3">
+                    <label for="movieTitle" class="form-label">電影名稱</label>
+                    <select
+                      class="form-select"
+                      id="movieTitle"
+                      v-model="newShowtime.movieId"
+                    >
+                      <option value="">請選擇電影</option>
+                      <option
+                        v-for="movie in availableMovies"
+                        :key="movie.id"
+                        :value="movie.id"
+                      >
+                        {{ movie.title }}
+                      </option>
+                    </select>
+                  </div>
+                  <div class="mb-3">
+                    <label for="startTime" class="form-label">開始時間</label>
+                    <input
+                      type="datetime-local"
+                      class="form-control"
+                      id="startTime"
+                      v-model="newShowtime.startTime"
+                    />
+                  </div>
+                  <div class="mb-3">
+                    <label for="availableSeats" class="form-label"
+                      >剩餘座位</label
+                    >
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="availableSeats"
+                      v-model="newShowtime.availableSeats"
+                      readonly
+                    />
+                  </div>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    @click="closeAddModal"
+                  >
+                    取消
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="addShowtime"
+                  >
+                    新增
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="addingShowtime" class="modal-backdrop fade show"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+      const { ref, computed, onMounted, watch } = Vue;
+
+      const app = Vue.createApp({
+        components: {
+          "sidebar-component": common,
+          "header-component": header,
+        },
+        setup() {
+          const theater = ref({});
+          const showtimes = ref([]);
+          const addingShowtime = ref(false);
+          const newShowtime = ref({
+            movieId: "",
+            startTime: "",
+            availableSeats: 0,
+          });
+          const availableMovies = ref([]);
+          const currentPage = ref(1);
+          const itemsPerPage = 10;
+          const searchDate = ref("");
+
+          const fetchTheaterShowtimes = async () => {
+            try {
+              const urlParams = new URLSearchParams(window.location.search);
+              const theaterId = urlParams.get("id");
+              theater.value = { id: theaterId, name: `影廳 ${theaterId}` };
+
+              // 生成30筆模擬數據
+              showtimes.value = Array.from({ length: 30 }, (_, index) => {
+                const date = new Date();
+                date.setDate(date.getDate() + Math.floor(index / 3)); // 每天3場
+                date.setHours(14 + (index % 3) * 3, 0, 0, 0); // 14:00, 17:00, 20:00
+
+                return {
+                  id: index + 1,
+                  movieTitle: [
+                    "復仇者聯盟",
+                    "星際大戰",
+                    "玩具總動員",
+                    "魔法滿屋",
+                    "蜘蛛人：無家日",
+                  ][index % 5],
+                  startTime: date.toISOString().slice(0, 16),
+                  availableSeats: Math.floor(Math.random() * 50) + 30,
+                };
+              });
+
+              console.log("使用模擬放映場次數據");
+            } catch (error) {
+              console.error("獲取影廳放映場次失敗:", error);
+            }
+          };
+
+          const filteredShowtimes = computed(() => {
+            if (!searchDate.value) return showtimes.value;
+            return showtimes.value.filter((showtime) =>
+              showtime.startTime.startsWith(searchDate.value)
+            );
+          });
+
+          const totalPages = computed(() =>
+            Math.ceil(filteredShowtimes.value.length / itemsPerPage)
+          );
+
+          const paginatedShowtimes = computed(() => {
+            const start = (currentPage.value - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            return filteredShowtimes.value.slice(start, end);
+          });
+
+          const changePage = (page) => {
+            if (page >= 1 && page <= totalPages.value) {
+              currentPage.value = page;
+            }
+          };
+
+          const searchByDate = () => {
+            currentPage.value = 1; // 重置到第一頁
+          };
+
+          watch(searchDate, searchByDate);
+
+          const fetchAvailableMovies = async () => {
+            try {
+              // 模擬從 Web API 獲取上架電影的數據
+              availableMovies.value = [
+                { id: 1, title: "復仇者聯盟" },
+                { id: 2, title: "星際大戰" },
+                { id: 3, title: "玩具總動員" },
+                { id: 4, title: "魔法滿屋" },
+                { id: 5, title: "蜘蛛人：無家日" },
+              ];
+              console.log("獲取可用電影列表成功");
+            } catch (error) {
+              console.error("獲取可用電影列表失敗:", error);
+            }
+          };
+
+          const formatDateTime = (dateTimeString) => {
+            const date = new Date(dateTimeString);
+            return date.toLocaleString("zh-TW", {
+              year: "numeric",
+              month: "2-digit",
+              day: "2-digit",
+              hour: "2-digit",
+              minute: "2-digit",
+              hour12: false,
+            });
+          };
+
+          const openAddModal = () => {
+            addingShowtime.value = true;
+            newShowtime.value.availableSeats = 100;
+            fetchAvailableMovies(); // 获取可用电影列表
+          };
+
+          const closeAddModal = () => {
+            addingShowtime.value = false;
+            newShowtime.value = {
+              movieId: "",
+              startTime: "",
+              availableSeats: 0,
+            };
+          };
+
+          const addShowtime = () => {
+            const newStartTime = new Date(newShowtime.value.startTime);
+            const newEndTime = new Date(
+              newStartTime.getTime() + 2 * 60 * 60 * 1000
+            );
+
+            // 檢查時間重疊
+            const isOverlap = showtimes.value.some((showtime) => {
+              const startTime = new Date(showtime.startTime);
+              const endTime = new Date(
+                startTime.getTime() + 2 * 60 * 60 * 1000
+              );
+              return newStartTime < endTime && newEndTime > startTime;
+            });
+
+            if (isOverlap) {
+              alert("新增失敗：該時段與其他場次重疊");
+              return;
+            }
+
+            // 獲取選中的電影標題
+            const selectedMovie = availableMovies.value.find(
+              (movie) => movie.id === newShowtime.value.movieId
+            );
+
+            if (!selectedMovie) {
+              alert("請選擇一部電影");
+              return;
+            }
+
+            // 新增場次
+            const newId = Math.max(...showtimes.value.map((s) => s.id), 0) + 1;
+            showtimes.value.push({
+              id: newId,
+              movieTitle: selectedMovie.title,
+              startTime: newShowtime.value.startTime,
+              availableSeats: newShowtime.value.availableSeats,
+            });
+            closeAddModal();
+          };
+
+          const deleteShowtime = (id) => {
+            const showtime = showtimes.value.find((s) => s.id === id);
+            const now = new Date();
+            const showtimeStart = new Date(showtime.startTime);
+            const showtimeEnd = new Date(
+              showtimeStart.getTime() + 2 * 60 * 60 * 1000
+            );
+
+            if (showtimeEnd < now) {
+              alert("無法刪除已播放完畢的場次");
+              return;
+            }
+
+            if (showtimeStart <= now && now < showtimeEnd) {
+              alert("無法刪除正在播放的場次");
+              return;
+            }
+
+            if (showtimeStart.toDateString() === now.toDateString()) {
+              alert("無法刪除今天的場次");
+              return;
+            }
+
+            showtimes.value = showtimes.value.filter((s) => s.id !== id);
+          };
+
+          onMounted(() => {
+            fetchTheaterShowtimes();
+          });
+
+          return {
+            theater,
+            showtimes,
+            addingShowtime,
+            newShowtime,
+            availableMovies,
+            openAddModal,
+            closeAddModal,
+            addShowtime,
+            deleteShowtime,
+            formatDateTime,
+            currentPage,
+            totalPages,
+            paginatedShowtimes,
+            changePage,
+            searchDate,
+            searchByDate,
+          };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

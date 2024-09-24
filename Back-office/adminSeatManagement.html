@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sample Copy</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/Back-office.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    <div id="app">
+      <sidebar-component></sidebar-component>
+      <header-component></header-component>
+      <div class="content">
+        <h1 class="mb-4">座位管理</h1>
+
+        <!-- 影廳列表 -->
+        <div class="row">
+          <div
+            v-for="theater in theaters"
+            :key="theater.id"
+            class="col-md-4 mb-3"
+          >
+            <div class="card">
+              <div class="card-body">
+                <h5
+                  class="card-title"
+                  @click="fetchSeats(theater.id)"
+                  style="cursor: pointer; color: #007bff"
+                >
+                  {{ theater.name }}
+                </h5>
+                <p class="card-text">座位數: {{ theater.seatCount }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 座位列表 -->
+        <div v-if="selectedTheater" class="mt-4">
+          <h2>{{ selectedTheater.name }} - 座位列表</h2>
+          <div class="row">
+            <div v-for="seat in seats" :key="seat.id" class="col-md-3 mb-2">
+              <div class="card">
+                <div class="card-body">
+                  <h5
+                    class="card-title"
+                    @click="openEditModal(seat)"
+                    style="cursor: pointer; color: #007bff"
+                  >
+                    座位 {{ seat.number }}
+                  </h5>
+                  <p class="card-text">
+                    狀態: {{ getSeatStatusText(seat.status) }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 編輯座位的彈出視窗 -->
+        <div
+          v-if="editingSeat"
+          class="modal fade show"
+          style="display: block"
+          tabindex="-1"
+        >
+          <div class="modal-dialog">
+            <div class="modal-content">
+              <div class="modal-header">
+                <h5 class="modal-title">編輯座位</h5>
+                <button
+                  type="button"
+                  class="btn-close"
+                  @click="closeEditModal"
+                ></button>
+              </div>
+              <div class="modal-body">
+                <div class="mb-3">
+                  <label for="seatNumber" class="form-label">座位編號</label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="seatNumber"
+                    v-model="editingSeat.number"
+                    readonly
+                  />
+                </div>
+                <div class="mb-3">
+                  <label for="seatStatus" class="form-label">座位狀態</label>
+                  <select
+                    class="form-select"
+                    id="seatStatus"
+                    v-model="editingSeat.status"
+                  >
+                    <option value="available">可用</option>
+                    <option value="occupied">已佔用</option>
+                    <option value="maintenance">維修中</option>
+                  </select>
+                </div>
+              </div>
+              <div class="modal-footer">
+                <button
+                  type="button"
+                  class="btn btn-secondary"
+                  @click="closeEditModal"
+                >
+                  取消
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-primary"
+                  @click="updateSeat"
+                >
+                  保存
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div v-if="editingSeat" class="modal-backdrop fade show"></div>
+      </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    \
+    <script>
+      const { ref, onMounted, watch } = Vue;
+
+      const app = Vue.createApp({
+        components: {
+          "sidebar-component": common,
+          "header-component": header,
+        },
+        setup() {
+          const theaters = ref([]);
+          const selectedTheater = ref(null);
+          const seats = ref([]);
+          const editingSeat = ref(null);
+
+          const fetchTheaters = async () => {
+            try {
+              // 尝试从 localStorage 获取数据
+              const storedTheaters = localStorage.getItem("theaters");
+              if (storedTheaters) {
+                theaters.value = JSON.parse(storedTheaters);
+              } else {
+                // 如果没有存储的数据，使用默认数据
+                theaters.value = [
+                  { id: 1, name: "大廳影廳", seatCount: 200 },
+                  { id: 2, name: "VIP影廳", seatCount: 50 },
+                  { id: 3, name: "3D影廳", seatCount: 150 },
+                ];
+                // 将默认数据存储到 localStorage
+                localStorage.setItem(
+                  "theaters",
+                  JSON.stringify(theaters.value)
+                );
+              }
+              console.log("获取影厅数据");
+            } catch (error) {
+              console.error("获取影厅列表失败:", error);
+            }
+          };
+
+          const generateSeats = (theaterId) => {
+            const rows = ["A", "B", "C", "D", "E"];
+            return rows.flatMap((row) =>
+              Array.from({ length: 16 }, (_, i) => ({
+                id: `${theaterId}-${row}${i + 1}`,
+                number: `${row}${i + 1}`,
+                status: "available",
+              }))
+            );
+          };
+
+          const fetchSeats = async (theaterId) => {
+            try {
+              selectedTheater.value = theaters.value.find(
+                (t) => t.id === theaterId
+              );
+
+              // 检查是否已经有保存的座位数据
+              if (!selectedTheater.value.seats) {
+                selectedTheater.value.seats = generateSeats(theaterId);
+              }
+
+              seats.value = selectedTheater.value.seats;
+              console.log(`获取座位数据 (影厅 ID: ${theaterId})`);
+
+              // 更新 localStorage 中的数据
+              localStorage.setItem("theaters", JSON.stringify(theaters.value));
+            } catch (error) {
+              console.error("获取座位列表失败:", error);
+            }
+          };
+
+          const getSeatStatusText = (status) => {
+            const statusMap = {
+              available: "可用",
+              occupied: "已佔用",
+              maintenance: "維修中",
+            };
+            return statusMap[status] || "未知狀態";
+          };
+
+          const openEditModal = (seat) => {
+            editingSeat.value = { ...seat };
+          };
+
+          const closeEditModal = () => {
+            editingSeat.value = null;
+          };
+
+          const updateSeat = async () => {
+            try {
+              const index = seats.value.findIndex(
+                (s) => s.id === editingSeat.value.id
+              );
+              if (index !== -1) {
+                seats.value[index] = { ...editingSeat.value };
+                selectedTheater.value.seats = [...seats.value];
+
+                // 更新 localStorage 中的数据
+                localStorage.setItem(
+                  "theaters",
+                  JSON.stringify(theaters.value)
+                );
+              }
+              closeEditModal();
+            } catch (error) {
+              console.error("更新座位失败:", error);
+            }
+          };
+
+          onMounted(() => {
+            fetchTheaters();
+          });
+
+          return {
+            theaters,
+            selectedTheater,
+            seats,
+            editingSeat,
+            fetchSeats,
+            getSeatStatusText,
+            openEditModal,
+            closeEditModal,
+            updateSeat,
+          };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

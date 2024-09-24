@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>影廳管理</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/Back-office.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    <div id="app">
+      <sidebar-component></sidebar-component>
+      <header-component></header-component>
+      <div class="content">
+        <!-- 影廳管理的内容 -->
+        <div class="container mt-4">
+          <h1 class="mb-4">影廳管理</h1>
+
+          <!-- 影廳列表 -->
+          <div class="row">
+            <div
+              v-for="theater in theaters"
+              :key="theater.id"
+              class="col-md-4 mb-3"
+            >
+              <div class="card">
+                <div class="card-body">
+                  <h5
+                    class="card-title"
+                    @click="openEditModal(theater)"
+                    style="cursor: pointer; color: #007bff"
+                  >
+                    {{ theater.name }}
+                  </h5>
+                  <p class="card-text">座位數: {{ theater.seatCount }}</p>
+                  <p class="card-text">
+                    狀態:
+                    <span :class="getStatusBadgeClass(theater.status)"
+                      >{{ getStatusText(theater.status) }}</span
+                    >
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 編輯影廳狀態的彈出視窗 -->
+          <div
+            v-if="editingTheater"
+            class="modal fade show"
+            style="display: block"
+            tabindex="-1"
+          >
+            <div class="modal-dialog">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title">編輯影廳狀態</h5>
+                  <button
+                    type="button"
+                    class="btn-close"
+                    @click="closeEditModal"
+                  ></button>
+                </div>
+                <div class="modal-body">
+                  <p>影廳名稱: {{ editingTheater.name }}</p>
+                  <select v-model="editingTheater.status" class="form-select">
+                    <option value="active">使用中</option>
+                    <option value="maintenance">維護中</option>
+                    <option value="idle">閒置中</option>
+                  </select>
+                </div>
+                <div class="modal-footer">
+                  <button
+                    type="button"
+                    class="btn btn-secondary"
+                    @click="closeEditModal"
+                  >
+                    取消
+                  </button>
+                  <button
+                    type="button"
+                    class="btn btn-primary"
+                    @click="updateTheaterStatus"
+                  >
+                    保存
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div v-if="editingTheater" class="modal-backdrop fade show"></div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+      const { ref, onMounted } = Vue;
+
+      const app = Vue.createApp({
+        components: {
+          "sidebar-component": common,
+          "header-component": header,
+        },
+        setup() {
+          const theaters = ref([
+            { id: 1, name: "大廳影廳", seatCount: 200, status: "active" },
+            { id: 2, name: "VIP影廳", seatCount: 50, status: "idle" },
+            { id: 3, name: "3D影廳", seatCount: 150, status: "maintenance" },
+            { id: 4, name: "IMAX影廳", seatCount: 300, status: "active" },
+            { id: 5, name: "親子影廳", seatCount: 100, status: "idle" },
+          ]);
+
+          const editingTheater = ref(null);
+
+          const fetchTheaters = async () => {
+            try {
+              console.log("使用預設影廳數據");
+            } catch (error) {
+              console.error("獲取影廳列表失敗:", error);
+            }
+          };
+
+          const getStatusText = (status) => {
+            const statusMap = {
+              active: "使用中",
+              maintenance: "維護中",
+              idle: "閒置中",
+            };
+            return statusMap[status] || "未知狀態";
+          };
+
+          const getStatusBadgeClass = (status) => {
+            const classMap = {
+              active: "badge bg-success",
+              maintenance: "badge bg-warning text-dark",
+              idle: "badge bg-secondary",
+            };
+            return classMap[status] || "badge bg-light text-dark";
+          };
+
+          const openEditModal = (theater) => {
+            editingTheater.value = { ...theater };
+          };
+
+          const closeEditModal = () => {
+            editingTheater.value = null;
+          };
+
+          const updateTheaterStatus = async () => {
+            try {
+              const index = theaters.value.findIndex(
+                (t) => t.id === editingTheater.value.id
+              );
+              if (index !== -1) {
+                theaters.value[index].status = editingTheater.value.status;
+                console.log(
+                  `影廳 ${editingTheater.value.name} 狀態已更新為 ${editingTheater.value.status}`
+                );
+              }
+              closeEditModal();
+            } catch (error) {
+              console.error("更新影廳狀態失敗:", error);
+            }
+          };
+
+          onMounted(() => {
+            fetchTheaters();
+          });
+
+          return {
+            theaters,
+            editingTheater,
+            getStatusText,
+            getStatusBadgeClass,
+            openEditModal,
+            closeEditModal,
+            updateTheaterStatus,
+          };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

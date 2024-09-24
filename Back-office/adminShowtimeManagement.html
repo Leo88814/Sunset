@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>電影放映時間管理</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/Back-office.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@3"></script>
+  </head>
+  <body>
+    <div id="app">
+      <sidebar-component></sidebar-component>
+      <header-component></header-component>
+      <div class="content">
+        <!-- 放映時間管理內容 -->
+        <div class="container mt-4">
+          <h1 class="mb-4">電影放映時間管理</h1>
+
+          <!-- 影廳列表 -->
+          <div class="row">
+            <div
+              v-for="theater in theaters"
+              :key="theater.id"
+              class="col-md-4 mb-3"
+            >
+              <div class="card">
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <a
+                      :href="'adminTheaterShowtimes.html?id=' + theater.id"
+                      style="text-decoration: none; color: #007bff"
+                    >
+                      {{ theater.name }}
+                    </a>
+                  </h5>
+                  <p class="card-text">座位數: {{ theater.seatCount }}</p>
+                  <p class="card-text">
+                    今日場次: {{ theater.showtimesCount }}
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+      const { ref, onMounted } = Vue;
+
+      const app = Vue.createApp({
+        components: {
+          "sidebar-component": common,
+          "header-component": header,
+        },
+        setup() {
+          const theaters = ref([
+            { id: 1, name: "大廳影廳", seatCount: 200, showtimesCount: 5 },
+            { id: 2, name: "VIP影廳", seatCount: 50, showtimesCount: 3 },
+            { id: 3, name: "3D影廳", seatCount: 150, showtimesCount: 4 },
+            { id: 4, name: "IMAX影廳", seatCount: 300, showtimesCount: 6 },
+            { id: 5, name: "親子影廳", seatCount: 100, showtimesCount: 2 },
+          ]);
+
+          const fetchTheaters = async () => {
+            try {
+              // 在實際API準備好之前,我們暫時不調用API
+              // const response = await fetch("/api/theaters-with-showtimes");
+              // theaters.value = await response.json();
+              console.log("使用預設影廳和放映場次數據");
+            } catch (error) {
+              console.error("獲取影廳和放映場次列表失敗:", error);
+            }
+          };
+
+          onMounted(() => {
+            fetchTheaters();
+          });
+
+          return {
+            theaters,
+          };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

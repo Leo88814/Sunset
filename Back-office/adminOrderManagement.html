@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>訂單管理</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link href="css/Back-office.css" rel="stylesheet" />
+    <script src="https://unpkg.com/vue@3"></script>
+    <style>
+      .order-item {
+        cursor: pointer;
+        transition: background-color 0.3s;
+      }
+      .order-item:hover {
+        background-color: #f8f9fa;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <sidebar-component></sidebar-component>
+      <header-component></header-component>
+      <div class="content">
+        <div class="container mt-4">
+          <h1 class="mb-4">訂單管理</h1>
+          <div class="row mb-3">
+            <div class="col-md-6 offset-md-3">
+              <div class="input-group">
+                <input
+                  v-model="searchMemberId"
+                  type="text"
+                  class="form-control"
+                  placeholder="輸入會員ID搜索"
+                />
+                <button
+                  class="btn btn-primary"
+                  type="button"
+                  @click="searchOrders"
+                >
+                  搜索
+                </button>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8 offset-md-2">
+              <div
+                v-for="order in paginatedOrders"
+                :key="order.id"
+                class="card mb-3 order-item"
+                @click="toggleOrderDetails(order.id)"
+              >
+                <div class="card-body">
+                  <h5 class="card-title">訂單 #{{ order.id }}</h5>
+                  <p class="card-text">會員ID: {{ order.memberId }}</p>
+                  <p class="card-text">姓名: {{ order.memberName }}</p>
+                  <p class="card-text">
+                    狀態:
+                    <span
+                      :class="{'badge bg-success': order.status === '已完成', 'badge bg-warning': order.status === '處理中'}"
+                      >{{ order.status }}</span
+                    >
+                  </p>
+
+                  <div v-if="order.showDetails" class="mt-3">
+                    <h6 class="card-subtitle mb-2 text-muted">訂單細節</h6>
+                    <p class="card-text">日期: {{ order.date }}</p>
+                    <p class="card-text">總金額: ${{ order.totalAmount }}</p>
+                    <p class="card-text">場次ID: {{ order.showtimeId }}</p>
+                    <p class="card-text">
+                      付款狀態:
+                      <span
+                        :class="{'badge bg-success': order.paymentStatus === '已付款', 'badge bg-danger': order.paymentStatus === '待付款'}"
+                        >{{ order.paymentStatus }}</span
+                      >
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 分頁控制 -->
+              <nav aria-label="Page navigation" v-if="totalPages > 1">
+                <ul class="pagination justify-content-center">
+                  <li
+                    class="page-item"
+                    :class="{ disabled: currentPage === 1 }"
+                  >
+                    <a
+                      class="page-link"
+                      href="#"
+                      @click.prevent="changePage(currentPage - 1)"
+                      >上一頁</a
+                    >
+                  </li>
+                  <li
+                    v-for="page in totalPages"
+                    :key="page"
+                    class="page-item"
+                    :class="{ active: currentPage === page }"
+                  >
+                    <a
+                      class="page-link"
+                      href="#"
+                      @click.prevent="changePage(page)"
+                      >{{ page }}</a
+                    >
+                  </li>
+                  <li
+                    class="page-item"
+                    :class="{ disabled: currentPage === totalPages }"
+                  >
+                    <a
+                      class="page-link"
+                      href="#"
+                      @click.prevent="changePage(currentPage + 1)"
+                      >下一頁</a
+                    >
+                  </li>
+                </ul>
+              </nav>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="js/common.js"></script>
+    <script>
+      const { createApp, ref, computed } = Vue;
+
+      const app = createApp({
+        components: {
+          "sidebar-component": common,
+          "header-component": header,
+        },
+        setup() {
+          const allOrders = ref([]);
+          const orders = ref([]);
+          const currentPage = ref(1);
+          const ordersPerPage = 10;
+          const searchMemberId = ref("");
+
+          // 生成30筆訂單數據
+          for (let i = 1; i <= 30; i++) {
+            allOrders.value.push({
+              id: i,
+              memberId: `M${String(i).padStart(3, "0")}`,
+              memberName: `會員${i}`,
+              date: `2023-04-${String(i).padStart(2, "0")}`,
+              totalAmount: Math.floor(Math.random() * 500) + 50,
+              status: Math.random() > 0.5 ? "已完成" : "處理中",
+              showtimeId: `ST${String(i).padStart(3, "0")}`,
+              paymentStatus: Math.random() > 0.3 ? "已付款" : "待付款",
+              showDetails: false,
+            });
+          }
+          orders.value = [...allOrders.value];
+
+          const totalPages = computed(() =>
+            Math.ceil(orders.value.length / ordersPerPage)
+          );
+
+          const paginatedOrders = computed(() => {
+            const start = (currentPage.value - 1) * ordersPerPage;
+            const end = start + ordersPerPage;
+            return orders.value.slice(start, end);
+          });
+
+          const toggleOrderDetails = (orderId) => {
+            const order = orders.value.find((o) => o.id === orderId);
+            if (order) {
+              order.showDetails = !order.showDetails;
+            }
+          };
+
+          const changePage = (page) => {
+            if (page >= 1 && page <= totalPages.value) {
+              currentPage.value = page;
+            }
+          };
+
+          const searchOrders = () => {
+            if (searchMemberId.value.trim() === "") {
+              orders.value = [...allOrders.value];
+            } else {
+              orders.value = allOrders.value.filter((order) =>
+                order.memberId
+                  .toLowerCase()
+                  .includes(searchMemberId.value.toLowerCase())
+              );
+            }
+            currentPage.value = 1;
+          };
+
+          return {
+            paginatedOrders,
+            currentPage,
+            totalPages,
+            toggleOrderDetails,
+            changePage,
+            searchMemberId,
+            searchOrders,
+          };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
