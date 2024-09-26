@@ -144,6 +144,7 @@
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\WebApiConfig.cs" />
+    <Compile Include="Controllers\Apis\AuditoriunApiController.cs" />
     <Compile Include="Controllers\Apis\MovieApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
@@ -151,6 +152,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="MappingProfile.cs" />
+    <Compile Include="Models\Dtos\AuditoriumDto.cs" />
     <Compile Include="Models\Dtos\MovieDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Auditorium.cs" />
@@ -169,8 +171,11 @@
     <Compile Include="Models\EFModels\Topup.cs" />
     <Compile Include="Models\EFModels\TransactionHistory.cs" />
     <Compile Include="Models\EFModels\User.cs" />
+    <Compile Include="Models\Repositories\AuditoriunRepository.cs" />
     <Compile Include="Models\Repositories\MovieRepository.cs" />
+    <Compile Include="Models\Services\AuditoriumService.cs" />
     <Compile Include="Models\Services\MovieService.cs" />
+    <Compile Include="Models\Vms\AuditoriumVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -227,7 +232,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Models\Vms\" />
     <Folder Include="Views\Movie\" />
   </ItemGroup>
   <ItemGroup>

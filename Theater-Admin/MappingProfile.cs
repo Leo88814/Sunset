@@ -12,6 +12,7 @@ namespace Theater_Admin
         public MappingProfile()
         {
             CreateMap<MovieDto,Movie>().ReverseMap();
+            CreateMap<AuditoriumDto, Auditorium>().ReverseMap();
         }
     }
 }
