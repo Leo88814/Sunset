@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>會員專區-變更資料</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/header.css" />
+    <link rel="stylesheet" href="CSS/styles2.css" />
+  </head>
+  <body>
+    <div id="app" class="page-container">
+      <header-component></header-component>
+
+      <!-- Breadcrumb 導航列 -->
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+            <li class="breadcrumb">會員專區</li>
+            <li class="breadcrumb">變更資料</li>
+          </ol>
+        </nav>
+      </div>
+
+      <main class="content-wrap">
+        <div class="container mt-5">
+          <h2 class="mb-4">變更資料</h2>
+          <form @submit.prevent="updateProfile">
+            <div class="mb-3">
+              <label for="name" class="form-label">姓名:</label>
+              <input
+                type="text"
+                class="form-control"
+                id="name"
+                v-model="formData.name"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="phone" class="form-label">電話</label>
+              <input
+                type="tel"
+                class="form-control"
+                id="phone"
+                v-model="formData.phone"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="address" class="form-label">住址</label>
+              <input
+                type="text"
+                class="form-control"
+                id="address"
+                v-model="formData.address"
+              />
+            </div>
+            <div class="mb-3">
+              <label for="email" class="form-label">Email</label>
+              <input
+                type="email"
+                class="form-control"
+                id="email"
+                v-model="formData.email"
+                required
+              />
+            </div>
+            <div class="mb-3">
+              <label for="birthday" class="form-label">生日:</label>
+              <input
+                type="date"
+                class="form-control"
+                id="birthday"
+                v-model="formData.birthday"
+              />
+            </div>
+            <div class="d-flex justify-content-end">
+              <button type="submit" class="btn btn-primary">保存</button>
+            </div>
+          </form>
+        </div>
+      </main>
+
+      <footer-component></footer-component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="js/header-component.js"></script>
+    <script src="js/footer-component.js"></script>
+    
+    <script>
+      const { ref, createApp } = Vue;
+
+      const app = createApp({
+        components: {
+          "header-component": HeaderComponent, // 確保HeaderComponent已正確導入
+          "footer-component": FooterComponent, // 確保FooterComponent已正確導入
+        },
+        setup() {
+          const formData = ref({
+            name: "",
+            phone: "",
+            address: "",
+            email: "",
+            birthday: "",
+          });
+
+          const updateProfile = () => {
+            // 處理表單提交邏輯
+            console.log("更新用戶資料:", formData.value);
+            // 可以在這裡添加API調用來保存數據
+            alert("用戶資料已更新");
+          };
+
+          return {
+            formData,
+            updateProfile,
+          };
+        },
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>
