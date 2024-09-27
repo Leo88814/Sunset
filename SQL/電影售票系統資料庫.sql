@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [BookMovie]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Database [BookMovie]    Script Date: 2024/9/27 下午 05:01:06 ******/
 CREATE DATABASE [BookMovie]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,12 +84,12 @@ ALTER DATABASE [BookMovie] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP
 GO
 USE [BookMovie]
 GO
-/****** Object:  User [sa5]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  User [sa5]    Script Date: 2024/9/27 下午 05:01:07 ******/
 CREATE USER [sa5] FOR LOGIN [sa5] WITH DEFAULT_SCHEMA=[dbo]
 GO
 ALTER ROLE [db_owner] ADD MEMBER [sa5]
 GO
-/****** Object:  Table [dbo].[Auditoriums]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[Auditoriums]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -106,7 +106,7 @@ CREATE TABLE [dbo].[Auditoriums](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cinemas]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[Cinemas]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -123,7 +123,7 @@ CREATE TABLE [dbo].[Cinemas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CustomerService]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[CustomerService]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -138,7 +138,7 @@ CREATE TABLE [dbo].[CustomerService](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Members]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[Members]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -162,7 +162,7 @@ CREATE TABLE [dbo].[Members](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieGenres]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[MovieGenres]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -176,13 +176,14 @@ CREATE TABLE [dbo].[MovieGenres](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieImages]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[MovieImages]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[MovieImages](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
+	[MovieInfoId] [int] NOT NULL,
 	[stills] [varchar](100) NOT NULL,
  CONSTRAINT [PK_MovieImages] PRIMARY KEY CLUSTERED 
 (
@@ -190,7 +191,7 @@ CREATE TABLE [dbo].[MovieImages](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieInfos]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[MovieInfos]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -198,7 +199,6 @@ GO
 CREATE TABLE [dbo].[MovieInfos](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
 	[GenreId] [int] NOT NULL,
-	[MovieImageId] [int] NOT NULL,
 	[MovieName] [varchar](100) NOT NULL,
 	[EnglishName] [varchar](100) NOT NULL,
 	[Grading] [varchar](50) NOT NULL,
@@ -219,7 +219,7 @@ CREATE TABLE [dbo].[MovieInfos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieRatings]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[MovieRatings]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -236,7 +236,7 @@ CREATE TABLE [dbo].[MovieRatings](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieReleaseSchedules]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[MovieReleaseSchedules]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -246,13 +246,14 @@ CREATE TABLE [dbo].[MovieReleaseSchedules](
 	[MovieInfoId] [int] NOT NULL,
 	[AuditoriumId] [int] NOT NULL,
 	[ShowTimeId] [int] NOT NULL,
+	[ShowDateId] [int] NULL,
  CONSTRAINT [PK_MovieReleaseSchedules] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OrderDetails]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[OrderDetails]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -270,7 +271,7 @@ CREATE TABLE [dbo].[OrderDetails](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orders]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -292,7 +293,7 @@ CREATE TABLE [dbo].[Orders](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Seats]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[Seats]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -308,7 +309,7 @@ CREATE TABLE [dbo].[Seats](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShowDates]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[ShowDates]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -322,7 +323,7 @@ CREATE TABLE [dbo].[ShowDates](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShowTimes]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[ShowTimes]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -340,7 +341,7 @@ CREATE TABLE [dbo].[ShowTimes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tickets]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[Tickets]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -355,7 +356,7 @@ CREATE TABLE [dbo].[Tickets](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Topups]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[Topups]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -372,7 +373,7 @@ CREATE TABLE [dbo].[Topups](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TransactionHistory]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[TransactionHistory]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -389,7 +390,7 @@ CREATE TABLE [dbo].[TransactionHistory](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 2024/9/27 下午 03:14:17 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 2024/9/27 下午 05:01:07 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -502,49 +503,49 @@ SET IDENTITY_INSERT [dbo].[MovieGenres] OFF
 GO
 SET IDENTITY_INSERT [dbo].[MovieImages] ON 
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (1, N'/images/movie1_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (1, 1, N'/images/movie1_still.jpg')
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (2, N'/images/movie2_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (2, 1, N'/images/movie2_still.jpg')
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (3, N'/images/movie3_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (3, 1, N'/images/movie3_still.jpg')
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (4, N'/images/movie4_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (4, 2, N'/images/movie4_still.jpg')
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (5, N'/images/movie5_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (5, 2, N'/images/movie5_still.jpg')
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (6, N'/images/movie6_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (6, 2, N'/images/movie6_still.jpg')
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (7, N'/images/movie7_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (7, 3, N'/images/movie7_still.jpg')
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (8, N'/images/movie8_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (8, 3, N'/images/movie8_still.jpg')
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (9, N'/images/movie9_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (9, 3, N'/images/movie9_still.jpg')
 GO
-INSERT [dbo].[MovieImages] ([Id], [stills]) VALUES (10, N'/images/movie10_still.jpg')
+INSERT [dbo].[MovieImages] ([Id], [MovieInfoId], [stills]) VALUES (10, 3, N'/images/movie10_still.jpg')
 GO
 SET IDENTITY_INSERT [dbo].[MovieImages] OFF
 GO
 SET IDENTITY_INSERT [dbo].[MovieInfos] ON 
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (1, 1, 1, N'玩命關頭10', N'Fast X', N'輔導級', N'唐老大一家人將面臨最致命的對手', N'https://youtu.be/32RAq6JzY-w', CAST(N'2023-05-17' AS Date), 1, N'路易斯·萊特里爾', N'馮·迪索, 傑森·史塔森, 米雪兒·羅德里奎茲', N'英語', N'141分鐘', N'環球影業', N'FastX.jpg', CAST(5.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (1, 1, N'玩命關頭10', N'Fast X', N'輔導級', N'唐老大一家人將面臨最致命的對手', N'https://youtu.be/32RAq6JzY-w', CAST(N'2023-05-17' AS Date), 1, N'路易斯·萊特里爾', N'馮·迪索, 傑森·史塔森, 米雪兒·羅德里奎茲', N'英語', N'141分鐘', N'環球影業', N'FastX.jpg', CAST(5.0 AS Decimal(2, 1)))
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (2, 2, 2, N'蜘蛛人：穿越新宇宙', N'Spider-Man: Across the Spider-Verse', N'保護級', N'邁爾斯·莫拉雷斯展開多重宇宙冒險', N'https://youtu.be/shW9i6k8cB0', CAST(N'2023-06-02' AS Date), 1, N'瓦昆·杜斯·山托斯, 凱普·鮑爾斯, 賈斯汀·K·湯普森', N'沙梅克·摩爾, 海莉·斯坦菲爾德, 奧斯卡·伊薩克', N'英語', N'140分鐘', N'索尼影業', N'SpiderMan.jpg', CAST(4.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (2, 2, N'蜘蛛人：穿越新宇宙', N'Spider-Man: Across the Spider-Verse', N'保護級', N'邁爾斯·莫拉雷斯展開多重宇宙冒險', N'https://youtu.be/shW9i6k8cB0', CAST(N'2023-06-02' AS Date), 1, N'瓦昆·杜斯·山托斯, 凱普·鮑爾斯, 賈斯汀·K·湯普森', N'沙梅克·摩爾, 海莉·斯坦菲爾德, 奧斯卡·伊薩克', N'英語', N'140分鐘', N'索尼影業', N'SpiderMan.jpg', CAST(4.0 AS Decimal(2, 1)))
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (3, 3, 3, N'超級瑪利歐兄弟電影版', N'The Super Mario Bros. Movie', N'普遍級', N'瑪利歐兄弟的冒險旅程', N'https://youtu.be/TnGl01FkMMo', CAST(N'2023-04-05' AS Date), 1, N'亞倫·霍瓦斯, 麥可·傑勒尼克', N'克里斯·帕拉特, 安雅·泰勒喬伊, 傑克·布萊克', N'英語', N'92分鐘', N'環球影業', N'Mario.jpg', CAST(5.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (3, 3, N'超級瑪利歐兄弟電影版', N'The Super Mario Bros. Movie', N'普遍級', N'瑪利歐兄弟的冒險旅程', N'https://youtu.be/TnGl01FkMMo', CAST(N'2023-04-05' AS Date), 1, N'亞倫·霍瓦斯, 麥可·傑勒尼克', N'克里斯·帕拉特, 安雅·泰勒喬伊, 傑克·布萊克', N'英語', N'92分鐘', N'環球影業', N'Mario.jpg', CAST(5.0 AS Decimal(2, 1)))
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (4, 4, 4, N'奧本海默', N'Oppenheimer', N'輔導級', N'原子彈之父的傳記電影', N'https://youtu.be/uYPbbksJxIg', CAST(N'2023-07-21' AS Date), 1, N'克里斯多福·諾蘭', N'基里安·墨菲, 艾蜜莉·布朗特, 麥特·戴蒙', N'英語', N'180分鐘', N'環球影業', N'Oppenheimer.jpg', CAST(4.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (4, 4, N'奧本海默', N'Oppenheimer', N'輔導級', N'原子彈之父的傳記電影', N'https://youtu.be/uYPbbksJxIg', CAST(N'2023-07-21' AS Date), 1, N'克里斯多福·諾蘭', N'基里安·墨菲, 艾蜜莉·布朗特, 麥特·戴蒙', N'英語', N'180分鐘', N'環球影業', N'Oppenheimer.jpg', CAST(4.0 AS Decimal(2, 1)))
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (5, 5, 5, N'芭比', N'Barbie', N'保護級', N'芭比娃娃的真人電影', N'https://youtu.be/pBk4NYhWNMM', CAST(N'2023-07-21' AS Date), 1, N'葛莉塔·潔薇', N'瑪格·羅比, 萊恩·葛斯林, 威爾·法洛', N'英語', N'114分鐘', N'華納兄弟', N'Barbie.jpg', CAST(5.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (5, 5, N'芭比', N'Barbie', N'保護級', N'芭比娃娃的真人電影', N'https://youtu.be/pBk4NYhWNMM', CAST(N'2023-07-21' AS Date), 1, N'葛莉塔·潔薇', N'瑪格·羅比, 萊恩·葛斯林, 威爾·法洛', N'英語', N'114分鐘', N'華納兄弟', N'Barbie.jpg', CAST(5.0 AS Decimal(2, 1)))
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (6, 1, 6, N'捍衛任務4', N'John Wick: Chapter 4', N'輔導級', N'約翰·威克的最後一戰', N'https://youtu.be/qEVUtrk8_B4', CAST(N'2023-03-24' AS Date), 1, N'查德·史塔赫斯基', N'基努·李維, 甄子丹, 比爾·斯卡斯加德', N'英語', N'169分鐘', N'獅門影業', N'JohnWick.jpg', CAST(4.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (6, 1, N'捍衛任務4', N'John Wick: Chapter 4', N'輔導級', N'約翰·威克的最後一戰', N'https://youtu.be/qEVUtrk8_B4', CAST(N'2023-03-24' AS Date), 1, N'查德·史塔赫斯基', N'基努·李維, 甄子丹, 比爾·斯卡斯加德', N'英語', N'169分鐘', N'獅門影業', N'JohnWick.jpg', CAST(4.0 AS Decimal(2, 1)))
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (7, 2, 7, N'星際異攻隊3', N'Guardians of the Galaxy Vol. 3', N'保護級', N'星際異攻隊的最後冒險', N'https://youtu.be/u3V5KDHRQvk', CAST(N'2023-05-03' AS Date), 1, N'詹姆斯·岡恩', N'克里斯·帕拉特, 柔伊·莎達娜, 戴夫·巴蒂斯塔', N'英語', N'150分鐘', N'迪士尼', N'Galaxy.jpg', CAST(5.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (7, 2, N'星際異攻隊3', N'Guardians of the Galaxy Vol. 3', N'保護級', N'星際異攻隊的最後冒險', N'https://youtu.be/u3V5KDHRQvk', CAST(N'2023-05-03' AS Date), 1, N'詹姆斯·岡恩', N'克里斯·帕拉特, 柔伊·莎達娜, 戴夫·巴蒂斯塔', N'英語', N'150分鐘', N'迪士尼', N'Galaxy.jpg', CAST(5.0 AS Decimal(2, 1)))
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (8, 3, 8, N'變形金剛：萬獸崛起', N'Transformers: Rise of the Beasts', N'保護級', N'全新的變形金剛冒險', N'https://youtu.be/itnqEauWQZM', CAST(N'2023-06-09' AS Date), 1, N'史蒂芬·卡普爾', N'安東尼·拉莫斯, 多明尼克·菲什巴克, 蘿倫·維萊茲', N'英語', N'127分鐘', N'派拉蒙', N'Transformers.jpg', CAST(4.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (8, 3, N'變形金剛：萬獸崛起', N'Transformers: Rise of the Beasts', N'保護級', N'全新的變形金剛冒險', N'https://youtu.be/itnqEauWQZM', CAST(N'2023-06-09' AS Date), 1, N'史蒂芬·卡普爾', N'安東尼·拉莫斯, 多明尼克·菲什巴克, 蘿倫·維萊茲', N'英語', N'127分鐘', N'派拉蒙', N'Transformers.jpg', CAST(4.0 AS Decimal(2, 1)))
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (9, 4, 9, N'蟻人與黃蜂女：量子狂熱', N'Ant-Man and the Wasp: Quantumania', N'保護級', N'蟻人家族的量子冒險', N'https://youtu.be/5WfTEZJnv_8', CAST(N'2023-02-17' AS Date), 1, N'佩頓·里德', N'保羅·路德, 伊凡潔琳·莉莉, 強納森·梅傑斯', N'英語', N'124分鐘', N'迪士尼', N'AntMan.jpg', CAST(5.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (9, 4, N'蟻人與黃蜂女：量子狂熱', N'Ant-Man and the Wasp: Quantumania', N'保護級', N'蟻人家族的量子冒險', N'https://youtu.be/5WfTEZJnv_8', CAST(N'2023-02-17' AS Date), 1, N'佩頓·里德', N'保羅·路德, 伊凡潔琳·莉莉, 強納森·梅傑斯', N'英語', N'124分鐘', N'迪士尼', N'AntMan.jpg', CAST(5.0 AS Decimal(2, 1)))
 GO
-INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieImageId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (10, 5, 10, N'驚聲尖叫6', N'Scream VI', N'輔導級', N'在紐約市展開的新一輪殺戮', N'https://youtu.be/h74AXqw4Opc', CAST(N'2023-03-10' AS Date), 1, N'麥特·貝提內里-奧爾平, 泰勒·吉列特', N'梅莉莎·巴雷拉, 賈斯敏·薩沃伊·布朗, 梅森·古丁', N'英語', N'123分鐘', N'派拉蒙', N'ScreamVI.jpg', CAST(4.0 AS Decimal(2, 1)))
+INSERT [dbo].[MovieInfos] ([Id], [GenreId], [MovieName], [EnglishName], [Grading], [Synopsis], [TrailerURL], [PremiereDate], [OnAir], [Director], [MovieCast], [MovieLanguage], [Duration], [Distributor], [MainPicture], [TotalRating]) VALUES (10, 5, N'驚聲尖叫6', N'Scream VI', N'輔導級', N'在紐約市展開的新一輪殺戮', N'https://youtu.be/h74AXqw4Opc', CAST(N'2023-03-10' AS Date), 1, N'麥特·貝提內里-奧爾平, 泰勒·吉列特', N'梅莉莎·巴雷拉, 賈斯敏·薩沃伊·布朗, 梅森·古丁', N'英語', N'123分鐘', N'派拉蒙', N'ScreamVI.jpg', CAST(4.0 AS Decimal(2, 1)))
 GO
 SET IDENTITY_INSERT [dbo].[MovieInfos] OFF
 GO
@@ -574,25 +575,25 @@ SET IDENTITY_INSERT [dbo].[MovieRatings] OFF
 GO
 SET IDENTITY_INSERT [dbo].[MovieReleaseSchedules] ON 
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (1, 1, 1, 1)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (1, 1, 1, 1, 1)
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (2, 1, 1, 2)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (2, 1, 1, 2, 1)
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (3, 1, 1, 3)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (3, 1, 1, 3, 1)
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (4, 1, 1, 4)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (4, 1, 1, 4, 1)
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (5, 1, 1, 5)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (5, 1, 1, 5, 1)
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (6, 1, 1, 6)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (6, 1, 1, 6, 2)
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (7, 1, 1, 7)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (7, 1, 1, 7, 2)
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (8, 1, 1, 8)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (8, 1, 1, 8, 2)
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (9, 1, 1, 9)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (9, 1, 1, 9, 2)
 GO
-INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId]) VALUES (10, 1, 1, 10)
+INSERT [dbo].[MovieReleaseSchedules] ([Id], [MovieInfoId], [AuditoriumId], [ShowTimeId], [ShowDateId]) VALUES (10, 1, 1, 10, 2)
 GO
 SET IDENTITY_INSERT [dbo].[MovieReleaseSchedules] OFF
 GO
@@ -797,6 +798,11 @@ REFERENCES [dbo].[Cinemas] ([Id])
 GO
 ALTER TABLE [dbo].[Auditoriums] CHECK CONSTRAINT [FK_Auditoriums_Cinemas]
 GO
+ALTER TABLE [dbo].[MovieImages]  WITH CHECK ADD  CONSTRAINT [FK_MovieImages_MovieInfos] FOREIGN KEY([MovieInfoId])
+REFERENCES [dbo].[MovieInfos] ([Id])
+GO
+ALTER TABLE [dbo].[MovieImages] CHECK CONSTRAINT [FK_MovieImages_MovieInfos]
+GO
 ALTER TABLE [dbo].[MovieInfos]  WITH CHECK ADD  CONSTRAINT [FK_MovieInfos_MovieGenres] FOREIGN KEY([GenreId])
 REFERENCES [dbo].[MovieGenres] ([Id])
 GO
@@ -826,6 +832,11 @@ ALTER TABLE [dbo].[MovieReleaseSchedules]  WITH CHECK ADD  CONSTRAINT [FK_MovieR
 REFERENCES [dbo].[MovieInfos] ([Id])
 GO
 ALTER TABLE [dbo].[MovieReleaseSchedules] CHECK CONSTRAINT [FK_MovieReleaseSchedules_MovieInfos]
+GO
+ALTER TABLE [dbo].[MovieReleaseSchedules]  WITH CHECK ADD  CONSTRAINT [FK_MovieReleaseSchedules_ShowDates] FOREIGN KEY([ShowDateId])
+REFERENCES [dbo].[ShowDates] ([Id])
+GO
+ALTER TABLE [dbo].[MovieReleaseSchedules] CHECK CONSTRAINT [FK_MovieReleaseSchedules_ShowDates]
 GO
 ALTER TABLE [dbo].[MovieReleaseSchedules]  WITH CHECK ADD  CONSTRAINT [FK_MovieReleaseSchedules_ShowTimes] FOREIGN KEY([ShowTimeId])
 REFERENCES [dbo].[ShowTimes] ([Id])
