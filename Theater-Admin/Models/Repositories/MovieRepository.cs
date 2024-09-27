@@ -35,10 +35,7 @@ namespace Theater_Admin.Models.Repositories
         }
 
 
-        public IEnumerable<Movie> GetAllMovies()
-        {
-            return _db.Movies;
-        }
+
         public void AddMovie(MovieDto dto)
         {
             _db.Movies.Add(new Movie

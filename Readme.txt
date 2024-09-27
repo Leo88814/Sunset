@@ -11,4 +11,6 @@ v影廳管理，建立Auditoriums、AuditoriumDto、AuditoriumService、Auditori
 
 更新資料庫
 
+QA 完成編輯api
+
 
