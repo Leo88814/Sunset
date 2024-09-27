@@ -1,0 +1,213 @@
+﻿
+@{
+    ViewBag.Title = "ChoiceDate";
+}
+<head>
+    <link rel="stylesheet" href="~/CSS/styles.css" />
+</head>
+<body>
+    <div id="app" class="page-container">
+        <div class="container">
+            <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+                <ol class="breadcrumb ms-3">
+                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb">線上訂票</li>
+                    <li class="breadcrumb"><a href="Booking-ChoiceMovies.html">選擇電影</a></li>
+                    <li class="breadcrumb">選擇日期</li>
+                </ol>
+            </nav>
+        </div>
+        
+        <section class="login-section container">
+            <h2 class="text">線上訂票步驟</h2>
+            <div class="step-bar">
+                <div class="step-item">1.選擇電影</div>
+                <div class="step-item fw-bolder">2.場次選擇</div>
+                <div class="step-item">3.確認訂單</div>
+                <div class="step-item">4.訂單完成</div>
+            </div>
+
+            <div class="container mt-3">
+                <div class="row">
+                    <div class="col-md-3 col-sm-6">
+                        <img class="img-fluid" :src="selectedMovie?.MainPicture" />
+                        <p class="text-center fw-bolder mt-2">
+                            {{ selectedMovie?.MovieName }}
+                        </p>
+                    </div>
+
+                    <div class="col-md-9 col-sm-6">
+                        <h5 class="fw-bolder">選擇日期</h5>
+                        <!-- 日期選擇錯誤提示 -->
+                        <p v-if="errorDateMessage" class="text-danger">
+                            {{ errorDateMessage }}
+                        </p>
+                        <div class="d-flex flex-wrap">
+                            <div v-for="day in dates" :key="day.dateid">
+                                <button class="btn m-2"
+                                        :class="{'btn-primary': selectedDate === day, 'btn-outline-primary': selectedDate !== day}"
+                                        v-on:click="selectDate(day)">
+                                    {{ day.ShowtimeDateString }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- 顯示選擇時間的部分 -->
+                        <div class="col mt-5" v-show="choiceTime">
+                            <h5 class="fw-bolder">選擇時間</h5>
+                            <!-- 時間選擇錯誤提示 -->
+                            <p v-if="errorTimeMessage" class="text-danger">
+                                {{ errorTimeMessage }}
+                            </p>
+                            <div class="d-flex flex-wrap">
+                                <div class="time" v-for="t in dates" :key="t.TimeId">
+                                    <button class="btn m-2"
+                                            :class="{'btn-primary': selectedTime === t, 'btn-outline-primary': selectedTime !== t}"
+                                            v-on:click="selectTime(t)">
+                                        {{ t.StartTimeMin }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <button v-on:click="goToPreviousPage" class="btn btn-outline-danger">
+                        上一頁
+                    </button>
+                    <button v-on:click="goToNextPage" class="btn btn-outline-primary ms-2">
+                        下一頁
+                    </button>
+                </div>
+            </div>
+        </section>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="~/js/header-component.js"></script>
+    <script src="~/js/footer-component.js"></script>
+    <script>
+        const { createApp, ref, onMounted } = Vue;
+
+        const config = {
+            components: {
+                "header-component": HeaderComponent,
+                "footer-component": FooterComponent,
+            },
+            setup() {
+                const urlDate = "/api/ChoiceMoviesApi/Date/{id}";
+            /*    const urlTime = "/api/ChoiceMoviesApi/Time";*/
+                const dates = ref([]); // 儲存 API 獲取的日期資料
+              /*  const times = ref([]); // 儲存 API 獲取的時間資料*/
+                const selectedMovie = ref(null);
+                const selectedDate = ref(null); // 儲存目前選擇的日期
+                const selectedTime = ref(null); // 儲存目前選擇的時間
+                const choiceTime = ref(false); // 控制是否顯示選擇時間
+                const errorDateMessage = ref(""); // 儲存日期錯誤訊息
+                const errorTimeMessage = ref(""); // 儲存時間錯誤訊息
+
+                // 選擇日期
+                const selectDate = (dataDate) => {
+                    selectedDate.value = dataDate;
+                    choiceTime.value = true;
+                    selectedTime.value = null;
+                    errorDateMessage.value = ""; // 清除日期錯誤訊息
+
+                    console.log("selectedDate.value", selectedDate.value);
+                    bookDate(dataDate);
+                };
+
+                // 選擇時間
+                const selectTime = (dataTime) => {
+                    selectedTime.value = dataTime;
+                    errorTimeMessage.value = ""; // 清除時間錯誤訊息
+
+
+                    bookTime(dataTime);
+                };
+
+                // 返回上一頁
+                const goToPreviousPage = () => {
+                    window.location.href = "ChoiceMovie";
+                };
+
+                // 當組件掛載時
+                onMounted(() => {
+                    // 從 localStorage 讀取選擇的電影資料
+                    const movie = JSON.parse(localStorage.getItem("selectedMovie"));
+                    if (movie) {
+                        selectedMovie.value = movie;
+                    }
+
+                    // 獲取日期資料
+                    fetch(urlDate)
+                        .then(response => response.json())
+                        .then(dataDate => {
+                            dates.value = dataDate; // 設置日期資料
+                            
+                        })
+                        .catch(error => {
+                            console.error("Error", error);
+                        });
+
+                    //// 獲取時間資料
+                    //fetch(urlTime)
+                    //    .then(response => response.json())
+                    //    .then(dataTime => {
+                    //        times.value = dataTime; // 設置時間資料
+                    //    })
+                    //    .catch(error => {
+                    //        console.error("Error", error);
+                    //    });
+                });
+
+                // 儲存選擇的日期到 localStorage
+                const bookDate = (date) => {
+                    localStorage.setItem("selectedDate", JSON.stringify(date)); // 儲存具體的日期資料
+                };
+
+                // 儲存選擇的時間到 localStorage
+                const bookTime = (time) => {
+                    localStorage.setItem("selectedTime", JSON.stringify(time)); // 儲存具體的時間資料
+                };
+
+                // 確認選擇後進入下一頁
+                const goToNextPage = () => {
+                    if (!selectedDate.value) {
+                        errorDateMessage.value = "請選擇日期";
+                        return;
+                    }
+                    if (!selectedTime.value) {
+                        errorTimeMessage.value = "請選擇時間";
+                        return;
+                    }
+
+                    // 如果已選擇日期和時間，進入下一頁
+                    window.location.href = "ChoiceSeat";
+                };
+                return {
+                    dates,
+             /*       times,*/
+                    selectedMovie,
+                    selectDate,
+                    selectTime,
+                    choiceTime,
+                    selectedDate,
+                    selectedTime,
+                    goToNextPage,
+                    goToPreviousPage,
+                    errorDateMessage,
+                    errorTimeMessage,
+                    bookDate,
+                    bookTime
+                };
+            },
+        };
+
+        const app = createApp(config);
+        app.mount("#app");
+    </script>
+</body>
+
