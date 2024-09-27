@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>影城介紹-影城位置</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/header.css" />
+    <link rel="stylesheet" href="CSS/styles2.css" />
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+
+    <style>
+      /* 保留原有的 @media 查詢 */
+      @media (max-width: 991px) {
+        .navbar-nav {
+          align-items: flex-start;
+        }
+
+        .navbar-nav .nav-item {
+          width: 100%;
+        }
+
+        .navbar-collapse .d-flex {
+          flex-direction: row;
+          justify-content: flex-end;
+          width: 100%;
+          margin-top: 10px;
+        }
+
+        .login-container {
+          margin-right: 10px !important;
+        }
+
+        .ticketBtn {
+          white-space: nowrap;
+        }
+
+        .login-container .dropdown-menu {
+          position: absolute;
+        }
+      }
+
+      /* 通用樣式 */
+      .card,
+      .equipment-card {
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        background-color: #f8f9fa;
+      }
+      .card:hover,
+      .equipment-card:hover {
+        transform: scale(1.05);
+        background-color: #e9ecef;
+      }
+
+      /* 影城形象照片 */
+      .theater-image img {
+        max-height: 500px;
+        object-fit: cover;
+      }
+
+      /* 影城地點列表卡片 */
+      .card-img-top {
+        height: 200px;
+        object-fit: cover;
+      }
+
+      /* 特殊設備容器 */
+      .equipment-container {
+        display: flex;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+
+      /* 特殊設備卡片 */
+      .equipment-card {
+        position: relative;
+        width: 20%;
+        height: 250px;
+        overflow: hidden;
+      }
+      .equipment-card:hover {
+        transform: scale(1.1);
+        z-index: 1;
+      }
+      .equipment-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* 特殊設備卡片內容 */
+      .equipment-card .card-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px;
+        transform: translateY(calc(100% - 40px));
+        transition: transform 0.3s ease;
+      }
+      .equipment-card:hover .card-content {
+        transform: translateY(0);
+      }
+      .equipment-card .card-title {
+        margin: 0;
+        transition: margin 0.3s ease;
+      }
+      .equipment-card:hover .card-title {
+        margin-bottom: 10px;
+      }
+      .equipment-card .card-description {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .equipment-card:hover .card-description {
+        opacity: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="page-container">
+      <header-component></header-component>
+
+      <!-- Breadcrumb 導航列 -->
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+            <li class="breadcrumb">影城位置</li>
+          </ol>
+        </nav>
+      </div>
+
+      <main class="content-wrap">
+        <div class="container">
+          <!-- 影城形象照片 -->
+          <div class="theater-image mb-5">
+            <img
+              src="/images/Sunset Theater.jpg"
+              alt="影城形象照"
+              class="img-fluid w-100"
+            />
+          </div>
+
+          <h2 class="text-center mb-4">我們的影城</h2>
+
+          <!-- 影城地點列表 -->
+          <div class="row mb-5">
+            <div
+              v-for="theater in theaters"
+              :key="theater.id"
+              class="col-md-4 mb-4"
+            >
+              <div class="card h-100">
+                <img
+                  :src="theater.image"
+                  :alt="theater.name"
+                  class="card-img-top"
+                />
+                <div class="card-body">
+                  <h5 class="card-title">{{ theater.name }}</h5>
+                  <p class="card-text">{{ theater.address }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 特殊設備鏈接 -->
+          <div class="text-center mb-5">
+            <a href="Theater-SpecialEquipment.html" class="btn btn-primary"
+              >查看我們的特殊設備和品牌理念</a
+            >
+          </div>
+        </div>
+      </main>
+
+      <div class="spacer" :style="{ height: spacerHeight + 'px' }"></div>
+
+      <footer-component></footer-component>
+    </div>
+
+    <script src="/js/header-component.js"></script>
+    <script src="/js/footer-component.js"></script>
+    <script>
+      const { createApp, ref, onMounted, onUnmounted } = Vue;
+
+      const app = createApp({
+        setup() {
+          const theaters = ref([
+            {
+              id: 1,
+              name: "日落影廳",
+              image: "/images/theater.jpg",
+              address: "台北市中山區長春路176號",
+            },
+          ]);
+
+          const spacerHeight = ref(100); // 默認高度為 100px
+
+          const updateSpacerHeight = () => {
+            const windowHeight = window.innerHeight;
+            const mainHeight =
+              document.querySelector(".content-wrap").offsetHeight;
+            const headerHeight = document.querySelector("header").offsetHeight;
+            const footerHeight = document.querySelector("footer").offsetHeight;
+
+            const availableSpace =
+              windowHeight - (mainHeight + headerHeight + footerHeight);
+            spacerHeight.value = Math.max(availableSpace, 100); // 最小高度為 100px
+          };
+
+          onMounted(() => {
+            updateSpacerHeight();
+            window.addEventListener("resize", updateSpacerHeight);
+          });
+
+          onUnmounted(() => {
+            window.removeEventListener("resize", updateSpacerHeight);
+          });
+
+          return {
+            theaters,
+            spacerHeight,
+          };
+        },
+      });
+
+      app.component("header-component", HeaderComponent);
+      app.component("footer-component", FooterComponent);
+
+      app.mount("#app");
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
