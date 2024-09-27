@@ -12,8 +12,9 @@ namespace Theater_Admin.Models.EFModels
         public Auditorium()
         {
             MovieReleaseSchedules = new HashSet<MovieReleaseSchedule>();
+            OrderDetails = new HashSet<OrderDetail>();
             Seats = new HashSet<Seat>();
-            Showtimes = new HashSet<Showtime>();
+            ShowTimes = new HashSet<ShowTime>();
         }
 
         public int Id { get; set; }
@@ -36,9 +37,12 @@ namespace Theater_Admin.Models.EFModels
         public virtual ICollection<MovieReleaseSchedule> MovieReleaseSchedules { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Seat> Seats { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Showtime> Showtimes { get; set; }
+        public virtual ICollection<ShowTime> ShowTimes { get; set; }
     }
 }

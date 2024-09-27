@@ -154,6 +154,7 @@
     <Compile Include="MappingProfile.cs" />
     <Compile Include="Models\Dtos\AuditoriumDto.cs" />
     <Compile Include="Models\Dtos\MovieDto.cs" />
+    <Compile Include="Models\Dtos\ShowTimeScheduleDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Auditorium.cs" />
     <Compile Include="Models\EFModels\Cinema.cs" />
@@ -167,7 +168,9 @@
     <Compile Include="Models\EFModels\Order.cs" />
     <Compile Include="Models\EFModels\OrderDetail.cs" />
     <Compile Include="Models\EFModels\Seat.cs" />
-    <Compile Include="Models\EFModels\Showtime.cs" />
+    <Compile Include="Models\EFModels\ShowDate.cs" />
+    <Compile Include="Models\EFModels\ShowTime.cs" />
+    <Compile Include="Models\EFModels\Ticket.cs" />
     <Compile Include="Models\EFModels\Topup.cs" />
     <Compile Include="Models\EFModels\TransactionHistory.cs" />
     <Compile Include="Models\EFModels\User.cs" />

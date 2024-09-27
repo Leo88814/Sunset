@@ -6,10 +6,10 @@ namespace Theater_Admin.Models.EFModels
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Showtime
+    public partial class ShowTime
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Showtime()
+        public ShowTime()
         {
             MovieReleaseSchedules = new HashSet<MovieReleaseSchedule>();
             Orders = new HashSet<Order>();
@@ -19,10 +19,9 @@ namespace Theater_Admin.Models.EFModels
 
         public int MovieId { get; set; }
 
-        public int AuditoriumId { get; set; }
+        public int ShowdateId { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime ShowtimeDate { get; set; }
+        public int AuditoriumId { get; set; }
 
         public TimeSpan StartTime { get; set; }
 
@@ -37,5 +36,7 @@ namespace Theater_Admin.Models.EFModels
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Order> Orders { get; set; }
+
+        public virtual ShowDate ShowDate { get; set; }
     }
 }

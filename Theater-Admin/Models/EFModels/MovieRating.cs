@@ -16,7 +16,7 @@ namespace Theater_Admin.Models.EFModels
 
         public int OrderId { get; set; }
 
-        public int Rating { get; set; }
+        public int? Rating { get; set; }
 
         public virtual Member Member { get; set; }
 

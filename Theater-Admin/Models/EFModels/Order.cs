@@ -17,11 +17,17 @@ namespace Theater_Admin.Models.EFModels
 
         public int Id { get; set; }
 
+        public int MovieId { get; set; }
+
         public int MemberId { get; set; }
 
-        public int ShowtimeId { get; set; }
+        public int ShowTimeId { get; set; }
+
+        public int ShowDateId { get; set; }
 
         public DateTime OrderDate { get; set; }
+
+        public int TotalTicketCount { get; set; }
 
         public decimal TotalAmount { get; set; }
 
@@ -38,9 +44,13 @@ namespace Theater_Admin.Models.EFModels
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovieRating> MovieRatings { get; set; }
 
+        public virtual Movie Movy { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
 
-        public virtual Showtime Showtime { get; set; }
+        public virtual ShowDate ShowDate { get; set; }
+
+        public virtual ShowTime ShowTime { get; set; }
     }
 }

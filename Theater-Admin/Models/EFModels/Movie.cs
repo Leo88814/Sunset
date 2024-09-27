@@ -13,7 +13,8 @@ namespace Theater_Admin.Models.EFModels
         {
             MovieRatings = new HashSet<MovieRating>();
             MovieReleaseSchedules = new HashSet<MovieReleaseSchedule>();
-            Showtimes = new HashSet<Showtime>();
+            Orders = new HashSet<Order>();
+            ShowTimes = new HashSet<ShowTime>();
         }
 
         public int Id { get; set; }
@@ -69,6 +70,8 @@ namespace Theater_Admin.Models.EFModels
         [StringLength(100)]
         public string MainPicture { get; set; }
 
+        public decimal? TotalRating { get; set; }
+
         public virtual MovieGenre MovieGenre { get; set; }
 
         public virtual MovieImage MovieImage { get; set; }
@@ -80,6 +83,9 @@ namespace Theater_Admin.Models.EFModels
         public virtual ICollection<MovieReleaseSchedule> MovieReleaseSchedules { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Showtime> Showtimes { get; set; }
+        public virtual ICollection<Order> Orders { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<ShowTime> ShowTimes { get; set; }
     }
 }

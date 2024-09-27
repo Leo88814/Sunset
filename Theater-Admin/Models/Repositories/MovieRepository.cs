@@ -43,8 +43,9 @@ namespace Theater_Admin.Models.Repositories
         {
             _db.Movies.Add(new Movie
             {
-                MovieImageId = dto.MovieImageId,
+                Id = dto.Id,
                 GenreId = dto.GenreId,
+                MovieImageId = dto.MovieImageId,
                 MovieName = dto.MovieName,
                 EnglishName = dto.EnglishName,
                 Grading = dto.Grading,
@@ -57,7 +58,8 @@ namespace Theater_Admin.Models.Repositories
                 MovieLanguage = dto.MovieLanguage,
                 Duration = dto.Duration,
                 Distributor = dto.Distributor,
-                MainPicture = dto.MainPicture
+                MainPicture = dto.MainPicture,
+                TotalRating = dto.TotalRating,
             });
 
             _db.SaveChanges();
@@ -72,8 +74,9 @@ namespace Theater_Admin.Models.Repositories
 
             return new MovieDto
             {
-                MovieImageId = movie.MovieImageId,
+                Id = movie.Id,
                 GenreId = movie.GenreId,
+                MovieImageId = movie.MovieImageId,
                 MovieName = movie.MovieName,
                 EnglishName = movie.EnglishName,
                 Grading = movie.Grading,
@@ -86,7 +89,8 @@ namespace Theater_Admin.Models.Repositories
                 MovieLanguage = movie.MovieLanguage,
                 Duration = movie.Duration,
                 Distributor = movie.Distributor,
-                MainPicture = movie.MainPicture
+                MainPicture = movie.MainPicture,
+                TotalRating = movie.TotalRating,
             };
         }
 
@@ -119,7 +123,8 @@ namespace Theater_Admin.Models.Repositories
             MovieLanguage = m.MovieLanguage,
             Duration = m.Duration,
             Distributor = m.Distributor,
-            MainPicture = m.MainPicture
+            MainPicture = m.MainPicture,
+            TotalRating = m.TotalRating,
         })
         .ToList();
         }

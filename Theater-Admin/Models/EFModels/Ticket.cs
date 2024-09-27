@@ -6,31 +6,23 @@ namespace Theater_Admin.Models.EFModels
     using System.ComponentModel.DataAnnotations.Schema;
     using System.Data.Entity.Spatial;
 
-    public partial class Cinema
+    public partial class Ticket
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Cinema()
+        public Ticket()
         {
-            Auditoriums = new HashSet<Auditorium>();
+            OrderDetails = new HashSet<OrderDetail>();
         }
 
         public int Id { get; set; }
 
         [Required]
-        [StringLength(100)]
-        public string CinemasName { get; set; }
+        [StringLength(20)]
+        public string TicketType { get; set; }
 
-        [Required]
-        [StringLength(255)]
-        public string Location { get; set; }
-
-        [Column(TypeName = "text")]
-        public string Description { get; set; }
-
-        [StringLength(100)]
-        public string CinermasPicture { get; set; }
+        public decimal TicketPrice { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Auditorium> Auditoriums { get; set; }
+        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
     }
 }

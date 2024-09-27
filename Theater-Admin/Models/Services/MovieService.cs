@@ -52,9 +52,8 @@ namespace Theater_Admin.Models.Services
 
             //看起來很怪
             movieInDb.Id = dto.Id;
-            movieInDb.MovieName = dto.MovieName;
             movieInDb.GenreId = dto.GenreId;
-            movieInDb.MovieLanguage = dto.MovieLanguage;
+            movieInDb.MovieImageId = dto.MovieImageId;
             movieInDb.MovieName = dto.MovieName;
             movieInDb.EnglishName = dto.EnglishName;
             movieInDb.Grading = dto.Grading;
@@ -63,8 +62,12 @@ namespace Theater_Admin.Models.Services
             movieInDb.PremiereDate = dto.PremiereDate;
             movieInDb.OnAir = dto.OnAir;
             movieInDb.Director = dto.Director;
-            movieInDb.MainPicture = dto.MainPicture;
+            movieInDb.MovieCast = dto.MovieCast;
+            movieInDb.MovieLanguage = dto.MovieLanguage;
+            movieInDb.Duration = dto.Duration;
             movieInDb.Distributor = dto.Distributor;
+            movieInDb.MainPicture = dto.MainPicture;
+            movieInDb.TotalRating = dto.TotalRating;
 
             _repository.UpdateMovie(movieInDb);
         }

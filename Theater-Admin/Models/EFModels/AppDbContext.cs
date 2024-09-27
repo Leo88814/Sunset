@@ -24,7 +24,9 @@ namespace Theater_Admin.Models.EFModels
         public virtual DbSet<OrderDetail> OrderDetails { get; set; }
         public virtual DbSet<Order> Orders { get; set; }
         public virtual DbSet<Seat> Seats { get; set; }
-        public virtual DbSet<Showtime> Showtimes { get; set; }
+        public virtual DbSet<ShowDate> ShowDates { get; set; }
+        public virtual DbSet<ShowTime> ShowTimes { get; set; }
+        public virtual DbSet<Ticket> Tickets { get; set; }
         public virtual DbSet<Topup> Topups { get; set; }
         public virtual DbSet<TransactionHistory> TransactionHistories { get; set; }
         public virtual DbSet<User> Users { get; set; }
@@ -45,12 +47,17 @@ namespace Theater_Admin.Models.EFModels
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Auditorium>()
+                .HasMany(e => e.OrderDetails)
+                .WithRequired(e => e.Auditorium)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Auditorium>()
                 .HasMany(e => e.Seats)
                 .WithRequired(e => e.Auditorium)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Auditorium>()
-                .HasMany(e => e.Showtimes)
+                .HasMany(e => e.ShowTimes)
                 .WithRequired(e => e.Auditorium)
                 .WillCascadeOnDelete(false);
 
@@ -64,6 +71,10 @@ namespace Theater_Admin.Models.EFModels
 
             modelBuilder.Entity<Cinema>()
                 .Property(e => e.Description)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Cinema>()
+                .Property(e => e.CinermasPicture)
                 .IsUnicode(false);
 
             modelBuilder.Entity<Cinema>()
@@ -195,6 +206,10 @@ namespace Theater_Admin.Models.EFModels
                 .IsUnicode(false);
 
             modelBuilder.Entity<Movie>()
+                .Property(e => e.TotalRating)
+                .HasPrecision(2, 1);
+
+            modelBuilder.Entity<Movie>()
                 .HasMany(e => e.MovieRatings)
                 .WithRequired(e => e.Movy)
                 .HasForeignKey(e => e.MovieId)
@@ -207,18 +222,16 @@ namespace Theater_Admin.Models.EFModels
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Movie>()
-                .HasMany(e => e.Showtimes)
+                .HasMany(e => e.Orders)
                 .WithRequired(e => e.Movy)
                 .HasForeignKey(e => e.MovieId)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<OrderDetail>()
-                .Property(e => e.TicketType)
-                .IsUnicode(false);
-
-            modelBuilder.Entity<OrderDetail>()
-                .Property(e => e.TicketPrice)
-                .HasPrecision(10, 0);
+            modelBuilder.Entity<Movie>()
+                .HasMany(e => e.ShowTimes)
+                .WithRequired(e => e.Movy)
+                .HasForeignKey(e => e.MovieId)
+                .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<OrderDetail>()
                 .Property(e => e.TicketNumber)
@@ -259,14 +272,37 @@ namespace Theater_Admin.Models.EFModels
                 .WithRequired(e => e.Seat)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Showtime>()
-                .HasMany(e => e.MovieReleaseSchedules)
-                .WithRequired(e => e.Showtime)
+            modelBuilder.Entity<ShowDate>()
+                .HasMany(e => e.Orders)
+                .WithRequired(e => e.ShowDate)
                 .WillCascadeOnDelete(false);
 
-            modelBuilder.Entity<Showtime>()
+            modelBuilder.Entity<ShowDate>()
+                .HasMany(e => e.ShowTimes)
+                .WithRequired(e => e.ShowDate)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ShowTime>()
+                .HasMany(e => e.MovieReleaseSchedules)
+                .WithRequired(e => e.ShowTime)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<ShowTime>()
                 .HasMany(e => e.Orders)
-                .WithRequired(e => e.Showtime)
+                .WithRequired(e => e.ShowTime)
+                .WillCascadeOnDelete(false);
+
+            modelBuilder.Entity<Ticket>()
+                .Property(e => e.TicketType)
+                .IsUnicode(false);
+
+            modelBuilder.Entity<Ticket>()
+                .Property(e => e.TicketPrice)
+                .HasPrecision(10, 0);
+
+            modelBuilder.Entity<Ticket>()
+                .HasMany(e => e.OrderDetails)
+                .WithRequired(e => e.Ticket)
                 .WillCascadeOnDelete(false);
 
             modelBuilder.Entity<Topup>()

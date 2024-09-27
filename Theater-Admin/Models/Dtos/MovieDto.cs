@@ -23,5 +23,6 @@ namespace Theater_Admin.Models.Dtos
         public string Duration { get; set; }
         public string Distributor { get; set; }
         public string MainPicture { get; set; }
+        public decimal? TotalRating { get; set; }
     }
 }

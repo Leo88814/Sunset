@@ -16,13 +16,10 @@ namespace Theater_Admin.Models.EFModels
 
         public int ShowtimeId { get; set; }
 
-        [Column(TypeName = "date")]
-        public DateTime ReleaseDate { get; set; }
-
         public virtual Auditorium Auditorium { get; set; }
 
         public virtual Movie Movy { get; set; }
 
-        public virtual Showtime Showtime { get; set; }
+        public virtual ShowTime ShowTime { get; set; }
     }
 }
