@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>儲值資訊-交易紀錄</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/header.css" />
+    <link rel="stylesheet" href="CSS/styles2.css" />
+    <style>
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      table th,
+      table td {
+        border: 1px solid #000;
+        padding: 10px;
+        text-align: center;
+      }
+
+      table th {
+        background-color: #0a7380;
+        color: white;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #e7e7e7;
+      }
+
+      .back-button-container {
+        text-align: right;
+      }
+
+      .back-button {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        display: inline-block;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 18px;
+        cursor: pointer;
+      }
+
+      .cancel-button {
+        background-color: red;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="page-container">
+      <header-component></header-component>
+
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb"><a href="Main.html">首頁</a></li>
+            <li class="breadcrumb">會員專區</li>
+            <li class="breadcrumb">交易紀錄</li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="container">
+        <h2>交易紀錄</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>訂單編號</th>
+              <th>時間</th>
+              <th>場次</th>
+              <th>電影</th>
+              <th>票卷</th>
+              <th>合計</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="order in orders" :key="order.id">
+              <td>{{ order.orderNumber }}</td>
+              <td>{{ order.time }}</td>
+              <td>{{ order.session }}</td>
+              <td>{{ order.movie }}</td>
+              <td>{{ order.ticket }}</td>
+              <td>{{ order.total }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <footer-component></footer-component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="js/header-component.js"></script>
+    <script src="js/footer-component.js"></script>
+    <script>
+      const { ref, createApp } = Vue;
+      const app = Vue.createApp({
+        components: {
+          "header-component": HeaderComponent,
+          "footer-component": FooterComponent,
+        },
+        setup() {
+          const orders = ref([
+            {
+              id: 1,
+              orderNumber: "0020240828002",
+              time: "2024-08-28 20:00",
+              session: "-",
+              movie: "-",
+              ticket: "-",
+              total: "NT$1000",
+            },
+            {
+              id: 2,
+              orderNumber: "0120240828001",
+              time: "2024-08-28 09:00",
+              session: "2024-08-28 10:00 A廳",
+              movie: "驚然回首 (普)",
+              ticket: "全票:2張",
+              total: "NT$460",
+            },
+            {
+              id: 3,
+              orderNumber: "0120240824002",
+              time: "2024-08-24 09:00",
+              session: "2024-08-24 10:00 A廳",
+              movie: "霍爾的移動城堡 (普)",
+              ticket: "全票:1張 優待票:1張",
+              total: "NT$430",
+            },
+            {
+              id: 4,
+              orderNumber: "0020240824001",
+              time: "2024-08-24 08:00",
+              session: "-",
+              movie: "-",
+              ticket: "-",
+              total: "NT$2000",
+            },
+          ]);
+          return {
+            orders,
+          };
+        },
+      });
+      app.mount("#app");
+    </script>
+  </body>
+</html>
