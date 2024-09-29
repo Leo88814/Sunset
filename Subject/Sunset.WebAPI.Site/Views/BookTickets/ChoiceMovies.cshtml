@@ -1,0 +1,119 @@
+﻿
+@{
+    ViewBag.Title = "線上訂票-選擇電影";
+}
+<head>
+    <title>線上訂票-選擇電影</title>
+    <link rel="stylesheet" href="~/CSS/styles.css" />
+    <style>
+        .card {
+            width: 200px;
+            height: auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin: 10px;
+            overflow: visible; /* 確保按鈕顯示 */
+        }
+
+            .card img {
+                width: 80%;
+                height: auto;
+                height: 220px; /* 限制圖片高度，確保按鈕有空間 */
+                object-fit: cover;
+                margin-bottom: 10px;
+            }
+
+            .card .text-center {
+                margin-top: auto; /* 把按鈕區域推到卡片底部 */
+            }
+
+        .btn {
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div id="app" class="page-container">
+        <div class="login-section container">
+            <div class="containerbreadcrumb">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb ms-3">
+                        <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                        <li class="breadcrumb">線上訂票</li>
+                        <li class="breadcrumb">選擇電影</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <h2 class="text ms-3">線上訂票步驟</h2>
+
+            <div class="container">
+                <div class="step-bar">
+                    <div class="step-item fw-bolder">1.選擇電影</div>
+                    <div class="step-item">2.場次選擇</div>
+                    <div class="step-item">3.確認訂單</div>
+                    <div class="step-item">4.訂單完成</div>
+                </div>
+
+                <div class="col d-flex flex-wrap mt-4"
+                     style="justify-content: space-around">
+                    <div class="card border-0 text-center"
+                         v-for="c in cards"
+                         :key="c.id">
+                        <img :src="c.mainPicture" :alt="c.movieName" />
+                        <div class="text-center fw-bolder mt-1">{{ c.movieName }}</div>
+                        <div class="text-center">
+                            <a :href="`@Url.Action("ChoiceDates", "BookTickets")/${c.id}`" class="btn btn-dark">立即購票</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+      
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="~/js/header-component.js"></script>
+    <script src="~/js/footer-component.js"></script>
+    <script>
+
+        const { createApp, ref, onMounted } = Vue;
+
+      const config = {
+        components: {
+          "header-component": HeaderComponent,
+          "footer-component": FooterComponent,
+        },
+        setup() {
+            const url = "/api/BookTicketsApi/"
+            const cards = ref([]);
+
+            onMounted(async () => {
+                fetch(url)
+                    .then(response => {
+                        return response.json();
+                    })
+                    .then(data => {
+                        cards.value = data;
+                    })
+                    .catch(error => {
+                        console.error("Error:", error);
+                    });
+            });
+
+            return { cards };
+        },
+      };
+
+      const app = createApp(config);
+      app.mount("#app");
+    </script>
+</body>
+
+
+

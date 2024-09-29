@@ -1,0 +1,178 @@
+﻿
+@{
+    ViewBag.Title = "線上訂票-選擇日期";
+}
+
+<head>
+    <title>線上訂票-選擇日期</title>
+    <link rel="stylesheet" href="~/CSS/styles.css" />
+</head>
+<body>
+    <div id="app" class="page-container">
+        <div class="login-section container">
+            <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+                <ol class="breadcrumb ms-3">
+                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb">線上訂票</li>
+                    <li class="breadcrumb"><a href="Booking-ChoiceMovies.html">選擇電影</a></li>
+                    <li class="breadcrumb">選擇日期</li>
+                </ol>
+            </nav>
+
+            <h2 class="text ms-3">線上訂票步驟</h2>
+
+            <div class="container mt-3">
+                <div class="step-bar">
+                    <div class="step-item">1.選擇電影</div>
+                    <div class="step-item fw-bolder">2.場次選擇</div>
+                    <div class="step-item">3.確認訂單</div>
+                    <div class="step-item">4.訂單完成</div>
+                </div>
+
+                <div class="row">
+                    <!-- 顯示電影圖片和名稱，只顯示一次 -->
+                    <div class="col-md-3 col-sm-6">
+                        <img class="img-fluid" :src="mainPicture" />
+                        <p class="text-center fw-bolder mt-2">
+                            {{ movieName }}
+                        </p>
+                    </div>
+
+                    <div class="col-md-9 col-sm-6">
+                        <h5 class="fw-bolder">選擇日期</h5>
+                        <p v-if="errorDateMessage" class="text-danger">{{ errorDateMessage }}</p>
+
+
+                        <div class="d-flex">
+                            <div class="date" v-for="day in dates" :key="day.dateId">
+                                <button class="btn m-2"
+                                        :class="{'btn-primary': selectedDate === day, 'btn-outline-primary': selectedDate !== day}"
+                                        v-on:click="selectDate(day.dateId)"
+                                        data-bs-toggle="button">
+                                    {{ day.ShowtimeDate }}
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="col mt-5" v-show="choiceTime && selectedDate">
+                            <h5 class="fw-bolder">選擇時間</h5>
+                            <p v-if="errorTimeMessage" class="text-danger">{{ errorTimeMessage }}</p>
+                            <div class="d-flex">
+                                <div class="time" v-for="t in dates" :key="t.timeId">
+                                    <button class="btn m-2"
+                                            :class="{'btn-primary': selectedTime === t, 'btn-outline-primary': selectedTime !== t}"
+                                            v-on:click="selectTime(t.timeId)">
+                                        {{ t.StartTime }}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="text-end">
+                    <a :href="`@Url.Action("ChoiceMovies", "BookTickets")`" class="btn btn-outline-danger">
+                        上一頁
+                    </a>
+                    <a :href="`@Url.Action("ChoiceSeats", "BookTickets")`" v-on:click="CheckDateAndTime" class="btn btn-outline-primary ms-2">
+                        下一頁
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+            crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="~/js/header-component.js"></script>
+    <script src="~/js/footer-component.js"></script>
+    <script>
+      const { createApp, ref, onMounted } = Vue;
+
+        const config = {
+            components: {
+                "header-component": HeaderComponent,
+                "footer-component": FooterComponent,
+            },
+            setup() {
+                const movieName = ref(null);
+                const mainPicture = ref(null);
+                const dates = ref([]);
+                const times = ref([]);
+                const id = @Html.Raw(ViewBag.DateId);
+                console.log("id", `${id}`);
+                const selectedDate = ref(null); // 儲存目前選擇的日期
+                const selectedTime = ref(null); // 儲存目前選擇的時間
+                const choiceTime = ref(false); // 控制是否顯示選擇時間
+                const errorDateMessage = ref(""); // 儲存日期錯誤訊息
+                const errorTimeMessage = ref(""); // 儲存時間錯誤訊息
+
+
+                const selectDate = (dateid) => {
+                    selectedDate.value = dateid;
+                    choiceTime.value = true;
+                    selectedTime.value = null;
+                    errorDateMessage.value = ""; // 清除日期錯誤訊息
+                };
+
+                const selectTime = (timeid) => {
+                    selectedTime.value = timeid;
+                    errorTimeMessage.value = ""; // 清除時間錯誤訊息
+                };
+
+                const CheckDateAndTime = () => {
+                    if (!selectedDate.value) {
+                        errorDateMessage.value = "請選擇日期";
+                        return;
+                    }
+                    if (!selectedTime.value) {
+                        errorTimeMessage.value = "請選擇時間";
+                        return;
+                    }
+                };
+               
+                onMounted(async (id) => {
+                    try {
+                        const response = await fetch(`/api/BookTickets/ChoiceDates/${id}`, {
+                            method: 'GET',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            }
+                            
+                        }); console.log("response", response);
+                        if (!response.ok) {
+                            console.log("response.ok", response.ok);
+                            throw new Error(`HTTP error! status: ${response.status}`);
+                        }
+                        const data = await response.json();
+                        movieName.value = data.MovieName;
+                        mainPicture.value = data.MainPicture;
+                        dates.value = data;
+
+                    } catch (error) {
+                        console.error("Error:", error);
+                    }
+                });
+
+
+                return {
+                    movieName,
+                    mainPicture,
+                    dates,
+                    selectDate,
+                    selectTime,
+                    choiceTime,
+                    selectedDate,
+                    selectedTime,
+                    CheckDateAndTime,
+                    errorDateMessage,
+                    errorTimeMessage,
+                };
+            }
+        };
+
+      const app = createApp(config);
+      app.mount("#app");
+    </script>
+</body>
