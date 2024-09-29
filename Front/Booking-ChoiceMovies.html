@@ -16,76 +16,72 @@
     <link rel="stylesheet" href="CSS/styles2.css" />
     <style>
       .card {
-        width: 200px;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
-        margin: 10px;
-        overflow: visible; /* 確保按鈕顯示 */
-      }
+  width: 200px;
+  height: auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  margin: 10px;
+  overflow: visible; /* 確保按鈕顯示 */
+}
 
-      .card img {
-        width: 80%;
-        height: auto;
-        max-height: 220px; /* 限制圖片高度，確保按鈕有空間 */
-        object-fit: cover;
-        margin-bottom: 10px;
-      }
+.card img {
+  width: 80%;
+  height: auto;
+  max-height: 220px; /* 限制圖片高度，確保按鈕有空間 */
+  object-fit: cover;
+  margin-bottom: 10px;
+}
 
-      .card .text-center {
-        margin-top: auto; /* 把按鈕區域推到卡片底部 */
-      }
+.card .text-center {
+  margin-top: auto; /* 把按鈕區域推到卡片底部 */
+}
 
-      .btn {
-        margin-top: 5px;
-      }
+.btn {
+  margin-top: 5px;
+}
+
+
     </style>
   </head>
   <body>
     <div id="app" class="page-container">
-      <header-component></header-component>
+        <header-component></header-component>
 
-      <div class="login-section container">
-        <div class="containerbreadcrumb">
-          <nav aria-label="breadcrumb">
-            <ol class="breadcrumb ms-3">
-              <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
-              <li class="breadcrumb">線上訂票</li>
-              <li class="breadcrumb">選擇電影</li>
-            </ol>
-          </nav>
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+            <li class="breadcrumb">線上訂票</li>
+            <li class="breadcrumb">選擇電影</li>
+          </ol>
+        </nav>
+      </div>
+
+      <section class="login-section container">
+        <h2 class="text">線上訂票步驟</h2>
+        <div class="step-bar">
+          <div class="step-item fw-bolder">1.選擇電影</div>
+          <div class="step-item">2.場次選擇</div>
+          <div class="step-item">3.確認訂單</div>
+          <div class="step-item">4.訂單完成</div>
         </div>
 
-        <h2 class="text ms-3">線上訂票步驟</h2>
-
         <div class="container">
-          <div class="step-bar">
-            <div class="step-item fw-bolder">1.選擇電影</div>
-            <div class="step-item">2.場次選擇</div>
-            <div class="step-item">3.確認訂單</div>
-            <div class="step-item">4.訂單完成</div>
-          </div>
-
-          <div
-            class="col d-flex flex-wrap mt-4"
-            style="justify-content: space-around"
-          >
-            <div
-              class="card border-0 text-center"
-              v-for="c in cards"
-              :key="c.id"
-            >
+          <div class="col d-flex flex-wrap" style="justify-content: space-around">
+            <div class="card border-0 text-center" v-for="c in cards" :key="c.id">
+              <p class="text-center fw-bolder mt-1">{{ c.name }}</p>
               <img :src="c.image" :alt="c.name" />
-              <div class="text-center fw-bolder mt-1">{{ c.name }}</div>
               <div class="text-center">
                 <a @click="bookMovie(c)" class="btn btn-primary">立即購票</a>
               </div>
             </div>
           </div>
         </div>
-      </div>
+        
+        
+      </section>
       <footer-component></footer-component>
     </div>
 
@@ -98,9 +94,10 @@
     <script src="js/header-component.js"></script>
     <script src="js/footer-component.js"></script>
     <script>
-      const { createApp, ref } = Vue;
+      const { createApp, ref, } = Vue;
 
       // 定義 HeaderComponent
+    
 
       const config = {
         components: {
