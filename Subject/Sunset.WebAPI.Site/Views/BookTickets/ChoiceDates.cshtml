@@ -21,16 +21,15 @@
 
             <h2 class="text ms-3">線上訂票步驟</h2>
 
-            <div class="container mt-3">
+            <div class="container mt-3 col-12">
                 <div class="step-bar">
-                    <div class="step-item">1.選擇電影</div>
-                    <div class="step-item fw-bolder">2.場次選擇</div>
-                    <div class="step-item">3.確認訂單</div>
-                    <div class="step-item">4.訂單完成</div>
+                    <div class="step-item col-3">1.選擇電影</div>
+                    <div class="step-item fw-bolder col-3">2.場次選擇</div>
+                    <div class="step-item col-3">3.確認訂單</div>
+                    <div class="step-item col-3">4.訂單完成</div>
                 </div>
 
                 <div class="row">
-                    <!-- 顯示電影圖片和名稱，只顯示一次 -->
                     <div class="col-md-3 col-sm-6">
                         <img class="img-fluid mt-3" :src="imagePath" :alt="movieName"/>
                         <p class="text-center fw-bolder mt-2">
@@ -47,7 +46,7 @@
                                 <button class="btn m-2"
                                         :class="{'btn-primary': selectedDate === day.dateId, 'btn-outline-primary': selectedDate !== day.dateId}"
                                         v-on:click="selectDate(day.dateId)">
-                                    {{ formatDate(day.showtimeDateString) }}
+                                    {{ day.showtimeDateString }}
                                 </button>
                             </div>
                         </div>
@@ -132,10 +131,6 @@
                     return selectedDateObj ? selectedDateObj.times : [];
                 });
 
-                const formatDate = (dateString) => {
-                    return new Date(dateString).toLocaleDateString('zh-TW');
-                };
-
                 const selectDate = (dateId) => {
                     selectedDate.value = dateId;
                     choiceTime.value = true;
@@ -165,6 +160,7 @@
                     }
                     return true;
                 };
+              
 
                 return {
                     imagePath,
@@ -180,7 +176,6 @@
                     errorDateMessage,
                     errorTimeMessage,
                     selectedDateTimes,
-                    formatDate,
                     handleNextPage,
                 };
             }
