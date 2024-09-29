@@ -27,11 +27,17 @@ namespace Sunset.WebAPI.Site.Models.Services
 
 		public List<ChoiceDatesDto> GetDateInfo(int id)
 		{
-			var path = "../images/";
-			var indexMovieDate = _repo.GetMovieDate(id);
-			indexMovieDate.MatchPath(path);
+			var path = "~/images/";
+			var MovieDate = _repo.GetMovieDate(id);
+			MovieDate.MatchPath(path);
 
-			return indexMovieDate;
+			return MovieDate;
+		}
+
+		internal object GetSeatInfo(int id)
+		{
+			var MovieSeats = _repo.GetMovieSeat(id);
+			return MovieSeats;
 		}
 	}
 }

@@ -23,7 +23,7 @@ namespace Sunset.WebAPI.Site.Controllers
 		public ActionResult ChoiceSeats(int id)
 		{
 
-			ViewBag.Id = id;
+			ViewBag.SeatId = id;
 			return View();
 		}
 	}

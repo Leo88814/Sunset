@@ -68,5 +68,11 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 
 			return allDate;
 		}
+
+		public List<ChoiceSeatsDto> GetMovieSeat(int id)
+		{
+			return null;
+
+		}
 	}
 }

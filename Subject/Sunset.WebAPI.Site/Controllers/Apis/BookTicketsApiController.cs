@@ -12,7 +12,7 @@ using System.Web.Http;
 
 namespace Sunset.WebAPI.Site.Controllers.Apis
 {
-	[RoutePrefix("api/BookTicketsApi")]
+	
 	public class BookTicketsApiController : ApiController
 	{
 		private readonly BookTicketsService _service;
@@ -21,7 +21,8 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
         {
 			_service = new BookTicketsService();
 		}
-        public IHttpActionResult GetMovie()
+		
+		public IHttpActionResult GetMovie()
 		{
 			var allMovie = _service.GetAllMovieInfo();
 
@@ -29,7 +30,7 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 		}
 
 		[HttpGet]
-		[Route("ChoiceDates/{id}")]
+		[Route("api/BookTicketsApi/ChoiceDates/{id}")]
 		public IHttpActionResult GetDate(int id)
 		{
 
@@ -43,17 +44,17 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 			return Ok(allDate);
 		}
 
-		//[HttpGet]
-		//[Route("MovieReleaseSchedule/{id}")]
-		//public IHttpActionResult GetSeat(int id)
-		//{
-		//	var allSeat = _service.GetSeatInfo(id);
+		[HttpGet]
+		[Route("ChoiceDates/{id}")]
+		public IHttpActionResult GetSeat(int id)
+		{
+			var allSeat = _service.GetSeatInfo(id);
 
-		//	if (allSeat == null)
-		//	{
-		//		return NotFound();
-		//	}
-		//	return Ok(allSeat);
-		//}
+			if (allSeat == null)
+			{
+				return NotFound();
+			}
+			return Ok(allSeat);
+		}
 	}
 }
