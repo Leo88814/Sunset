@@ -1,9 +1,12 @@
 *{
     font-family: Arial, Helvetica, sans-serif;
 }
-.text{
-    color: white;
+
+
+.text {
+    color: #007bff;
 }
+
 .step-bar {
     display: flex;
     justify-content: space-between;
