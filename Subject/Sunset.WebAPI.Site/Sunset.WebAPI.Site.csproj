@@ -195,6 +195,7 @@
     <Compile Include="Models\Exts\ChoiceDatesDto_Ext.cs" />
     <Compile Include="Models\Exts\ChoiceMoviesDto_Ext.cs" />
     <Compile Include="Models\Repositories\BookTicketsRepository.cs" />
+    <Compile Include="Models\Repositories\MembersRepository.cs" />
     <Compile Include="Models\Services\BookTicketsService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

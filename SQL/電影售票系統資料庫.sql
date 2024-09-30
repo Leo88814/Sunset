@@ -1,6 +1,6 @@
 USE [master]
 GO
-/****** Object:  Database [BookMovie]    Script Date: 2024/9/27 下午 05:01:06 ******/
+/****** Object:  Database [BookMovie]    Script Date: 2024/9/30 上午 11:18:57 ******/
 CREATE DATABASE [BookMovie]
  CONTAINMENT = NONE
  ON  PRIMARY 
@@ -84,12 +84,12 @@ ALTER DATABASE [BookMovie] SET QUERY_STORE (OPERATION_MODE = READ_WRITE, CLEANUP
 GO
 USE [BookMovie]
 GO
-/****** Object:  User [sa5]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  User [sa5]    Script Date: 2024/9/30 上午 11:18:57 ******/
 CREATE USER [sa5] FOR LOGIN [sa5] WITH DEFAULT_SCHEMA=[dbo]
 GO
 ALTER ROLE [db_owner] ADD MEMBER [sa5]
 GO
-/****** Object:  Table [dbo].[Auditoriums]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[Auditoriums]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -106,7 +106,7 @@ CREATE TABLE [dbo].[Auditoriums](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Cinemas]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[Cinemas]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -123,7 +123,7 @@ CREATE TABLE [dbo].[Cinemas](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[CustomerService]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[CustomerService]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -138,7 +138,7 @@ CREATE TABLE [dbo].[CustomerService](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Members]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[Members]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -162,7 +162,7 @@ CREATE TABLE [dbo].[Members](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieGenres]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[MovieGenres]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -176,7 +176,7 @@ CREATE TABLE [dbo].[MovieGenres](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieImages]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[MovieImages]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -191,7 +191,7 @@ CREATE TABLE [dbo].[MovieImages](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieInfos]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[MovieInfos]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -219,7 +219,7 @@ CREATE TABLE [dbo].[MovieInfos](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY] TEXTIMAGE_ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieRatings]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[MovieRatings]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -236,7 +236,7 @@ CREATE TABLE [dbo].[MovieRatings](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[MovieReleaseSchedules]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[MovieReleaseSchedules]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -253,14 +253,13 @@ CREATE TABLE [dbo].[MovieReleaseSchedules](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[OrderDetails]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[OrderDetails]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[OrderDetails](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[AuditoriumId] [int] NOT NULL,
 	[TicketId] [int] NOT NULL,
 	[OrderId] [int] NOT NULL,
 	[SeatId] [int] NOT NULL,
@@ -271,17 +270,15 @@ CREATE TABLE [dbo].[OrderDetails](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Orders]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[Orders]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Orders](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[MovieInfoId] [int] NOT NULL,
+	[MovieReleaseScheduleId] [int] NOT NULL,
 	[MemberId] [int] NOT NULL,
-	[ShowTimeId] [int] NOT NULL,
-	[ShowDateId] [int] NOT NULL,
 	[OrderDate] [datetime] NOT NULL,
 	[TotalTicketCount] [int] NOT NULL,
 	[TotalAmount] [decimal](10, 0) NOT NULL,
@@ -293,23 +290,22 @@ CREATE TABLE [dbo].[Orders](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Seats]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[Seats]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
 GO
 CREATE TABLE [dbo].[Seats](
 	[Id] [int] IDENTITY(1,1) NOT NULL,
-	[AuditoriumId] [int] NOT NULL,
 	[SeatNumber] [varchar](10) NOT NULL,
-	[SeatStatus] [varchar](20) NOT NULL,
+	[SeatStatus] [bit] NOT NULL,
  CONSTRAINT [PK_Seats] PRIMARY KEY CLUSTERED 
 (
 	[Id] ASC
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShowDates]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[ShowDates]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -323,7 +319,7 @@ CREATE TABLE [dbo].[ShowDates](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[ShowTimes]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[ShowTimes]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -341,7 +337,7 @@ CREATE TABLE [dbo].[ShowTimes](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Tickets]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[Tickets]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -356,7 +352,7 @@ CREATE TABLE [dbo].[Tickets](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Topups]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[Topups]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -373,7 +369,7 @@ CREATE TABLE [dbo].[Topups](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[TransactionHistory]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[TransactionHistory]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -390,7 +386,7 @@ CREATE TABLE [dbo].[TransactionHistory](
 )WITH (PAD_INDEX = OFF, STATISTICS_NORECOMPUTE = OFF, IGNORE_DUP_KEY = OFF, ALLOW_ROW_LOCKS = ON, ALLOW_PAGE_LOCKS = ON, OPTIMIZE_FOR_SEQUENTIAL_KEY = OFF) ON [PRIMARY]
 ) ON [PRIMARY]
 GO
-/****** Object:  Table [dbo].[Users]    Script Date: 2024/9/27 下午 05:01:07 ******/
+/****** Object:  Table [dbo].[Users]    Script Date: 2024/9/30 上午 11:18:57 ******/
 SET ANSI_NULLS ON
 GO
 SET QUOTED_IDENTIFIER ON
@@ -599,93 +595,117 @@ SET IDENTITY_INSERT [dbo].[MovieReleaseSchedules] OFF
 GO
 SET IDENTITY_INSERT [dbo].[OrderDetails] ON 
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (1, 1, 1, 1, 1, N'A001')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (1, 1, 1, 1, N'A001')
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (2, 1, 2, 1, 2, N'B002')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (2, 2, 1, 2, N'B002')
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (3, 1, 2, 1, 3, N'C003')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (3, 2, 1, 3, N'C003')
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (4, 1, 2, 4, 4, N'D004')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (4, 2, 4, 4, N'D004')
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (5, 2, 3, 5, 5, N'E005')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (5, 3, 5, 5, N'E005')
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (6, 2, 3, 6, 6, N'F006')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (6, 3, 6, 6, N'F006')
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (7, 2, 1, 7, 7, N'G007')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (7, 1, 7, 7, N'G007')
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (8, 3, 1, 8, 8, N'H008')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (8, 1, 8, 8, N'H008')
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (9, 3, 2, 9, 9, N'I009')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (9, 2, 9, 9, N'I009')
 GO
-INSERT [dbo].[OrderDetails] ([Id], [AuditoriumId], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (10, 3, 2, 10, 10, N'J010')
+INSERT [dbo].[OrderDetails] ([Id], [TicketId], [OrderId], [SeatId], [TicketNumber]) VALUES (10, 2, 10, 10, N'J010')
 GO
 SET IDENTITY_INSERT [dbo].[OrderDetails] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Orders] ON 
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (1, 1, 1, 1, 1, CAST(N'2023-05-17T10:00:00.000' AS DateTime), 3, CAST(750 AS Decimal(10, 0)), N'已付款', N'A0001')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (1, 1, 1, CAST(N'2023-05-17T10:00:00.000' AS DateTime), 3, CAST(750 AS Decimal(10, 0)), N'已付款', N'A0001')
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (2, 8, 2, 2, 1, CAST(N'2023-06-02T11:00:00.000' AS DateTime), 2, CAST(250 AS Decimal(10, 0)), N'已付款', N'A0002')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (2, 2, 2, CAST(N'2023-06-02T11:00:00.000' AS DateTime), 2, CAST(250 AS Decimal(10, 0)), N'已付款', N'A0002')
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (3, 1, 3, 3, 2, CAST(N'2023-04-05T12:00:00.000' AS DateTime), 2, CAST(200 AS Decimal(10, 0)), N'已付款', N'A0003')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (3, 3, 3, CAST(N'2023-04-05T12:00:00.000' AS DateTime), 2, CAST(200 AS Decimal(10, 0)), N'已付款', N'A0003')
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (4, 2, 4, 4, 2, CAST(N'2023-07-21T13:00:00.000' AS DateTime), 2, CAST(350 AS Decimal(10, 0)), N'已付款', N'A0004')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (4, 4, 4, CAST(N'2023-07-21T13:00:00.000' AS DateTime), 2, CAST(350 AS Decimal(10, 0)), N'已付款', N'A0004')
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (5, 2, 5, 5, 3, CAST(N'2023-07-21T14:00:00.000' AS DateTime), 1, CAST(300 AS Decimal(10, 0)), N'已付款', N'A0005')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (5, 5, 5, CAST(N'2023-07-21T14:00:00.000' AS DateTime), 1, CAST(300 AS Decimal(10, 0)), N'已付款', N'A0005')
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (6, 3, 6, 6, 3, CAST(N'2023-03-24T15:00:00.000' AS DateTime), 5, CAST(250 AS Decimal(10, 0)), N'已付款', N'A0006')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (6, 6, 6, CAST(N'2023-03-24T15:00:00.000' AS DateTime), 5, CAST(250 AS Decimal(10, 0)), N'已付款', N'A0006')
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (7, 4, 7, 7, 4, CAST(N'2023-05-03T16:00:00.000' AS DateTime), 4, CAST(200 AS Decimal(10, 0)), N'已付款', N'A0007')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (7, 7, 7, CAST(N'2023-05-03T16:00:00.000' AS DateTime), 4, CAST(200 AS Decimal(10, 0)), N'已付款', N'A0007')
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (8, 5, 8, 8, 4, CAST(N'2023-06-09T17:00:00.000' AS DateTime), 5, CAST(350 AS Decimal(10, 0)), N'已付款', N'A0008')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (8, 8, 8, CAST(N'2023-06-09T17:00:00.000' AS DateTime), 5, CAST(350 AS Decimal(10, 0)), N'已付款', N'A0008')
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (9, 6, 9, 9, 5, CAST(N'2023-02-17T18:00:00.000' AS DateTime), 3, CAST(300 AS Decimal(10, 0)), N'已付款', N'A0009')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (9, 9, 9, CAST(N'2023-02-17T18:00:00.000' AS DateTime), 3, CAST(300 AS Decimal(10, 0)), N'已付款', N'A0009')
 GO
-INSERT [dbo].[Orders] ([Id], [MovieInfoId], [MemberId], [ShowTimeId], [ShowDateId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (10, 7, 10, 10, 5, CAST(N'2023-03-10T19:00:00.000' AS DateTime), 1, CAST(280 AS Decimal(10, 0)), N'已付款', N'A0010')
+INSERT [dbo].[Orders] ([Id], [MovieReleaseScheduleId], [MemberId], [OrderDate], [TotalTicketCount], [TotalAmount], [PaymentStatus], [OrderNumber]) VALUES (10, 10, 10, CAST(N'2023-03-10T19:00:00.000' AS DateTime), 1, CAST(280 AS Decimal(10, 0)), N'已付款', N'A0010')
 GO
 SET IDENTITY_INSERT [dbo].[Orders] OFF
 GO
 SET IDENTITY_INSERT [dbo].[Seats] ON 
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (1, 1, N'A1', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (1, N'A1', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (2, 1, N'A2', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (2, N'A2', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (3, 1, N'A3', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (3, N'A3', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (4, 1, N'A4', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (4, N'A4', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (5, 1, N'B1', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (5, N'A5', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (6, 1, N'B2', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (6, N'A6', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (7, 1, N'B3', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (7, N'A7', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (8, 1, N'B4', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (8, N'A8', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (9, 2, N'A1', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (9, N'A9', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (10, 2, N'A2', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (10, N'A10', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (11, 2, N'A3', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (11, N'A11', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (12, 2, N'A4', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (12, N'A12', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (13, 2, N'B1', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (13, N'A13', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (14, 2, N'B2', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (14, N'A14', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (15, 2, N'B3', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (15, N'A15', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (16, 2, N'B4', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (16, N'A16', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (17, 3, N'A1', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (17, N'B1', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (18, 3, N'A2', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (18, N'B2', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (19, 3, N'A3', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (19, N'B3', 1)
 GO
-INSERT [dbo].[Seats] ([Id], [AuditoriumId], [SeatNumber], [SeatStatus]) VALUES (20, 3, N'A4', N'可使用')
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (20, N'B4', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (22, N'B5', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (23, N'B6', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (24, N'B7', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (25, N'B8', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (26, N'B9', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (27, N'B10', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (28, N'B11', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (29, N'B12', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (30, N'B13', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (31, N'B14', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (32, N'B15', 1)
+GO
+INSERT [dbo].[Seats] ([Id], [SeatNumber], [SeatStatus]) VALUES (33, N'B16', 1)
 GO
 SET IDENTITY_INSERT [dbo].[Seats] OFF
 GO
@@ -791,8 +811,6 @@ ALTER TABLE [dbo].[Members] ADD  CONSTRAINT [DF_Members_CurrentBalance]  DEFAULT
 GO
 ALTER TABLE [dbo].[Orders] ADD  CONSTRAINT [DF_Orders_PaymentStatus]  DEFAULT ('已付款') FOR [PaymentStatus]
 GO
-ALTER TABLE [dbo].[Seats] ADD  CONSTRAINT [DF_Seats_SeatStatus]  DEFAULT ('可使用') FOR [SeatStatus]
-GO
 ALTER TABLE [dbo].[Auditoriums]  WITH CHECK ADD  CONSTRAINT [FK_Auditoriums_Cinemas] FOREIGN KEY([CinemaId])
 REFERENCES [dbo].[Cinemas] ([Id])
 GO
@@ -843,11 +861,6 @@ REFERENCES [dbo].[ShowTimes] ([Id])
 GO
 ALTER TABLE [dbo].[MovieReleaseSchedules] CHECK CONSTRAINT [FK_MovieReleaseSchedules_ShowTimes]
 GO
-ALTER TABLE [dbo].[OrderDetails]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetails_Auditoriums] FOREIGN KEY([AuditoriumId])
-REFERENCES [dbo].[Auditoriums] ([Id])
-GO
-ALTER TABLE [dbo].[OrderDetails] CHECK CONSTRAINT [FK_OrderDetails_Auditoriums]
-GO
 ALTER TABLE [dbo].[OrderDetails]  WITH CHECK ADD  CONSTRAINT [FK_OrderDetails_Orders] FOREIGN KEY([OrderId])
 REFERENCES [dbo].[Orders] ([Id])
 GO
@@ -868,25 +881,10 @@ REFERENCES [dbo].[Members] ([Id])
 GO
 ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_Members]
 GO
-ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_MovieInfos] FOREIGN KEY([MovieInfoId])
-REFERENCES [dbo].[MovieInfos] ([Id])
+ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_MovieReleaseSchedules] FOREIGN KEY([MovieReleaseScheduleId])
+REFERENCES [dbo].[MovieReleaseSchedules] ([Id])
 GO
-ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_MovieInfos]
-GO
-ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_ShowDates] FOREIGN KEY([ShowDateId])
-REFERENCES [dbo].[ShowDates] ([Id])
-GO
-ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_ShowDates]
-GO
-ALTER TABLE [dbo].[Orders]  WITH CHECK ADD  CONSTRAINT [FK_Orders_ShowTimes] FOREIGN KEY([ShowTimeId])
-REFERENCES [dbo].[ShowTimes] ([Id])
-GO
-ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_ShowTimes]
-GO
-ALTER TABLE [dbo].[Seats]  WITH CHECK ADD  CONSTRAINT [FK_Seats_Auditoriums] FOREIGN KEY([AuditoriumId])
-REFERENCES [dbo].[Auditoriums] ([Id])
-GO
-ALTER TABLE [dbo].[Seats] CHECK CONSTRAINT [FK_Seats_Auditoriums]
+ALTER TABLE [dbo].[Orders] CHECK CONSTRAINT [FK_Orders_MovieReleaseSchedules]
 GO
 ALTER TABLE [dbo].[ShowTimes]  WITH CHECK ADD  CONSTRAINT [FK_Showtimes_Auditoriums] FOREIGN KEY([AuditoriumId])
 REFERENCES [dbo].[Auditoriums] ([Id])

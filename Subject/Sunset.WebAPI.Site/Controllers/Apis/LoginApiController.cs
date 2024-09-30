@@ -16,8 +16,11 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 		{
 			_service = new MemberService();
 		}
-		//public IHttpActionResult Login()
-		//{
-		//}
+		public IHttpActionResult Login()
+		{
+            var memberinfo = _service.GetMemberInfo();
+
+            return Ok(memberinfo);
+        }
 	}
 }
