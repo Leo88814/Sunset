@@ -163,16 +163,25 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Apis\BookTicketsApiController.cs" />
+    <Compile Include="Controllers\Apis\FrontMoviesApiController.cs" />
     <Compile Include="Controllers\Apis\LoginApiController.cs" />
+    <Compile Include="Controllers\Apis\MemberApiController.cs" />
     <Compile Include="Controllers\BookTicketsController.cs" />
+    <Compile Include="Controllers\FrontMoviesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginsController.cs" />
+    <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dtos\ChoiceDatesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceMoviesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceSeatsDto.cs" />
+    <Compile Include="Models\Dtos\MovieBlockbusterDto.cs" />
+    <Compile Include="Models\Dtos\MovieComingSoonDto.cs" />
+    <Compile Include="Models\Dtos\MovieDetailDto.cs" />
+    <Compile Include="Models\Dtos\MovieReleaseScheduleDto.cs" />
+    <Compile Include="Models\Dtos\UserHistoryDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Auditorium.cs" />
     <Compile Include="Models\EFModels\Cinema.cs" />
@@ -197,12 +206,23 @@
     <Compile Include="Models\Exts\ChoiceMoviesDto_Ext.cs" />
     <Compile Include="Models\Repositories\BookTicketsRepository.cs" />
     <Compile Include="Models\Repositories\MembersRepository.cs" />
+    <Compile Include="Models\Repositories\MovieBlockbusterRepository.cs" />
+    <Compile Include="Models\Repositories\MovieComingSoonRepository.cs" />
+    <Compile Include="Models\Repositories\MovieDetailRepository.cs" />
+    <Compile Include="Models\Repositories\UserHistoryRepository.cs" />
     <Compile Include="Models\Services\BookTicketsService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
+    <Compile Include="Models\Services\MovieBlockbusterService.cs" />
+    <Compile Include="Models\Services\MovieComingSoonService.cs" />
+    <Compile Include="Models\Services\MovieDetailService.cs" />
+    <Compile Include="Models\Services\UserHistoryService.cs" />
+    <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Areas\HelpPage\HelpPage.css" />
+    <Content Include="bin\Sunset.WebAPI.Site.dll" />
+    <Content Include="bin\Sunset.WebAPI.Site.pdb" />
     <Content Include="Content\bootstrap-grid.css" />
     <Content Include="Content\bootstrap-grid.min.css" />
     <Content Include="Content\bootstrap-grid.rtl.css" />
@@ -306,6 +326,9 @@
     <Content Include="images\VIP.jpg" />
     <Content Include="js\footer-component.js" />
     <Content Include="js\header-component.js" />
+    <Content Include="obj\Debug\Sunset.WebAPI.Site.csproj.FileListAbsolute.txt" />
+    <Content Include="obj\Debug\Sunset.WebAPI.Site.dll" />
+    <Content Include="obj\Debug\Sunset.WebAPI.Site.pdb" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -331,6 +354,11 @@
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\CollectionModelDescription.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\DisplayTemplates\ApiGroup.cshtml" />
     <Content Include="Areas\HelpPage\Views\Help\Api.cshtml" />
+    <Content Include=".vs\Sunset.WebAPI.Site.csproj.dtbcache.json" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferences.cache" />
+    <Content Include="obj\Debug\DesignTimeResolveAssemblyReferencesInput.cache" />
+    <Content Include="obj\Debug\Sunset.WebAPI.Site.csproj.AssemblyReference.cache" />
+    <Content Include="obj\Debug\Sunset.WebAPI.Site.csproj.CoreCompileInputs.cache" />
     <None Include="Scripts\jquery-3.7.0.intellisense.js" />
     <Content Include="Scripts\jquery-3.7.0.js" />
     <Content Include="Scripts\jquery-3.7.0.min.js" />
@@ -354,9 +382,15 @@
     <Content Include="Views\BookTickets\ChoiceMovies.cshtml" />
     <Content Include="Views\BookTickets\ChoiceDates.cshtml" />
     <Content Include="Views\Logins\Login.cshtml" />
+    <Content Include="Views\FrontMovies\MovieBlockbuster.cshtml" />
+    <Content Include="Views\FrontMovies\MovieComingSoon.cshtml" />
+    <Content Include="Views\FrontMovies\MovieComingSoonDetail.cshtml" />
+    <Content Include="Views\FrontMovies\MovieDetail.cshtml" />
+    <Content Include="Views\Member\UserHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="obj\Debug\TempPE\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\bootstrap.min.js.map" />
