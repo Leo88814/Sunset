@@ -12,7 +12,6 @@ namespace Sunset.WebAPI.Site.Models.EFModels
         public ShowTime()
         {
             MovieReleaseSchedules = new HashSet<MovieReleaseSchedule>();
-            Orders = new HashSet<Order>();
         }
 
         public int Id { get; set; }
@@ -33,9 +32,6 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovieReleaseSchedule> MovieReleaseSchedules { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
 
         public virtual ShowDate ShowDate { get; set; }
     }

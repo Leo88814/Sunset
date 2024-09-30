@@ -15,7 +15,6 @@ namespace Sunset.WebAPI.Site.Models.EFModels
             MovieImages = new HashSet<MovieImage>();
             MovieRatings = new HashSet<MovieRating>();
             MovieReleaseSchedules = new HashSet<MovieReleaseSchedule>();
-            Orders = new HashSet<Order>();
             ShowTimes = new HashSet<ShowTime>();
         }
 
@@ -82,9 +81,6 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovieReleaseSchedule> MovieReleaseSchedules { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Order> Orders { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShowTime> ShowTimes { get; set; }

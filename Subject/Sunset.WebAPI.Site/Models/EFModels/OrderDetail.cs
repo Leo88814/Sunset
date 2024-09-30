@@ -10,8 +10,6 @@ namespace Sunset.WebAPI.Site.Models.EFModels
     {
         public int Id { get; set; }
 
-        public int AuditoriumId { get; set; }
-
         public int TicketId { get; set; }
 
         public int OrderId { get; set; }
@@ -21,8 +19,6 @@ namespace Sunset.WebAPI.Site.Models.EFModels
         [Required]
         [StringLength(20)]
         public string TicketNumber { get; set; }
-
-        public virtual Auditorium Auditorium { get; set; }
 
         public virtual Order Order { get; set; }
 

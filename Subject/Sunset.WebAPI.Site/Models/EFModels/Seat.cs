@@ -16,17 +16,11 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
         public int Id { get; set; }
 
-        public int AuditoriumId { get; set; }
-
         [Required]
         [StringLength(10)]
         public string SeatNumber { get; set; }
 
-        [Required]
-        [StringLength(20)]
-        public string SeatStatus { get; set; }
-
-        public virtual Auditorium Auditorium { get; set; }
+        public bool SeatStatus { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

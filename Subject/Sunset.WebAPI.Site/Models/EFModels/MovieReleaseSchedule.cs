@@ -8,6 +8,12 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
     public partial class MovieReleaseSchedule
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public MovieReleaseSchedule()
+        {
+            Orders = new HashSet<Order>();
+        }
+
         public int Id { get; set; }
 
         public int MovieInfoId { get; set; }
@@ -16,7 +22,7 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
         public int ShowTimeId { get; set; }
 
-        public int ShowDateId { get; set; }
+        public int? ShowDateId { get; set; }
 
         public virtual Auditorium Auditorium { get; set; }
 
@@ -25,5 +31,8 @@ namespace Sunset.WebAPI.Site.Models.EFModels
         public virtual ShowDate ShowDate { get; set; }
 
         public virtual ShowTime ShowTime { get; set; }
+
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Order> Orders { get; set; }
     }
 }
