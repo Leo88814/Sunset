@@ -12,8 +12,6 @@ namespace Sunset.WebAPI.Site.Models.EFModels
         public Auditorium()
         {
             MovieReleaseSchedules = new HashSet<MovieReleaseSchedule>();
-            OrderDetails = new HashSet<OrderDetail>();
-            Seats = new HashSet<Seat>();
             ShowTimes = new HashSet<ShowTime>();
         }
 
@@ -35,12 +33,6 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovieReleaseSchedule> MovieReleaseSchedules { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-
-        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
-        public virtual ICollection<Seat> Seats { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<ShowTime> ShowTimes { get; set; }

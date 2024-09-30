@@ -10,17 +10,17 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 {
     public class LoginApiController : ApiController
     {
-		private readonly MemberService _service;
+		//private readonly MemberService _service;
 
-		public LoginApiController()
-		{
-			_service = new MemberService();
-		}
-		public IHttpActionResult Login()
-		{
-            var memberinfo = _service.GetMemberInfo();
+		//public LoginApiController()
+		//{
+		//	_service = new MemberService();
+		//}
+		//public IHttpActionResult Login()
+		//{
+  //          var memberinfo = _service.GetMemberInfo();
 
-            return Ok(memberinfo);
-        }
+  //          return Ok(memberinfo);
+  //      }
 	}
 }

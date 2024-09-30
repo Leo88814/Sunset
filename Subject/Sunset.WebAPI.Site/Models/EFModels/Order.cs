@@ -17,13 +17,9 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
         public int Id { get; set; }
 
-        public int MovieInfoId { get; set; }
+        public int MovieReleaseScheduleId { get; set; }
 
         public int MemberId { get; set; }
-
-        public int ShowTimeId { get; set; }
-
-        public int ShowDateId { get; set; }
 
         public DateTime OrderDate { get; set; }
 
@@ -41,16 +37,12 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
         public virtual Member Member { get; set; }
 
-        public virtual MovieInfo MovieInfo { get; set; }
-
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MovieRating> MovieRatings { get; set; }
 
+        public virtual MovieReleaseSchedule MovieReleaseSchedule { get; set; }
+
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }
-
-        public virtual ShowDate ShowDate { get; set; }
-
-        public virtual ShowTime ShowTime { get; set; }
     }
 }

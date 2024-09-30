@@ -188,6 +188,7 @@
     <Compile Include="Models\EFModels\Seat.cs" />
     <Compile Include="Models\EFModels\ShowDate.cs" />
     <Compile Include="Models\EFModels\ShowTime.cs" />
+    <Compile Include="Models\EFModels\sysdiagram.cs" />
     <Compile Include="Models\EFModels\Ticket.cs" />
     <Compile Include="Models\EFModels\Topup.cs" />
     <Compile Include="Models\EFModels\TransactionHistory.cs" />
