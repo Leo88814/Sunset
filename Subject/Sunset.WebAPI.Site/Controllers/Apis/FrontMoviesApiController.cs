@@ -1,5 +1,6 @@
 ﻿using Sunset.WebAPI.Site.Models.Dtos;
 using Sunset.WebAPI.Site.Models.EFModels;
+using Sunset.WebAPI.Site.Models.Repositories;
 using Sunset.WebAPI.Site.Models.Services;
 using System.Web.Http;
 
@@ -14,8 +15,10 @@ namespace Sunset.WebAPI.Site.Controllers.Api
 
 		public FrontMoviesApiController()
         {
+            var dbContext = new AppDbContext(); // 確保這裡有正確的 AppDbContext 初始化
+            var repository = new MovieDetailRepository(dbContext);
             _blockbusterService = new MovieBlockbusterService();
-            _detailService = new MovieDetailService();
+			_detailService = new MovieDetailService(repository);
             _comingSoonService = new MovieComingSoonService();
 		}
 
@@ -24,7 +27,7 @@ namespace Sunset.WebAPI.Site.Controllers.Api
         public IHttpActionResult MovieBlockbuster()
         {
             var allMovie = _blockbusterService.GetInfo();
-            return Ok(allMovie);
+            return Ok(allMovie); // 確保返回JSON格式
         }
 
 		[HttpGet]
@@ -32,7 +35,7 @@ namespace Sunset.WebAPI.Site.Controllers.Api
 		public IHttpActionResult MovieComingSoon()
 		{
 			var allMovie = _comingSoonService.GetInfo();
-			return Ok(allMovie);
+			return Ok(allMovie); 
 		}
 
 		[HttpGet]
@@ -44,7 +47,7 @@ namespace Sunset.WebAPI.Site.Controllers.Api
 			{
 				return NotFound();
 			}
-			return Ok(detailMovie);
+			return Ok(detailMovie); 
 		}
 
 		[HttpGet]
@@ -56,7 +59,7 @@ namespace Sunset.WebAPI.Site.Controllers.Api
             {
                 return NotFound();
             }
-            return Ok(detailMovie);
+            return Ok(detailMovie); 
         }
     }
 }

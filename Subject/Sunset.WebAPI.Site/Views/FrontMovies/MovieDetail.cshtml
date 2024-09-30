@@ -77,16 +77,21 @@
                 <!-- 電影場次 -->
                 <div class="container">
                     <h2>電影場次</h2>
-                    <div v-for="(times, date) in groupShowtimesByDate(movie.Showtimes)" :key="date" class="mb-3">
-                        <h5>{{ date }}</h5>
-                        <div class="d-flex flex-wrap gap-2">
-                            <button v-for="(showtime, index) in times"
-                                    :key="index"
-                                    class="btn btn-outline-primary"
-                                    v-on:click="goToSeatSelection(showtime.ShowtimeId)">
-                                {{ showtime.Time }}
-                            </button>
+                    <div v-if="movie.Showtimes && movie.Showtimes.length > 0">
+                        <div v-for="(times, date) in groupShowtimesByDate(movie.Showtimes)" :key="date" class="mb-3">
+                            <h5>{{ date }}</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button v-for="(showtime, index) in times"
+                                        :key="index"
+                                        class="btn btn-outline-primary"
+                                        v-on:click="goToSeatSelection(showtime)">
+                                    {{ showtime.Time }}
+                                </button>
+                            </div>
                         </div>
+                    </div>
+                    <div v-else>
+                        <p>目前沒有可用的電影場次。</p>
                     </div>
                 </div>
 
@@ -157,12 +162,14 @@
                                 throw new Error(`API request failed with status: ${response.status}`);
                             }
                             const data = await response.json();
+                            console.log("Fetched movie details:", data); // 除錯訊息
                             movie.value = {
                                 ...data,
                                 Showtimes: Array.isArray(data.Showtimes) ? data.Showtimes : [], // 確保 Showtimes 是陣列
                                 TotalRating: isNaN(data.TotalRating) ? 0 : data.TotalRating,
                                 Stills: Array.isArray(data.Stills) ? data.Stills : [],
                             };
+                            console.log("Processed movie details:", movie.value); // 除錯訊息
                         } catch (error) {
                             console.error("Error fetching movie details:", error);
                         }
@@ -193,12 +200,13 @@
 
 
                     // 點擊場次跳轉到選擇座位的頁面
-                    const goToSeatSelection = (showtimeId) => {
-                        if (showtimeId) {
-                            // 轉跳到座位選擇頁面，並附上 showtimeId 參數
-                            window.location.href = `/SeatSelection.html?showtimeId=${showtimeId}`;
+                    const goToSeatSelection = (showtime) => {
+                        if (showtime) {
+                            // 轉跳到座位選擇頁面，並附上 showtime 參數
+                            const showtimeParam = encodeURIComponent(JSON.stringify(showtime));
+                            window.location.href = `/SeatSelection.html?showtime=${showtimeParam}`;
                         } else {
-                            console.error("ShowtimeId is missing.");
+                            console.error("Showtime is missing.");
                         }
                     };
 

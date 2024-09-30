@@ -12,5 +12,4 @@ namespace Sunset.WebAPI.Site.Models.Dtos
         public DateTime FullDateTime { get; set; }  // 日期加上時間，確保完整時間戳
         public string Time { get; set; }  // 用來顯示格式化的時間
     }
-
 }

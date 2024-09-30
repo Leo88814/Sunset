@@ -2,6 +2,7 @@
 using Sunset.WebAPI.Site.Models.Repositories;
 using System.Collections.Generic;
 using System.Linq;
+using System.Diagnostics; // 添加這行
 
 namespace Sunset.WebAPI.Site.Models.Services
 {
@@ -19,6 +20,14 @@ namespace Sunset.WebAPI.Site.Models.Services
             var path = "../images/";
             var indexMovie = _repository.GetMoviesWithAverageRatings();
             MatchPath(indexMovie, path); // 呼叫 MatchPath 方法來修正路徑
+
+            // 添加日誌
+            Debug.WriteLine("Movies fetched from repository:");
+            foreach (var movie in indexMovie)
+            {
+                Debug.WriteLine($"Movie: {movie.MovieName}, Rating: {movie.AverageRating}");
+            }
+
             return indexMovie;
         }
 
@@ -46,5 +55,5 @@ namespace Sunset.WebAPI.Site.Models.Services
 
 			return (decimal)ratings.Average(r => r.Rating); // 假設 Rating 是評分的數值
 		}
-	}
+    }
 }

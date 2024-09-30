@@ -71,7 +71,7 @@
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
                     <li class="breadcrumb">電影列表</li>
-                    <li class="breadcrumb-item active">即將上映</li>
+                    <li class="breadcrumb-item active" aria-current="page">即將上映</li>
                 </ol>
             </nav>
         </div>
@@ -86,7 +86,7 @@
                     <div class="movie-info">
                         <h4>{{ movie.MovieName }} ({{ movie.Grading }})</h4>
                         <p>片長: {{ movie.Duration }} </p>
-                        <p>類型:{{ movie.GenreName }}</p>
+                        <p>類型: {{ movie.GenreName }}</p>
                         <p><strong>上映日期：</strong>{{ formatDate(movie.PremiereDate) }}</p>
                         <a :href="`MovieComingSoonDetail?id=${movie.Id}`">More</a>
                     </div>

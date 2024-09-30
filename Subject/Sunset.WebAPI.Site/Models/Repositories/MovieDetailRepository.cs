@@ -7,100 +7,125 @@ using System.Linq;
 
 namespace Sunset.WebAPI.Site.Models.Repositories
 {
-	public class MovieDetailRepository
+	public class MovieDetailRepository : IDisposable
 	{
 		private readonly AppDbContext _db;
 
-		public MovieDetailRepository()
+		public MovieDetailRepository(AppDbContext db)
 		{
-			_db = new AppDbContext();
+			_db = db;
 		}
 
 		public MovieDetailDto GetMovieDetailById(int id)
 		{
-			// 查詢 MovieInfo 與對應的 MovieGenre 和 MovieImage
 			var movieDetail = _db.MovieInfos
 				.AsNoTracking()
 				.Where(m => m.Id == id)
-				.Select(m => new MovieDetailDto
+				.Select(m => new
 				{
-					Id = m.Id,
-					MovieName = m.MovieName,
-					EnglishName = m.EnglishName,
-					TrailerURL = m.TrailerURL,
-					Director = m.Director,
-					MovieCast = m.MovieCast,
-					MovieLanguage = m.MovieLanguage,
-					Distributor = m.Distributor,
-					Synopsis = m.Synopsis,
-					PremiereDate = m.PremiereDate,
-					Grading = m.Grading,
-					Duration = m.Duration,
-					MainPicture = m.MainPicture,
-					TotalRating = m.TotalRating,
+					m.Id,
+					m.MovieName,
+					m.EnglishName,
+					m.TrailerURL,
+					m.Director,
+					m.MovieCast,
+					m.MovieLanguage,
+					m.Distributor,
+					m.Synopsis,
+					m.PremiereDate,
+					m.Grading,
+					m.Duration,
+					m.MainPicture,
+					m.TotalRating,
 					GenreName = m.MovieGenre.GenreName,
-					// 取得對應的 stills，並轉換為 List<string>
-					stills = m.MovieImages.Select(mi => mi.stills).ToList()
+					Stills = m.MovieImages.Select(mi => mi.stills).ToList()
 				})
 				.FirstOrDefault();
 
-			return movieDetail;
+			if (movieDetail != null)
+			{
+				var movieDetailDto = new MovieDetailDto
+				{
+					Id = movieDetail.Id,
+					MovieName = movieDetail.MovieName,
+					EnglishName = movieDetail.EnglishName,
+					TrailerURL = movieDetail.TrailerURL,
+					Director = movieDetail.Director,
+					MovieCast = movieDetail.MovieCast,
+					MovieLanguage = movieDetail.MovieLanguage,
+					Distributor = movieDetail.Distributor,
+					Synopsis = movieDetail.Synopsis,
+					PremiereDate = movieDetail.PremiereDate,
+					Grading = movieDetail.Grading,
+					Duration = movieDetail.Duration,
+					MainPicture = movieDetail.MainPicture,
+					TotalRating = movieDetail.TotalRating,
+					GenreName = movieDetail.GenreName,
+					stills = movieDetail.Stills,
+					Showtimes = GetShowtimesByMovieId(movieDetail.Id) // 在查詢結束後設置 Showtimes
+				};
+
+				return movieDetailDto;
+			}
+
+			return null;
 		}
 
-		// 根據 MovieInfoId 來抓取對應的劇照
 		public List<string> GetStillsByMovieInfoId(int movieInfoId)
 		{
-			// 查詢 MovieImages 中所有與 MovieInfoId 相符的劇照
 			var matchingStills = _db.MovieImages
 				.Where(mi => mi.MovieInfoId == movieInfoId)
-				.OrderBy(mi => mi.Id) // 如需排序，這裡可以調整排序邏輯
+				.OrderBy(mi => mi.Id)
 				.Select(mi => mi.stills)
 				.ToList();
 
 			return matchingStills;
 		}
-		// 根據 MovieId 計算平均評價
+
 		public double GetAverageRatingByMovieId(int movieId)
 		{
 			var averageRating = _db.MovieRatings
 				.Where(r => r.MovieInfoId == movieId)
-				.Average(r => (double?)r.Rating) ?? 0; // 如果沒有評價則返回 0
+				.Average(r => (double?)r.Rating) ?? 0;
 
 			return averageRating;
 		}
 
-        //public List<MovieReleaseScheduleDto> GetShowtimesByMovieId(int movieId)
-        //{
-        //    var currentTime = DateTime.Now;
+		public List<MovieReleaseScheduleDto> GetShowtimesByMovieId(int movieId)
+		{
+			var currentTime = DateTime.Now;
 
-        //    // 從 MovieReleaseSchedules 中獲得符合條件的場次資料
-        //    var showtimes = _db.MovieReleaseSchedules
-        //        .Where(s => s.MovieInfoId == movieId)
-        //        .OrderBy(s => s.ShowDate)
-        //        .ThenBy(s => s.ShowTime.StartTime)
-        //        .Select(s => new MovieReleaseScheduleDto
-        //        {
-        //            ShowtimeId = s.Id,
-        //            Date = s.ShowDate,
-        //            FullDateTime = DbFunctions.CreateDateTime(
-        //                s.ShowDate.Year,
-        //                s.ShowDate.Month,
-        //                s.ShowDate.Day,
-        //                s.ShowTime.StartTime.Hours,
-        //                s.ShowTime.StartTime.Minutes,
-        //                s.ShowTime.StartTime.Second
-        //            )
-        //        })
-        //        .ToList();
+			var showtimes = _db.MovieReleaseSchedules
+				.Where(s => s.MovieInfoId == movieId)
+				.Join(_db.ShowDates, s => s.ShowDateId, d => d.Id, (s, d) => new { s, d.ShowTimeDate })
+				.OrderBy(sd => sd.ShowTimeDate)
+				.ThenBy(sd => sd.s.ShowTime.StartTime)
+				.ToList() // 在記憶體中進行轉換
+				.Select(sd => new MovieReleaseScheduleDto
+				{
+					ShowtimeId = sd.s.Id,
+					Date = sd.ShowTimeDate,
+					FullDateTime = sd.ShowTimeDate + new TimeSpan(
+						sd.s.ShowTime.StartTime.Hours,
+						sd.s.ShowTime.StartTime.Minutes,
+						sd.s.ShowTime.StartTime.Seconds
+					),
+					Time = (sd.ShowTimeDate + new TimeSpan(
+						sd.s.ShowTime.StartTime.Hours,
+						sd.s.ShowTime.StartTime.Minutes,
+						sd.s.ShowTime.StartTime.Seconds
+					)).ToString("HH:mm")
+				})
+				.ToList();
 
-        //    // 過濾掉過去的場次
-        //    showtimes = showtimes.Where(s => s.FullDateTime > currentTime).ToList();
+			showtimes = showtimes.Where(s => s.FullDateTime > currentTime).ToList();
 
-        //    // 格式化時間顯示
-        //    showtimes.ForEach(s => s.Time = s.FullDateTime.ToString("HH:mm"));
+			return showtimes;
+		}
 
-        //    return showtimes;
-        //}
-
-    }
+		public void Dispose()
+		{
+			_db.Dispose();
+		}
+	}
 }

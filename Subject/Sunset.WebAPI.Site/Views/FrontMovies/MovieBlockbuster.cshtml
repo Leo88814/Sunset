@@ -80,12 +80,12 @@ ViewBag.Title = "強檔熱映";
                 <div class="movie" v-for="movie in movies" :key="movie.Id">
                     <a :href="`MovieDetail?id=${movie.Id}`">
                         <img :src="movie.MainPicture" :alt="movie.MovieName" />
-                        </a>
+                    </a>
                     <div class="movie-info">
                         <h4>{{ movie.MovieName }} ({{ movie.Grading }})</h4>
                         <p>片長: {{ movie.Duration }} </p>
-                        <p>類型:{{ movie.GenreName }}</p>
-                        <div class="rating">
+                        <p>類型: {{ movie.GenreName }}</p>
+                        <div class="rating" v-if="movie.AverageRating !== undefined && movie.AverageRating !== null">
                             <p><strong>評分：</strong></p>
                             <div>
                                 <!-- 實心星星 -->
@@ -94,14 +94,10 @@ ViewBag.Title = "強檔熱映";
                                 <span v-if="(movie.AverageRating % 1) >= 0.5">✭</span>
                                 <!-- 空心星星 -->
                                 <span v-for="empty in 5 - Math.ceil(movie.AverageRating)" :key="'empty-' + empty"> ☆ </span>
-                                <p v-if="movie.AverageRating !== undefined && movie.AverageRating !== null">
-                                     {{ movie.AverageRating.toFixed(1) }} 顆星
-                                </p>
-                                <p v-else>
-                                    無評分
-                                </p>
+                                <p>{{ movie.AverageRating.toFixed(1) }} 顆星</p>
                             </div>
                         </div>
+                        <p v-else>無評分</p>
                         <a :href="`MovieDetail?id=${movie.Id}`">More</a>
                     </div>
                 </div>
@@ -109,13 +105,12 @@ ViewBag.Title = "強檔熱映";
         </div>
     </div>
 
-    
+
     @section scripts{
         <script>
             const { createApp, ref, onMounted } = Vue;
 
             const config = {
-               
                 setup() {
                     const movies = ref([]);
                     const apiUrl = "/api/FrontMoviesApiController/MovieBlockbuster/";
@@ -127,6 +122,7 @@ ViewBag.Title = "強檔熱映";
                                 throw new Error(`API request failed with status: ${response.status}`);
                             }
                             const data = await response.json();
+                            console.log("Fetched movies:", data); // 添加日誌
                             movies.value = data;
                         } catch (error) {
                             console.error("Error fetching movies:", error);
