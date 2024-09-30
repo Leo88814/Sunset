@@ -201,3 +201,6 @@ C:\Users\user\Sunset\Subject\Sunset.WebAPI.Site\obj\Debug\Sunset.WebAPI.Site.pdb
 C:\Users\user\Sunset\Subject\Sunset.WebAPI.Site\bin\AutoMapper.dll
 C:\Users\user\Sunset\Subject\Sunset.WebAPI.Site\bin\AutoMapper.xml
 C:\Users\user\Sunset\Subject\Sunset.WebAPI.Site\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\USER\Downloads\Sunset\Subject\Sunset.WebAPI.Site\bin\AutoMapper.dll
+C:\Users\USER\Downloads\Sunset\Subject\Sunset.WebAPI.Site\bin\AutoMapper.xml
+C:\Users\USER\Downloads\Sunset\Subject\Sunset.WebAPI.Site\bin\zh-Hant\EntityFramework.SqlServer.resources.dll

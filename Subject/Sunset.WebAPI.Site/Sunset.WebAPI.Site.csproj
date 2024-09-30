@@ -200,6 +200,8 @@
     <Compile Include="Models\EFModels\User.cs" />
     <Compile Include="Models\Exts\ChoiceDatesDto_Ext.cs" />
     <Compile Include="Models\Exts\ChoiceMoviesDto_Ext.cs" />
+    <Compile Include="Models\Infra\EmailHelper.cs" />
+    <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\MappingProfile.cs" />
     <Compile Include="Models\Repositories\BookTicketsRepository.cs" />
     <Compile Include="Models\Repositories\MembersRepository.cs" />

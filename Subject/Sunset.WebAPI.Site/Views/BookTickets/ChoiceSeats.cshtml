@@ -163,7 +163,7 @@
 
                 const choiceSeats = async () => {
                     try {
-                        const response = await fetch(`/api/GetSeatsApi/movie/${movieId}/showdate/${showdateId}/showtime/${showtimeId}`, {
+                        const response = await fetch(`/api/GetSeatsApi/ChoiceSeats/${movieId}/${showdateId}/${showtimeId}`, {
                             method: 'GET',
                             headers: {
                                 'Content-Type': 'application/json'

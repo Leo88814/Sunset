@@ -146,7 +146,7 @@
 
                  const handleNextPage = () => {
                      if (CheckDateAndTime()) {
-                         window.location.href = `@Url.Action("ChoiceSeats", "BookTickets")/movie/${id}/showdate/${selectedDate.value}/showtime/${selectedTime.value}`;
+                         window.location.href = `@Url.Action("ChoiceSeats", "BookTickets")/${id}/${selectedDate.value}/${selectedTime.value}`;
                     }
 
                 };

@@ -20,15 +20,15 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
         }
 
         [HttpGet]
-        [Route("api/GetSeatsApi/movie/{movieId}/showdate/{showdateId}/showtime/{showtimeId}")]
+        [Route("api/GetSeatsApi/ChoiceSeats/{movieId}/{showdateId}/{showtimeId}")]
         public IHttpActionResult GetAllSeat(int movieId, int showdateId, int showtimeId)
         {
             var allSeat = _service.GetChoicedSeatInfo(movieId,showdateId,showtimeId);
 
-            //if (allSeat == null)
-            //{
-            //    return NotFound();
-            //}
+            if (allSeat == null)
+            {
+                return NotFound();
+            }
             return Ok(allSeat);
         }
     
