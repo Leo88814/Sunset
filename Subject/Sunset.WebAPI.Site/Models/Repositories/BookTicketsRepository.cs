@@ -69,24 +69,42 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			return allDate;
 		}
 
-		public List<ChoiceSeatsDto> GetMovieSeat(int id)
+		public List<ChoiceSeatsDto> GetChoicedSeat(int movieId,int showdateId,int showtimeId)
 		{
-				var allSeat = _db.Orders
-			.Join(_db.MovieReleaseSchedules, o => o.MovieReleaseScheduleId, mrs => mrs.Id, (o, mrs) => new { o, mrs })
-			.Where(joined => joined.mrs.MovieInfoId == id)
-			.Join(_db.OrderDetails, joined => joined.o.Id, od => od.OrderId, (joined, od) => new { joined.o, joined.mrs, od })
-			.Join(_db.Seats, joined => joined.od.SeatId, s => s.Id, (joined, s) => new { joined.o, joined.mrs, joined.od, s })
-			.Select(joined => new ChoiceSeatsDto
-			{
-				OrderId = joined.o.Id,
-				MovieInfoId = joined.mrs.MovieInfoId,
-				SeatId = joined.s.Id,
-				SeatNumber = joined.s.SeatNumber
-			})
-			.ToList();
+			var choicedSeat = _db.Orders
+            .Where(o => o.MovieReleaseSchedule.MovieInfoId == movieId
+                     && o.MovieReleaseSchedule.ShowDateId == showdateId
+                     && o.MovieReleaseSchedule.ShowTimeId == showtimeId)
+            .Join(_db.OrderDetails,
+                  o => o.Id,
+                  od => od.OrderId,
+                  (o, od) => new { Order = o, OrderDetail = od })
+            .Join(_db.Seats,
+                  joined => joined.OrderDetail.SeatId,
+                  s => s.Id,
+                  (joined, s) => new ChoiceSeatsDto
+                  {
+                      SeatId = s.Id,
+                      SeatNumber = s.SeatNumber,
+                      SeatStatus = s.SeatStatus
+                  })
+            .ToList();
 
-				return allSeat;
+            return choicedSeat;
 
 		}
-	}
+
+        public List<ChoiceSeatsDto> GetAllSeat()
+        {
+			var allSeats = _db.Seats
+				.Select(s => new ChoiceSeatsDto
+				{
+					SeatId = s.Id,
+					SeatNumber = s.SeatNumber,
+					SeatStatus = s.SeatStatus,
+				}).ToList();
+
+			return allSeats;
+        }
+    }
 }

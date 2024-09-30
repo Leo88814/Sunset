@@ -31,7 +31,7 @@
 
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
-                        <img class="img-fluid mt-3" :src="imagePath" :alt="movieName"/>
+                        <img class="img-fluid mt-3" :src="imagePath" :alt="movieName" />
                         <p class="text-center fw-bolder mt-2">
                             {{ movieName }}
                         </p>
@@ -142,11 +142,13 @@
                     selectedTime.value = timeId;
                     errorTimeMessage.value = "";
                 };
+    
+
                  const handleNextPage = () => {
-                    if (CheckDateAndTime()) {
-                        window.location.href = '@Url.Action("ChoiceSeats", "BookTickets")';
+                     if (CheckDateAndTime()) {
+                         window.location.href = `@Url.Action("ChoiceSeats", "BookTickets")/movie/${id}/showdate/${selectedDate.value}/showtime/${selectedTime.value}`;
                     }
-                
+
                 };
 
                 const CheckDateAndTime = () => {
@@ -160,7 +162,7 @@
                     }
                     return true;
                 };
-              
+
 
                 return {
                     imagePath,

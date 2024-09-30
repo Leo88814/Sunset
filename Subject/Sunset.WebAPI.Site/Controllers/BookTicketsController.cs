@@ -16,14 +16,16 @@ namespace Sunset.WebAPI.Site.Controllers
         }
 		public ActionResult ChoiceDates(int id)
 		{
-			
 			ViewBag.DateId = id;
 			return View();
 		}
-		public ActionResult ChoiceSeats(int id)
-		{
 
-			ViewBag.SeatId = id;
+   
+        public ActionResult ChoiceSeats(int movieId,int showdateId,int showtimeId)
+		{
+			ViewBag.movieId = movieId;
+			ViewBag.showdateId = showdateId;
+			ViewBag.showtimeId = showtimeId;
 			return View();
 		}
 	}

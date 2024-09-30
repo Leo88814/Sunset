@@ -29,9 +29,5 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 			[NotMapped]
 			public string StartTimeMin => StartTime.ToString(@"hh\:mm");
 		}
-
-		
-		
-		
 	}
 }

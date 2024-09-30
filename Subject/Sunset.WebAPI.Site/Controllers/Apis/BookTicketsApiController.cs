@@ -33,28 +33,13 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 		[Route("api/BookTicketsApi/ChoiceDates/{id}")]
 		public IHttpActionResult GetDate(int id)
 		{
-
 			var allDate = _service.GetDateInfo(id);
-			
 
 			if (allDate == null)
 			{
 				return NotFound();
 			}
 			return Ok(allDate);
-		}
-
-		[HttpGet]
-		[Route("ChoiceDates/{id}")]
-		public IHttpActionResult GetSeat(int id)
-		{
-			var allSeat = _service.GetSeatInfo(id);
-
-			if (allSeat == null)
-			{
-				return NotFound();
-			}
-			return Ok(allSeat);
 		}
 	}
 }

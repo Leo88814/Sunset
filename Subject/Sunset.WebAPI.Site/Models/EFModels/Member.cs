@@ -24,7 +24,7 @@ namespace Sunset.WebAPI.Site.Models.EFModels
         public string Account { get; set; }
 
         [Required]
-        [StringLength(255)]
+        [StringLength(64)]
         public string Password { get; set; }
 
         [Required]
@@ -48,7 +48,7 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
         public bool MemberStatus { get; set; }
 
-        public bool? IsConfirmed { get; set; }
+        public bool IsConfirmed { get; set; }
 
         [StringLength(50)]
         public string ConfirmCode { get; set; }

@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -163,6 +166,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Apis\BookTicketsApiController.cs" />
+    <Compile Include="Controllers\Apis\GetSeatsApiController.cs" />
     <Compile Include="Controllers\Apis\LoginApiController.cs" />
     <Compile Include="Controllers\BookTicketsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
@@ -173,6 +177,7 @@
     <Compile Include="Models\Dtos\ChoiceDatesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceMoviesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceSeatsDto.cs" />
+    <Compile Include="Models\Dtos\MemberLoginDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Auditorium.cs" />
     <Compile Include="Models\EFModels\Cinema.cs" />
@@ -195,10 +200,13 @@
     <Compile Include="Models\EFModels\User.cs" />
     <Compile Include="Models\Exts\ChoiceDatesDto_Ext.cs" />
     <Compile Include="Models\Exts\ChoiceMoviesDto_Ext.cs" />
+    <Compile Include="Models\MappingProfile.cs" />
     <Compile Include="Models\Repositories\BookTicketsRepository.cs" />
     <Compile Include="Models\Repositories\MembersRepository.cs" />
+    <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Services\BookTicketsService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
+    <Compile Include="Models\ViewModels\MemberLoginVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -354,6 +362,7 @@
     <Content Include="Views\BookTickets\ChoiceMovies.cshtml" />
     <Content Include="Views\BookTickets\ChoiceDates.cshtml" />
     <Content Include="Views\Logins\Login.cshtml" />
+    <Content Include="Views\BookTickets\ChoiceSeats.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
