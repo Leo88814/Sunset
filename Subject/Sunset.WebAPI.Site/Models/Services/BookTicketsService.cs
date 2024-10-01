@@ -51,6 +51,7 @@ namespace Sunset.WebAPI.Site.Models.Services
         {
             var movieScheduleId = _repo.GetMovieScheduleId(movieId, showdateId, showtimeId);
 
+
 			return movieScheduleId;
         }
 

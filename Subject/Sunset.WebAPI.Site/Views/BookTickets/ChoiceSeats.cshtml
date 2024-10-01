@@ -111,7 +111,7 @@
                                 :key="s.id"
                                 :disable="s.seatStatus"
                                 :class="{ selected: s.selected&&s.seatStatus, unavailable: s.unavailable ,unavailable:!s.seatStatus}"
-                                v-on:click="s.seatStatus&&toggleSeatSelection(s)&&choiceSeats(s)">
+                                v-on:click="handleSeatClick(s)">
                             {{ s.seatNumber }}
                         </button>
                     </div>
@@ -135,15 +135,15 @@
         <script>
         const { createApp, ref, onMounted, computed } = Vue;
 
-        const app = createApp({
+            const config = {
             components: {
                 "header-component": HeaderComponent,
                 "footer-component": FooterComponent,
             },
             setup() {
                 const seats = ref([]);
+                const movieScheduleId = ref();
                 const choiceSeats = ref([]);
-                const movieScheduleId = ref()
                 const movieId = @Html.Raw(ViewBag.movieId);
                 const showdateId = @Html.Raw(ViewBag.showdateId);
                 const showtimeId = @Html.Raw(ViewBag.showtimeId);
@@ -158,7 +158,8 @@
                     { name: "愛心票", price: 180, selected: 0 },
                 ]);
 
-                console.log("movieScheduleId", movieScheduleId.value)
+                
+                
                 const choiceSeatInfo = async () => {
                     try {
                         const response = await fetch(`/api/GetSeatsApi/ChoiceSeats/${movieId}/${showdateId}/${showtimeId}`, {
@@ -177,7 +178,7 @@
                         console.error("Error:", error);
                     }
                 };
-
+                
                 const getMovieScheduleInfo = async () => {
                     try {
                         const response = await fetch(`/api/CheckOrderApi/GetMovieScheduleId/${movieId}/${showdateId}/${showtimeId}`, {
@@ -189,18 +190,19 @@
                         if (!response.ok) {
                             throw new Error(`HTTP error! status: ${response.status}`);
                         }
-                        const data = await response.json();
-                        movieScheduleId.id = data.id;
+                        const data2 = await response.json();
+                        movieScheduleId.value = data2.id;
                         
-                        
+               
 
                     } catch (error) {
                         console.error("Error:", error);
                     }
                 };
-
+               
                 onMounted(() => {
                     choiceSeatInfo();
+                    getMovieScheduleInfo();
                 });
 
                 //計算總票數
@@ -241,17 +243,38 @@
                 });
 
                 const toggleSeatSelection = (seat) => {
-                    if (
-                        seat.unavailable ||
-                        (selectedSeats.value >= totalTickets.value && !seat.selected)
-                    )
-                    {
+                    if (seat.unavailable || (selectedSeats.value >= totalTickets.value && !seat.selected)) {
                         seatError.value = "選擇的座位不能超過總票數";
-                        return;
+                        return false;
                     }
                     seat.selected = !seat.selected;
                     seatError.value = "";
+                    return seat.selected;
                 };
+
+                const handleSeatClick = (seat) => {
+                    if (seat.seatStatus) {
+                        toggleSeatSelection(seat);
+                        if (seat.selected) {
+                            addChoiceSeat(seat.id);
+                        } else {
+                            removeChoiceSeat(seat.id);
+                        }
+                    }
+                };
+
+                const addChoiceSeat = (seatId) => {
+                    if (!choiceSeats.value.includes(seatId)) {
+                        choiceSeats.value.push(seatId);
+                    }
+                    console.log("choiceSeats.value", choiceSeats.value);
+                };
+
+                const removeChoiceSeat = (seatId) => {
+                    choiceSeats.value = choiceSeats.value.filter(id => id !== seatId);
+                    console.log("choiceSeats.value", choiceSeats.value);
+                };
+
 
                 const goToNextPage = () => {
                     if (selectedSeats.value !== totalTickets.value) {
@@ -267,15 +290,17 @@
                                 price: ticket.price,
                                 quantity: ticket.selected,
                             }));
-
+            
                         localStorage.setItem(
                             "selectedTickets",
                             JSON.stringify(selectedTicketInfo)
                         );
                      
-                        window.location.href = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId}/${choiceSeats.value}`;
+                        //window.location.href = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId.value}/${choiceSeats.value}`;
                     }
                 };
+
+                
 
                 return {
                     maxTickets,
@@ -291,11 +316,16 @@
                     validateSelection,
                     seatError,
                     choiceSeatInfo,
-                    getMovieScheduleInfo
+                    getMovieScheduleInfo,
+                    movieScheduleId,
+
+                    handleSeatClick,
+                    addChoiceSeat,
+                    removeChoiceSeat
                 };
             },
-        });
-
+        };
+        const app = createApp(config);
         app.mount("#app");
         </script>
         }

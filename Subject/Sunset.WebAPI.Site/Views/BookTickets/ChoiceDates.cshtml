@@ -99,7 +99,7 @@
                     }
                     return `/images/${mainPicture.value.split('/').pop()}`;
                 });
-
+                console.log("selectedDate", selectedDate)
                 onMounted(async () => {
                     try {
                         const response = await fetch(`/api/BookTicketsApi/ChoiceDates/${id}`, {
