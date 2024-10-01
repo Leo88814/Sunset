@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
 using Theater_Admin.Models.Dtos;
@@ -14,6 +15,7 @@ namespace Theater_Admin.Models.Repositories
         void RemoveMessage(CustomServiceDto message);
         void EditMessage(CustomServiceDto message);
 
+        void DeleteMessage(CustomServiceDto message);
         CustomServiceDto GetMessageById(int id);
     }
     public class CustomServiceRepository : ICustomServiceRepository
@@ -36,12 +38,21 @@ namespace Theater_Admin.Models.Repositories
 
         public void AddMessage(CustomServiceDto message)
         {
-            throw new NotImplementedException();
+            _db.CustomerServices.Add(new CustomerService
+            {
+                Id = message.Id,
+                Question = message.Question,
+                Answer = message.Answer,
+
+
+            });
+            _db.SaveChanges();
         }
 
         public void RemoveMessage(CustomServiceDto message)
         {
-            throw new NotImplementedException();
+            var target =_db.CustomerServices.AsNoTracking().FirstOrDefault(x => x.Id == message.Id);
+            _db.CustomerServices.Remove(target);
         }
 
         public void EditMessage(CustomServiceDto dto)
@@ -63,6 +74,13 @@ namespace Theater_Admin.Models.Repositories
                 Answer = QA.Answer,
             };
 
+        }
+
+        public void DeleteMessage(CustomServiceDto message)
+        {
+            var toDelete = _db.CustomerServices.AsNoTracking().FirstOrDefault(y => y.Id == message.Id);
+            _db.CustomerServices.Remove(toDelete);
+            _db.SaveChanges();
         }
     }
 }

@@ -33,7 +33,10 @@ namespace Theater_Admin.Models.Services
 
         }
 
-
+        public void Delete(CustomServiceDto dto)
+        {
+            _repository.RemoveMessage(dto);
+        }
 
     }
 }

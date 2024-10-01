@@ -12,7 +12,7 @@ using WebGrease.Configuration;
 
 namespace Theater_Admin.Controllers.Apis
 {
-    [RoutePrefix("Apis/Movie")]
+    
     public class MovieApiController : ApiController
     {
         private readonly MovieService _service;
@@ -34,18 +34,18 @@ namespace Theater_Admin.Controllers.Apis
 
 
        
-        public IHttpActionResult GetMovie(int id)
-        {
-            var movie = _service.GetMovieById(id);
-            if (movie == null)
-                return NotFound();
+        //public IHttpActionResult GetMovie(int id)
+        //{
+        //    var movie = _service.GetMovieById(id);
+        //    if (movie == null)
+        //        return NotFound();
 
-            return Ok(movie);
-        }
+        //    return Ok(movie);
+        //}
 
 
         [HttpPost]
-        [Route("Create")]
+        [Route("api/MovieApi/Create")]
         public IHttpActionResult PostMovie(MovieDto movie)
         {
             if (!ModelState.IsValid)

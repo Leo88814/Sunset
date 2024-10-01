@@ -146,8 +146,10 @@
     <Compile Include="App_Start\WebApiConfig.cs" />
     <Compile Include="Controllers\Apis\AuditoriunApiController.cs" />
     <Compile Include="Controllers\Apis\CustomServiceController.cs" />
+    <Compile Include="Controllers\Apis\MemberApiController.cs" />
     <Compile Include="Controllers\Apis\MovieApiController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginApiController.cs" />
     <Compile Include="Controllers\MovieController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -155,6 +157,8 @@
     <Compile Include="MappingProfile.cs" />
     <Compile Include="Models\Dtos\AuditoriumDto.cs" />
     <Compile Include="Models\Dtos\CustomServiceDto.cs" />
+    <Compile Include="Models\Dtos\LoginDto.cs" />
+    <Compile Include="Models\Dtos\MemberDto.cs" />
     <Compile Include="Models\Dtos\MovieDto.cs" />
     <Compile Include="Models\Dtos\ShowTimeDto.cs" />
     <Compile Include="Models\Dtos\ShowTimeScheduleDto.cs" />
@@ -179,10 +183,12 @@
     <Compile Include="Models\EFModels\User.cs" />
     <Compile Include="Models\Repositories\AuditoriunRepository.cs" />
     <Compile Include="Models\Repositories\CustomServiceRepository.cs" />
+    <Compile Include="Models\Repositories\MemberRepository.cs" />
     <Compile Include="Models\Repositories\MovieRepository.cs" />
     <Compile Include="Models\Repositories\ShowtimeRepositiry.cs" />
     <Compile Include="Models\Services\AuditoriumService.cs" />
     <Compile Include="Models\Services\CustomQAService.cs" />
+    <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\MovieService.cs" />
     <Compile Include="Models\Vms\AuditoriumVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -204,9 +210,11 @@
     <Content Include="Content\bootstrap.min.css" />
     <Content Include="Content\bootstrap.rtl.css" />
     <Content Include="Content\bootstrap.rtl.min.css" />
+    <Content Include="css\Back-office.css" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="js\common.js" />
     <Content Include="Scripts\bootstrap.bundle.js" />
     <Content Include="Scripts\bootstrap.bundle.min.js" />
     <Content Include="Scripts\bootstrap.esm.js" />
@@ -238,10 +246,10 @@
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
+    <Content Include="Views\Movie\Add.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Movie\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\bootstrap.rtl.min.css.map" />

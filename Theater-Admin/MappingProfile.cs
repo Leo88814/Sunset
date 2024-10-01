@@ -15,6 +15,7 @@ namespace Theater_Admin
             CreateMap<AuditoriumDto, Auditorium>().ReverseMap();
             //CreateMap<ShowTimeDto, ShowTime>().ReverseMap();
             CreateMap<CustomServiceDto,CustomerService>().ReverseMap();
+            CreateMap<MemberDto,Member>().ReverseMap();
         }
     }
 }

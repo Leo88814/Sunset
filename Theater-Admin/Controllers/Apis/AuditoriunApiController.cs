@@ -18,7 +18,7 @@ namespace Theater_Admin.Controllers.Apis
 
         public AuditoriunApiController()
         {
-            _service = new AuditoriumService();
+            _service = new AuditoriumService(_repo);
         }
         [Route("GetAll")]
         [HttpGet]

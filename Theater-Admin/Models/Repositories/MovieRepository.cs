@@ -120,7 +120,7 @@ namespace Theater_Admin.Models.Repositories
             MovieLanguage = m.MovieLanguage,
             Duration = m.Duration,
             Distributor = m.Distributor,
-            MainPicture = m.MainPicture,
+            //MainPicture = m.MainPicture,
             TotalRating = m.TotalRating,
         })
         .ToList();

@@ -11,12 +11,12 @@ namespace Theater_Admin.Models.Services
     public class AuditoriumService
     {
         private readonly IAuditoriumRepository _repo;
-        private readonly AppDbContext _db;
 
-        public AuditoriumService()
+
+        public AuditoriumService(IAuditoriumRepository repo)
         {
-            _repo = new AuditoriumRepository();
-            _db = new AppDbContext();
+            _repo = repo;
+
         }
 
         public IEnumerable<AuditoriumDto> GetAllAuditoriums()
