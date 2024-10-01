@@ -1,4 +1,5 @@
 ﻿using Sunset.WebAPI.Site.Models.Dtos;
+using Sunset.WebAPI.Site.Models.EFModels;
 using Sunset.WebAPI.Site.Models.Exts;
 using Sunset.WebAPI.Site.Models.Repositories;
 using System;
@@ -46,6 +47,20 @@ namespace Sunset.WebAPI.Site.Models.Services
 			});
 			return allSeats;
 		}
+        public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
+        {
+            var movieScheduleId = _repo.GetMovieScheduleId(movieId, showdateId, showtimeId);
 
+			return movieScheduleId;
+        }
+
+        public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
+        {
+            var orderdetail = _repo.CheckOrder(movieScheduleId, seatIds/*, memberId*/);
+
+			return orderdetail;
+        }
+
+        
     }
 }

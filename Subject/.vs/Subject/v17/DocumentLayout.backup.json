@@ -3,44 +3,28 @@
   "WorkspaceRootPath": "C:\\Users\\user\\Sunset\\Subject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\views\\booktickets\\choiceseats.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\booktickets\\choiceseats.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\models\\dtos\\choicemoviesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\dtos\\choicemoviesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\controllers\\apis\\bookticketsapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\controllers\\apis\\bookticketsapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\controllers\\bookticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\controllers\\bookticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\controllers\\apis\\getseatsapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\controllers\\apis\\getseatsapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\views\\booktickets\\choicemovies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\booktickets\\choicemovies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\views\\booktickets\\choicedates.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\booktickets\\choicedates.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\models\\dtos\\choiceseatsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\dtos\\choiceseatsdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\views\\booktickets\\checkorder.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\booktickets\\checkorder.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\models\\dtos\\choicedatesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\dtos\\choicedatesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\controllers\\bookticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\controllers\\bookticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\models\\repositories\\bookticketsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\repositories\\bookticketsrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\controllers\\apis\\checkorderapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\controllers\\apis\\checkorderapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\views\\booktickets\\choicemovies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\booktickets\\choicemovies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\sunset\\subject\\sunset.webapi.site\\views\\booktickets\\choiceseats.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\booktickets\\choiceseats.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     }
   ],
   "DocumentGroupContainers": [
@@ -50,60 +34,8 @@
       "DocumentGroups": [
         {
           "DockedWidth": 87,
-          "SelectedChildIndex": 5,
+          "SelectedChildIndex": 4,
           "Children": [
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "BookTicketsRepository.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Repositories\\BookTicketsRepository.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\Repositories\\BookTicketsRepository.cs",
-              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Repositories\\BookTicketsRepository.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\Repositories\\BookTicketsRepository.cs",
-              "ViewState": "AgIAABsAAAAAAAAAAAAowDcAAAAWAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T10:31:59.3Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "ChoiceDatesDto.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceDatesDto.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceDatesDto.cs",
-              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceDatesDto.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceDatesDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAsAAAAUAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T10:31:39.924Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
-              "Title": "ChoiceMoviesDto.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceMoviesDto.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceMoviesDto.cs",
-              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceMoviesDto.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceMoviesDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAACAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T10:30:08.052Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 2,
-              "Title": "BookTicketsApiController.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\Apis\\BookTicketsApiController.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Controllers\\Apis\\BookTicketsApiController.cs",
-              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\Apis\\BookTicketsApiController.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Controllers\\Apis\\BookTicketsApiController.cs",
-              "ViewState": "AgIAAAYAAAAAAAAAAAAAABoAAAAtAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T09:03:21.876Z",
-              "EditorCaption": ""
-            },
             {
               "$type": "Document",
               "DocumentIndex": 3,
@@ -112,74 +44,74 @@
               "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Controllers\\BookTicketsController.cs",
               "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\BookTicketsController.cs",
               "RelativeToolTip": "Sunset.WebAPI.Site\\Controllers\\BookTicketsController.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAAABcAAABKAAAAAAAAAA==",
+              "ViewState": "AgIAAAsAAAAAAAAAAAAQwCIAAAAMAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T09:15:15.943Z",
+              "WhenOpened": "2024-10-01T07:14:13.727Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
-              "Title": "ChoiceSeats.cshtml",
-              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceSeats.cshtml",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceSeats.cshtml",
-              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceSeats.cshtml",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceSeats.cshtml",
-              "ViewState": "AgIAAIoAAAAAAAAAAAAswJwAAAAAAAAAAAAAAA==",
+              "DocumentIndex": 2,
+              "Title": "CheckOrder.cshtml",
+              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\CheckOrder.cshtml",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\BookTickets\\CheckOrder.cshtml",
+              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\CheckOrder.cshtml",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\BookTickets\\CheckOrder.cshtml",
+              "ViewState": "AgIAAHMAAAAAAAAAAAAswJEAAAAzAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-30T06:57:43.195Z",
+              "WhenOpened": "2024-10-01T07:10:05.036Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "ChoiceSeatsDto.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceSeatsDto.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceSeatsDto.cs",
-              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceSeatsDto.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceSeatsDto.cs",
-              "ViewState": "AgIAAAAAAAAAAAAAAAAwwAcAAAAOAAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T09:37:56.15Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 4,
-              "Title": "GetSeatsApiController.cs",
-              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\Apis\\GetSeatsApiController.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Controllers\\Apis\\GetSeatsApiController.cs",
-              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\Apis\\GetSeatsApiController.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Controllers\\Apis\\GetSeatsApiController.cs",
-              "ViewState": "AgIAAAMAAAAAAAAAAAAhwBkAAAA1AAAAAAAAAA==",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-09-30T09:03:22.23Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 5,
+              "DocumentIndex": 1,
               "Title": "ChoiceDates.cshtml",
               "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceDates.cshtml",
               "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceDates.cshtml",
               "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceDates.cshtml",
               "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceDates.cshtml",
-              "ViewState": "AgIAAIoAAAAAAAAAAAAAAIYAAAAgAAAAAAAAAA==",
+              "ViewState": "AgIAAFQAAAAAAAAAAAAAAFgAAAAvAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-30T09:01:10.501Z",
+              "WhenOpened": "2024-10-01T07:07:46.061Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
-              "DocumentIndex": 9,
+              "DocumentIndex": 4,
+              "Title": "CheckOrderApiController.cs",
+              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\Apis\\CheckOrderApiController.cs",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Controllers\\Apis\\CheckOrderApiController.cs",
+              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\Apis\\CheckOrderApiController.cs",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Controllers\\Apis\\CheckOrderApiController.cs",
+              "ViewState": "AgIAAAkAAAAAAAAAAAAAACAAAABIAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-01T06:35:06.138Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
               "Title": "ChoiceMovies.cshtml",
               "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceMovies.cshtml",
               "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceMovies.cshtml",
               "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceMovies.cshtml",
               "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceMovies.cshtml",
-              "ViewState": "AgIAACcAAAAAAAAAAAAAAGwAAAAeAAAAAAAAAA==",
+              "ViewState": "AgIAADwAAAAAAAAAAAAqwEkAAAAAAAAAAAAAAA==",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-09-30T08:59:23.405Z",
+              "WhenOpened": "2024-10-01T06:08:46.959Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "ChoiceSeats.cshtml",
+              "DocumentMoniker": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceSeats.cshtml",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceSeats.cshtml",
+              "ToolTip": "C:\\Users\\user\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceSeats.cshtml",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceSeats.cshtml",
+              "ViewState": "AgIAAOoAAAAAAAAAAAAswA4BAAA+AAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-01T05:47:54.843Z",
               "EditorCaption": ""
             }
           ]

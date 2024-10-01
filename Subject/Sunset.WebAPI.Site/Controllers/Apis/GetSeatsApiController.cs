@@ -31,6 +31,6 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
             }
             return Ok(allSeat);
         }
-    
+
     }
 }

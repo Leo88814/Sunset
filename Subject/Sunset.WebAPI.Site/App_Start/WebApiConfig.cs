@@ -23,6 +23,7 @@ namespace Sunset.WebAPI.Site
 				routeTemplate: "api/{controller}/{id}",
 				defaults: new { id = RouteParameter.Optional }
 			);
-		}
-	}
+
+        }
+    }
 }
