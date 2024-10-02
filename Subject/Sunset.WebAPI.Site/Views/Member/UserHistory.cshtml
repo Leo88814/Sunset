@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "歷史訂單";
 }
 
@@ -15,20 +14,20 @@
         align-items: center;
     }
 
-        .ticket img {
-            width: 100px;
-            cursor: pointer;
-            border-radius: 10px;
-        }
+    .ticket img {
+        width: 100px;
+        cursor: pointer;
+        border-radius: 10px;
+    }
 
     .ticket-details {
         flex: 1;
         margin-left: 20px;
     }
 
-        .ticket-details p {
-            margin: 5px 0;
-        }
+    .ticket-details p {
+        margin: 5px 0;
+    }
 
     .rating {
         display: flex;
@@ -41,15 +40,15 @@
         margin-top: 10px;
     }
 
-        .rating-stars span {
-            font-size: 24px;
-            cursor: pointer;
-            color: #ccc;
-        }
+    .rating-stars span {
+        font-size: 24px;
+        cursor: pointer;
+        color: #ccc;
+    }
 
-            .rating-stars span.active {
-                color: gold;
-            }
+    .rating-stars span.active {
+        color: gold;
+    }
 </style>
 
 <body>
@@ -66,29 +65,16 @@
 
         <div class="container">
             <h2>歷史訂單</h2>
-            <div class="ticket">
-                <img :src="movie.MainPicture" alt="movie.MovieName" v-on:click="viewDetails" />
+            <div v-for="ticket in tickets" :key="ticket.orderNumber" class="ticket">
+                <img :src="ticket.MainPicture" alt="ticket.movieName" v-on:click="viewDetails(ticket)" />
                 <div class="ticket-details">
                     <p>
-                        <strong>電影名稱：</strong> {{ ticket.name }} ({{ ticket.rating
-                        }})
+                        <strong>電影名稱：</strong> {{ ticket.MovieName }}
                     </p>
-                    <p><strong>訂單編號：</strong> {{ ticket.orderNumber }}</p>
-                    <p><strong>日期：</strong> {{ ticket.date }} {{ ticket.time }}</p>
-                    <p><strong>座位：</strong> {{ ticket.seat }}</p>
-                    <p><strong>票數：</strong> {{ ticket.quantity }} 張</p>
-                </div>
-
-                <div class="rating">
-                    <p><strong>評分：</strong></p>
-                    <div class="rating-stars">
-                        <span v-for="star in 5"
-                              :key="star"
-                              :class="{ active: star <= rating }"
-                              v-on:click="setRating(star)">
-                            ★
-                        </span>
-                    </div>
+                    <p><strong>訂單編號：</strong> {{ ticket.OrderNumber }}</p>
+                    <p><strong>票數：</strong> {{ ticket.TotalTicketCount }} 張</p>
+                    <p><strong>場次時間：</strong> {{ ticket.ShowTime }}</p> <!-- 顯示時間 -->
+                    <p><strong>場次日期：</strong> {{ ticket.ShowDate }}</p> <!-- 顯示日期 -->
                 </div>
             </div>
         </div>
@@ -99,28 +85,28 @@
             const { createApp, ref, onMounted } = Vue;
 
             const config = {
-
                 setup() {
-                    const movies = ref([]);
-                    const apiUrl = "/api/FrontMoviesApiController/MovieBlockbuster/";
+                    const tickets = ref([]);
+                    const memberId = '1'; // 直接設置 memberId 為 1 來進行測試
+                    const apiUrl = `/api/MemberApiController/UserHistory/${memberId}`;
 
-                    const fetchMovies = async () => {
+                    const fetchOrders = async () => {
                         try {
                             const response = await fetch(apiUrl);
                             if (!response.ok) {
                                 throw new Error(`API request failed with status: ${response.status}`);
                             }
                             const data = await response.json();
-                            movies.value = data;
+                            tickets.value = data;
                         } catch (error) {
-                            console.error("Error fetching movies:", error);
+                            console.error("Error fetching orders:", error);
                         }
                     };
 
-                    onMounted(fetchMovies);
+                    onMounted(fetchOrders);
 
                     return {
-                        movies,
+                        tickets,
                     };
                 },
             };
