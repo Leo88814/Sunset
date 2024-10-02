@@ -21,6 +21,11 @@ namespace Sunset.WebAPI.Site.Services
             return userHistory;
         }
 
+        public bool RateOrder(int orderId, int rating)
+        {
+            return _userHistoryRepository.RateOrder(orderId, rating);
+        }
+
         private void MatchPath(List<UserHistoryDto> userHistory, string path)
         {
             foreach (var history in userHistory)

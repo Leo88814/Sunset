@@ -181,6 +181,7 @@
     <Compile Include="Models\Dtos\MovieComingSoonDto.cs" />
     <Compile Include="Models\Dtos\MovieDetailDto.cs" />
     <Compile Include="Models\Dtos\MovieReleaseScheduleDto.cs" />
+    <Compile Include="Models\Dtos\RateOrderDto.cs" />
     <Compile Include="Models\Dtos\UserHistoryDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Auditorium.cs" />

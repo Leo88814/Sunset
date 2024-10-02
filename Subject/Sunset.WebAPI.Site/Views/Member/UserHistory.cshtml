@@ -75,6 +75,12 @@
                     <p><strong>票數：</strong> {{ ticket.TotalTicketCount }} 張</p>
                     <p><strong>場次時間：</strong> {{ ticket.ShowTime }}</p> <!-- 顯示時間 -->
                     <p><strong>場次日期：</strong> {{ ticket.ShowDate }}</p> <!-- 顯示日期 -->
+                    <div class="rating">
+                        <p><strong>評分：</strong></p>
+                        <div class="rating-stars">
+                            <span v-for="star in 5" :key="star" :class="{ active: star <= ticket.Rating }" v-on:click="rateOrder(ticket.Id, star)">★</span>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -103,10 +109,29 @@
                         }
                     };
 
+                    const rateOrder = async (orderId, rating) => {
+                        try {
+                            const response = await fetch(`/api/MemberApiController/RateOrder`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({ orderId, rating })
+                            });
+                            if (!response.ok) {
+                                throw new Error(`API request failed with status: ${response.status}`);
+                            }
+                            await fetchOrders(); // 重新獲取訂單以更新評分
+                        } catch (error) {
+                            console.error("Error rating order:", error);
+                        }
+                    };
+
                     onMounted(fetchOrders);
 
                     return {
                         tickets,
+                        rateOrder
                     };
                 },
             };

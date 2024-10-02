@@ -7,6 +7,7 @@ using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Sunset.WebAPI.Site.Models.Dtos;
 
 namespace Sunset.WebAPI.Site.Controllers.Api
 {
@@ -38,5 +39,22 @@ namespace Sunset.WebAPI.Site.Controllers.Api
             return Ok(userHistory);
         }
 
+        [HttpPost]
+        [Route("RateOrder")]
+        public IHttpActionResult RateOrder([FromBody] RateOrderDto rateOrderDto)
+        {
+            if (rateOrderDto == null || rateOrderDto.OrderId <= 0 || rateOrderDto.Rating < 1 || rateOrderDto.Rating > 5)
+            {
+                return BadRequest("Invalid rating data.");
+            }
+
+            var result = _userHistoryService.RateOrder(rateOrderDto.OrderId, rateOrderDto.Rating);
+            if (!result)
+            {
+                return InternalServerError();
+            }
+
+            return Ok();
+        }
 	}
 }

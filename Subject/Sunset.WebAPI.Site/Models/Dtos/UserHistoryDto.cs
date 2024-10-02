@@ -19,5 +19,6 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 		public string MovieName { get; set; }
 		public string ShowTime { get; set; } // 新增時間欄位
 		public string ShowDate { get; set; } // 新增日期欄位
+		public int? Rating { get; set; } // 新增評分欄位
 	}
 }
