@@ -45,6 +45,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper, Version=10.0.0.0, Culture=neutral, PublicKeyToken=be96cd2c38ef1005, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoMapper.10.1.1\lib\net461\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="EntityFramework, Version=6.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089, processorArchitecture=MSIL">
       <HintPath>..\packages\EntityFramework.6.2.0\lib\net45\EntityFramework.dll</HintPath>
     </Reference>
@@ -163,26 +166,36 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Apis\BookTicketsApiController.cs" />
+    <Compile Include="Controllers\Apis\CheckOrderApiController.cs" />
     <Compile Include="Controllers\Apis\FrontMoviesApiController.cs" />
+    <Compile Include="Controllers\Apis\GetSeatsApiController.cs" />
     <Compile Include="Controllers\Apis\LoginApiController.cs" />
     <Compile Include="Controllers\Apis\MemberApiController.cs" />
+    <Compile Include="Controllers\Apis\RegisterApiController.cs" />
     <Compile Include="Controllers\BookTicketsController.cs" />
     <Compile Include="Controllers\FrontMoviesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\LoginsController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
+    <Compile Include="Controllers\MemberLoginController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dtos\CheckMemberLoginDto.cs" />
+    <Compile Include="Models\Dtos\CheckOrderDto.cs" />
     <Compile Include="Models\Dtos\ChoiceDatesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceMoviesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceSeatsDto.cs" />
+    <Compile Include="Models\Dtos\GetMovieScheduleDto.cs" />
+    <Compile Include="Models\Dtos\MemberLoginDto.cs" />
     <Compile Include="Models\Dtos\MovieBlockbusterDto.cs" />
     <Compile Include="Models\Dtos\MovieComingSoonDto.cs" />
     <Compile Include="Models\Dtos\MovieDetailDto.cs" />
     <Compile Include="Models\Dtos\MovieDto.cs" />
     <Compile Include="Models\Dtos\MovieReleaseScheduleDto.cs" />
     <Compile Include="Models\Dtos\RateOrderDto.cs" />
+    <Compile Include="Models\Dtos\RegisterDto.cs" />
     <Compile Include="Models\Dtos\UserHistoryDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Auditorium.cs" />
@@ -205,18 +218,25 @@
     <Compile Include="Models\EFModels\User.cs" />
     <Compile Include="Models\Exts\ChoiceDatesDto_Ext.cs" />
     <Compile Include="Models\Exts\ChoiceMoviesDto_Ext.cs" />
+    <Compile Include="Models\Infra\EmailHelper.cs" />
+    <Compile Include="Models\Infra\HashUtility.cs" />
+    <Compile Include="Models\MappingProfile.cs" />
     <Compile Include="Models\Repositories\BookTicketsRepository.cs" />
+    <Compile Include="Models\Repositories\MemberRepository.cs" />
     <Compile Include="Models\Repositories\MembersRepository.cs" />
     <Compile Include="Models\Repositories\MovieBlockbusterRepository.cs" />
     <Compile Include="Models\Repositories\MovieComingSoonRepository.cs" />
     <Compile Include="Models\Repositories\MovieDetailRepository.cs" />
     <Compile Include="Models\Repositories\UserHistoryRepository.cs" />
+    <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Services\BookTicketsService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\MovieBlockbusterService.cs" />
     <Compile Include="Models\Services\MovieComingSoonService.cs" />
     <Compile Include="Models\Services\MovieDetailService.cs" />
     <Compile Include="Models\Services\UserHistoryService.cs" />
+    <Compile Include="Models\ViewModels\MemberLoginVm.cs" />
+    <Compile Include="Models\ViewModels\RegisterVm.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
@@ -308,6 +328,7 @@
     <Content Include="images\ScreamVI1.jpg" />
     <Content Include="images\ScreamVI2.jpg" />
     <Content Include="images\ScreamVI3.jpg" />
+    <Content Include="images\Seat.jpg" />
     <Content Include="images\Seats.jpg" />
     <Content Include="images\SpiderMan.jpg" />
     <Content Include="images\SpiderMan1.jpg" />
@@ -383,13 +404,22 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\BookTickets\ChoiceMovies.cshtml" />
     <Content Include="Views\BookTickets\ChoiceDates.cshtml" />
-    <Content Include="Views\Logins\Login.cshtml" />
     <Content Include="Views\FrontMovies\MovieBlockbuster.cshtml" />
     <Content Include="Views\FrontMovies\MovieComingSoon.cshtml" />
     <Content Include="Views\FrontMovies\MovieComingSoonDetail.cshtml" />
     <Content Include="Views\FrontMovies\MovieDetail.cshtml" />
     <Content Include="Views\Member\UserHistory.cshtml" />
+    <Content Include="Views\BookTickets\ChoiceSeats.cshtml" />
+    <Content Include="Views\BookTickets\CheckOrder.cshtml" />
+    <Content Include="Views\MemberLogin\Register.cshtml" />
+    <Content Include="Views\MemberLogin\RegisterConfirm.cshtml" />
+    <Content Include="Views\MemberLogin\MemberLogin.cshtml" />
+    <Content Include="Views\Logins\Login.cshtml" />
     <Content Include="Views\Member\OrderDetails.cshtml" />
+    <Content Include="Views\Members\MemberLogin.cshtml" />
+    <Content Include="Views\Members\Register.cshtml" />
+    <Content Include="Views\Members\RegisterConfirm.cshtml" />
+    <Content Include="Views\Member\Tickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

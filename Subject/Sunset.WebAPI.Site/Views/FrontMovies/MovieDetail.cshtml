@@ -32,7 +32,7 @@
                     <li class="breadcrumb">
                         <a href="MovieBlockbuster">強檔熱映</a>
                     </li>
-                    <li class="breadcrumb active">{{ movie.MovieName }}</li>
+                    <li class="breadcrumb active">{{ movie.movieName }}</li>
                 </ol>
             </nav>
         </div>
@@ -42,33 +42,33 @@
             <div class="row container">
                 <!-- 左邊電影海報 -->
                 <div class="col-md-4">
-                    <img :src="movie.MainPicture" :alt="movie.MovieName" class="img-fluid" v-if="movie.MainPicture" />
+                    <img :src="movie.mainPicture" :alt="movie.movieName" class="img-fluid" v-if="movie.mainPicture" />
                 </div>
 
                 <!-- 右邊電影詳細資料 -->
                 <div class="col-md-8">
                     <h1 class="movie-title">
-                        {{ movie.MovieName }} <small>{{ movie.EnglishName }}</small>
+                        {{ movie.movieName }} <small>{{ movie.englishName }}</small>
                     </h1>
-                    <p><strong>分級：</strong>{{ movie.Grading }}</p>
-                    <p><strong>類型：</strong>{{ movie.GenreName }}</p>
-                    <p><strong>片長：</strong>{{ movie.Duration }} </p>
-                    <p><strong>語言：</strong>{{ movie.MovieLanguage }}</p>
-                    <p><strong>導演：</strong>{{ movie.Director }}</p>
-                    <p><strong>演員：</strong>{{ movie.MovieCast }}</p>
-                    <p><strong>發行：</strong>{{ movie.Distributor }}</p>
+                    <p><strong>分級：</strong>{{ movie.grading }}</p>
+                    <p><strong>類型：</strong>{{ movie.genreName }}</p>
+                    <p><strong>片長：</strong>{{ movie.duration }} </p>
+                    <p><strong>語言：</strong>{{ movie.movieLanguage }}</p>
+                    <p><strong>導演：</strong>{{ movie.director }}</p>
+                    <p><strong>演員：</strong>{{ movie.movieCast }}</p>
+                    <p><strong>發行：</strong>{{ movie.distributor }}</p>
                     <p><strong>上映日期：</strong>{{ formattedPremiereDate }}</p>
-                    <div class="rating" v-if="movie.TotalRating && !isNaN(movie.TotalRating)">
-                        <div class="rating" v-if="movie.AverageRating !== undefined && !isNaN(movie.AverageRating)">
+                    <div class="rating" v-if="movie.totalRating && !isNaN(movie.totalRating)">
+                        <div class="rating" v-if="movie.averageRating !== undefined && !isNaN(movie.averageRating)">
                             <p><strong>評分：</strong></p>
                             <div>
                                 <!-- 實心星星 -->
-                                <span v-for="star in Math.floor(movie.AverageRating)" :key="'filled-' + star"> ★ </span>
+                                <span v-for="star in Math.floor(movie.averageRating)" :key="'filled-' + star"> ★ </span>
                                 <!-- 半顆星星，若有需要，可用不同符號或樣式 -->
-                                <span v-if="(movie.AverageRating % 1) >= 0.5">✭</span>
+                                <span v-if="(movie.averageRating % 1) >= 0.5">✭</span>
                                 <!-- 空心星星 -->
-                                <span v-for="empty in 5 - Math.ceil(movie.AverageRating)" :key="'empty-' + empty"> ☆ </span>
-                                <p>平均評分: {{ movie.AverageRating.toFixed(1) }} 顆星</p>
+                                <span v-for="empty in 5 - Math.ceil(movie.averageRating)" :key="'empty-' + empty"> ☆ </span>
+                                <p>平均評分: {{ movie.averageRating.toFixed(1) }} 顆星</p>
                             </div>
                         </div>
                     </div>
@@ -77,15 +77,15 @@
                 <!-- 電影場次 -->
                 <div class="container">
                     <h2>電影場次</h2>
-                    <div v-if="movie.Showtimes && movie.Showtimes.length > 0">
-                        <div v-for="(times, date) in groupShowtimesByDate(movie.Showtimes)" :key="date" class="mb-3">
+                    <div v-if="movie.showtimes && movie.showtimes.length > 0">
+                        <div v-for="(times, date) in groupShowtimesByDate(movie.showtimes)" :key="date" class="mb-3">
                             <h5>{{ date }}</h5>
                             <div class="d-flex flex-wrap gap-2">
                                 <button v-for="(showtime, index) in times"
                                         :key="index"
                                         class="btn btn-outline-primary"
                                         v-on:click="goToSeatSelection(showtime)">
-                                    {{ showtime.Time }}
+                                    {{ showtime.time }}
                                 </button>
                             </div>
                         </div>
@@ -99,7 +99,7 @@
                 <!-- 電影介紹 -->
                 <div class="container">
                     <h2>電影介紹</h2>
-                    <p v-if="movie.Synopsis">{{ movie.Synopsis }}</p>
+                    <p v-if="movie.synopsis">{{ movie.synopsis }}</p>
                 </div>
 
                 <!-- 劇照輪播 -->
@@ -123,10 +123,10 @@
                 </div>
 
 
-                <div class="container" v-if="movie.TrailerURL">
+                <div class="container" v-if="movie.trailerUrl">
                     <h2>電影預告片</h2>
                     <!-- 動態設定 src 為 TrailerURL -->
-                    <iframe :src="movie.TrailerURL"
+                    <iframe :src="movie.trailerUrl"
                             width="560"
                             height="315"
                             title="YouTube video player"
@@ -165,9 +165,9 @@
                             console.log("Fetched movie details:", data); // 除錯訊息
                             movie.value = {
                                 ...data,
-                                Showtimes: Array.isArray(data.Showtimes) ? data.Showtimes : [], // 確保 Showtimes 是陣列
-                                TotalRating: isNaN(data.TotalRating) ? 0 : data.TotalRating,
-                                Stills: Array.isArray(data.Stills) ? data.Stills : [],
+                                showtimes: Array.isArray(data.showtimes) ? data.showtimes : [], // 確保 showtimes 是陣列
+                                totalRating: isNaN(data.totalRating) ? 0 : data.totalRating,
+                                stills: Array.isArray(data.stills) ? data.stills : [],
                             };
                             console.log("Processed movie details:", movie.value); // 除錯訊息
                         } catch (error) {
@@ -175,13 +175,12 @@
                         }
                     };
 
-
                     onMounted(fetchMovieDetail);
 
                     // 使用 computed 來格式化日期，僅顯示日期部分
                     const formattedPremiereDate = computed(() => {
-                        if (!movie.value.PremiereDate) return '';
-                        const date = new Date(movie.value.PremiereDate);
+                        if (!movie.value.premiereDate) return '';
+                        const date = new Date(movie.value.premiereDate);
                         return date.toISOString().split('T')[0];  // ISO 字串格式，分離出日期部分
                     });
 
@@ -190,14 +189,12 @@
                         if (!Array.isArray(showtimes)) showtimes = [];
 
                         return showtimes.reduce((acc, showtime) => {
-                            const date = new Date(showtime.Date).toISOString().split('T')[0];
+                            const date = new Date(showtime.date).toISOString().split('T')[0];
                             if (!acc[date]) acc[date] = [];
                             acc[date].push(showtime);
                             return acc;
                         }, {});
                     };
-
-
 
                     // 點擊場次跳轉到選擇座位的頁面
                     const goToSeatSelection = (showtime) => {

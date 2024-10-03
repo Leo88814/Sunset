@@ -66,19 +66,17 @@
         <div class="container">
             <h2>歷史訂單</h2>
             <div v-for="ticket in tickets" :key="ticket.orderNumber" class="ticket">
-                <img :src="ticket.MainPicture" alt="ticket.movieName" v-on:click="viewDetails(ticket.OrderNumber)" />
+                <img :src="ticket.mainPicture" alt="ticket.movieName" v-on:click="viewDetails(ticket.orderNumber)" />
                 <div class="ticket-details">
-                    <p>
-                        <strong>電影名稱：</strong> {{ ticket.MovieName }}
-                    </p>
-                    <p><strong>訂單編號：</strong> {{ ticket.OrderNumber }}</p>
-                    <p><strong>票數：</strong> {{ ticket.TotalTicketCount }} 張</p>
-                    <p><strong>場次時間：</strong> {{ ticket.ShowTime }}</p> <!-- 顯示時間 -->
-                    <p><strong>場次日期：</strong> {{ ticket.ShowDate }}</p> <!-- 顯示日期 -->
+                    <p><strong>電影名稱：</strong> {{ ticket.movieName }}</p>
+                    <p><strong>訂單編號：</strong> {{ ticket.orderNumber }}</p>
+                    <p><strong>票數：</strong> {{ ticket.totalTicketCount }} 張</p>
+                    <p><strong>場次時間：</strong> {{ ticket.showTime }}</p>
+                    <p><strong>場次日期：</strong> {{ ticket.showDate }}</p>
                     <div class="rating">
                         <p><strong>評分：</strong></p>
                         <div class="rating-stars">
-                            <span v-for="star in 5" :key="star" :class="{ active: star <= ticket.Rating }" v-on:click="rateOrder(ticket.Id, star)">★</span>
+                            <span v-for="star in 5" :key="star" :class="{ active: star <= ticket.rating }" v-on:click="rateOrder(ticket.id, star)">★</span>
                         </div>
                     </div>
                 </div>
@@ -103,7 +101,11 @@
                                 throw new Error(`API request failed with status: ${response.status}`);
                             }
                             const data = await response.json();
-                            tickets.value = data;
+                            const now = new Date();
+                            tickets.value = data.filter(ticket => {
+                                const showDateTime = new Date(`${ticket.showDate}T${ticket.showTime}`);
+                                return showDateTime <= now;
+                            });
                         } catch (error) {
                             console.error("Error fetching orders:", error);
                         }

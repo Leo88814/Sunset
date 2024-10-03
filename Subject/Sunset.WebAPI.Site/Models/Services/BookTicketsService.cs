@@ -1,4 +1,5 @@
 ﻿using Sunset.WebAPI.Site.Models.Dtos;
+using Sunset.WebAPI.Site.Models.EFModels;
 using Sunset.WebAPI.Site.Models.Exts;
 using Sunset.WebAPI.Site.Models.Repositories;
 using System;
@@ -28,16 +29,39 @@ namespace Sunset.WebAPI.Site.Models.Services
 		public List<ChoiceDatesDto> GetDateInfo(int id)
 		{
 			var path = "~/images/";
-			var MovieDate = _repo.GetMovieDate(id);
-			MovieDate.MatchPath(path);
+			var movieDate = _repo.GetMovieDate(id);
+			movieDate.MatchPath(path);
 
-			return MovieDate;
+			return movieDate;
 		}
 
-		internal object GetSeatInfo(int id)
+		public List<ChoiceSeatsDto> GetChoicedSeatInfo(int movieId, int showdateId, int showtimeId)
 		{
-			var MovieSeats = _repo.GetMovieSeat(id);
-			return MovieSeats;
+			var choicedSeats = _repo.GetChoicedSeat(movieId, showdateId, showtimeId);
+			var allSeats = _repo.GetAllSeat();
+
+			allSeats.ForEach(se => {
+				if (choicedSeats.Any(c => c.SeatId == se.SeatId))
+				{
+					se.SeatStatus = false;
+				}
+			});
+			return allSeats;
 		}
-	}
+		public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
+		{
+			var movieScheduleId = _repo.GetMovieScheduleId(movieId, showdateId, showtimeId);
+
+
+			return movieScheduleId;
+		}
+
+		public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
+		{
+			var orderdetail = _repo.CheckOrder(movieScheduleId, seatIds/*, memberId*/);
+
+			return orderdetail;
+		}
+  
+    }
 }

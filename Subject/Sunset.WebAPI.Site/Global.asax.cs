@@ -1,3 +1,5 @@
+using AutoMapper;
+using Sunset.WebAPI.Site.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +13,7 @@ namespace Sunset.WebAPI.Site
 {
 	public class WebApiApplication : System.Web.HttpApplication
 	{
+		public static IMapper _mapper;
 		protected void Application_Start()
 		{
 			AreaRegistration.RegisterAllAreas();
@@ -18,6 +21,14 @@ namespace Sunset.WebAPI.Site
 			FilterConfig.RegisterGlobalFilters(GlobalFilters.Filters);
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
+
+			// AutoMapper �t�m
+			var config = new MapperConfiguration(cfg =>
+			{
+				cfg.AddProfile<MappingProfile>();
+			});
+
+			_mapper = config.CreateMapper();
 		}
 	}
 }

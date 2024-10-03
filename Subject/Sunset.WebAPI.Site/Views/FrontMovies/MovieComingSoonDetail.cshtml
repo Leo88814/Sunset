@@ -32,7 +32,7 @@
                     <li class="breadcrumb">
                         <a href="MovieComingSoon">即將上映</a>
                     </li>
-                    <li class="breadcrumb active">{{ movie.MovieName }}</li>
+                    <li class="breadcrumb active">{{ movie.movieName }}</li>
                 </ol>
             </nav>
         </div>
@@ -42,21 +42,21 @@
             <div class="row container">
                 <!-- 左邊電影海報 -->
                 <div class="col-md-4">
-                    <img :src="movie.MainPicture" :alt="movie.MovieName" class="img-fluid" v-if="movie.MainPicture" />
+                    <img :src="movie.mainPicture" :alt="movie.movieName" class="img-fluid" v-if="movie.mainPicture" />
                 </div>
 
                 <!-- 右邊電影詳細資料 -->
                 <div class="col-md-8">
                     <h1 class="movie-title">
-                        {{ movie.MovieName }} <small>{{ movie.EnglishName }}</small>
+                        {{ movie.movieName }} <small>{{ movie.englishName }}</small>
                     </h1>
-                    <p><strong>分級：</strong>{{ movie.Grading }}</p>
-                    <p><strong>類型：</strong>{{ movie.GenreName }}</p>
-                    <p><strong>片長：</strong>{{ movie.Duration }} </p>
-                    <p><strong>語言：</strong>{{ movie.MovieLanguage }}</p>
-                    <p><strong>導演：</strong>{{ movie.Director }}</p>
-                    <p><strong>演員：</strong>{{ movie.MovieCast }}</p>
-                    <p><strong>發行：</strong>{{ movie.Distributor }}</p>
+                    <p><strong>分級：</strong>{{ movie.grading }}</p>
+                    <p><strong>類型：</strong>{{ movie.genreName }}</p>
+                    <p><strong>片長：</strong>{{ movie.duration }} </p>
+                    <p><strong>語言：</strong>{{ movie.movieLanguage }}</p>
+                    <p><strong>導演：</strong>{{ movie.director }}</p>
+                    <p><strong>演員：</strong>{{ movie.movieCast }}</p>
+                    <p><strong>發行：</strong>{{ movie.distributor }}</p>
                     <p><strong>上映日期：</strong>{{ formattedPremiereDate }}</p>
                 </div>
 
@@ -64,7 +64,7 @@
                 <!-- 電影介紹 -->
                 <div class="container">
                     <h2>電影介紹</h2>
-                    <p v-if="movie.Synopsis">{{ movie.Synopsis }}</p>
+                    <p v-if="movie.synopsis">{{ movie.synopsis }}</p>
                 </div>
 
                 <!-- 劇照輪播 -->
@@ -88,10 +88,10 @@
                 </div>
 
 
-                <div class="container" v-if="movie.TrailerURL">
+                <div class="container" v-if="movie.trailerURL">
                     <h2>電影預告片</h2>
                     <!-- 動態設定 src 為 TrailerURL -->
-                    <iframe :src="movie.TrailerURL"
+                    <iframe :src="movie.trailerURL"
                             width="560"
                             height="315"
                             title="YouTube video player"
@@ -129,25 +129,23 @@
                             const data = await response.json();
                             movie.value = {
                                 ...data,
-                                Showtimes: Array.isArray(data.Showtimes) ? data.Showtimes : [], // 確保 Showtimes 是陣列
-                                TotalRating: isNaN(data.TotalRating) ? 0 : data.TotalRating,
-                                Stills: Array.isArray(data.Stills) ? data.Stills : [],
+                                showtimes: Array.isArray(data.showtimes) ? data.showtimes : [], // 確保 showtimes 是陣列
+                                totalRating: isNaN(data.totalRating) ? 0 : data.totalRating,
+                                stills: Array.isArray(data.stills) ? data.stills : [],
                             };
                         } catch (error) {
                             console.error("Error fetching movie details:", error);
                         }
                     };
 
-
                     onMounted(fetchMovieDetail);
 
                     // 使用 computed 來格式化日期，僅顯示日期部分
                     const formattedPremiereDate = computed(() => {
-                        if (!movie.value.PremiereDate) return '';
-                        const date = new Date(movie.value.PremiereDate);
+                        if (!movie.value.premiereDate) return '';
+                        const date = new Date(movie.value.premiereDate);
                         return date.toISOString().split('T')[0];  // ISO 字串格式，分離出日期部分
                     });
-
 
                     return {
                         movie,

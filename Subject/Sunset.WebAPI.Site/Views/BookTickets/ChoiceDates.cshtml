@@ -31,7 +31,7 @@
 
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
-                        <img class="img-fluid mt-3" :src="imagePath" :alt="movieName"/>
+                        <img class="img-fluid mt-3" :src="imagePath" :alt="movieName" />
                         <p class="text-center fw-bolder mt-2">
                             {{ movieName }}
                         </p>
@@ -78,13 +78,8 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
-            integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
-            crossorigin="anonymous"></script>
-    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
-    <script src="~/js/header-component.js"></script>
-    <script src="~/js/footer-component.js"></script>
-    <script>
+    @section scripts{
+        <script>
         const { createApp, ref, onMounted, computed } = Vue;
 
         const ChoiceDates = {
@@ -104,7 +99,7 @@
                     }
                     return `/images/${mainPicture.value.split('/').pop()}`;
                 });
-
+                console.log("selectedDate", selectedDate)
                 onMounted(async () => {
                     try {
                         const response = await fetch(`/api/BookTicketsApi/ChoiceDates/${id}`, {
@@ -142,11 +137,13 @@
                     selectedTime.value = timeId;
                     errorTimeMessage.value = "";
                 };
+
+
                  const handleNextPage = () => {
-                    if (CheckDateAndTime()) {
-                        window.location.href = '@Url.Action("ChoiceSeats", "BookTickets")';
+                     if (CheckDateAndTime()) {
+                         window.location.href = `@Url.Action("ChoiceSeats", "BookTickets")/${id}/${selectedDate.value}/${selectedTime.value}`;
                     }
-                
+
                 };
 
                 const CheckDateAndTime = () => {
@@ -160,7 +157,7 @@
                     }
                     return true;
                 };
-              
+
 
                 return {
                     imagePath,
@@ -183,5 +180,7 @@
 
         const app = createApp(ChoiceDates);
         app.mount("#app");
-    </script>
+        </script>
+    }
 </body>
+
