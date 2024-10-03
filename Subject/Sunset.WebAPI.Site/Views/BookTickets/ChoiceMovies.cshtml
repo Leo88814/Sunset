@@ -73,17 +73,13 @@
         </div>
 
     </div>
-
+    
     @section scripts{
+
         <script>
-
             const { createApp, ref, onMounted } = Vue;
-
             const config = {
-                components: {
-                    "header-component": HeaderComponent,
-                    "footer-component": FooterComponent,
-                },
+              
                 setup() {
                     const url = "/api/BookTicketsApi/"
                     const cards = ref([]);

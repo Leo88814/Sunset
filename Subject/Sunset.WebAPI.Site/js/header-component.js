@@ -52,7 +52,7 @@ const HeaderComponent = {
               <div class="login-container me-3">
                 <div v-if="!isLoggedIn" class="nav-item h-100">
                   <a
-                    href="User-Login.html"
+                    href="MemberLogin"
                     class="nav-link text-light d-flex align-items-center justify-content-center h-100"
                     >
                     <img
@@ -107,7 +107,7 @@ const HeaderComponent = {
       console.log("使用者已登入");
     };
 
-    const logout = () => {
+     const logout = () => {
       isLoggedIn.value = false;
       console.log("使用者已登出");
     };
