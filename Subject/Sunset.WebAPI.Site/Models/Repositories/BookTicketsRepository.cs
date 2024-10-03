@@ -122,6 +122,7 @@ namespace Sunset.WebAPI.Site.Models.Repositories
         }
         public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/) 
 		{
+			
 			var movieSchedule = _db.MovieReleaseSchedules
 				.Where(mr => mr.Id == movieScheduleId)
 				.Select(mr => new MovieSchedule

@@ -9,7 +9,8 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 {
     public class CheckOrderDto
     {
-        public MovieSchedule MovieScheduleInfo { get; set; }
+		
+		public MovieSchedule MovieScheduleInfo { get; set; }
         public List<ChoicedSeats> ChoiceSeatInfo { get; set; }
         public MemberCurrentBalance MemberBalance { get; set; }
         public class MovieSchedule

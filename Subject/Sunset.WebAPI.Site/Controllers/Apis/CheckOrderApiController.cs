@@ -20,26 +20,27 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
         [Route("api/CheckOrderApi/GetMovieScheduleId/{movieId}/{showdateId}/{showtimeId}")]
         public IHttpActionResult GetMovieSchedule(int movieId, int showdateId, int showtimeId)
         {
-            var allSeat = _service.GetMovieScheduleId(movieId, showdateId, showtimeId);
+            var movieSchedule = _service.GetMovieScheduleId(movieId, showdateId, showtimeId);
 
-            if (allSeat == null)
+            if (movieSchedule == null)
             {
                 return NotFound();
             }
-            return Ok(allSeat);
+            return Ok(movieSchedule);
         }
 
         [HttpGet]
         [Route("api/CheckOrderApi/CheckOrder/{movieScheduleId}/{seatIds}")]
         public IHttpActionResult CheckCurrentOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
         {
-            var allSeat = _service.CheckOrder(movieScheduleId, seatIds/*, showtimeId*/);
+			
+			var checkOrder = _service.CheckOrder(movieScheduleId, seatIds /*, showtimeId*/);
 
-            if (allSeat == null)
+            if (checkOrder == null)
             {
                 return NotFound();
             }
-            return Ok(allSeat);
+            return Ok(checkOrder);
         }
     }
 }

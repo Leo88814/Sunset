@@ -169,18 +169,21 @@
     <Compile Include="Controllers\Apis\CheckOrderApiController.cs" />
     <Compile Include="Controllers\Apis\GetSeatsApiController.cs" />
     <Compile Include="Controllers\Apis\LoginApiController.cs" />
+    <Compile Include="Controllers\Apis\MemberApiController.cs" />
     <Compile Include="Controllers\BookTicketsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
-    <Compile Include="Controllers\LoginsController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dtos\CheckMemberLoginDto.cs" />
     <Compile Include="Models\Dtos\CheckOrderDto.cs" />
     <Compile Include="Models\Dtos\ChoiceDatesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceMoviesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceSeatsDto.cs" />
     <Compile Include="Models\Dtos\GetMovieScheduleDto.cs" />
     <Compile Include="Models\Dtos\MemberLoginDto.cs" />
+    <Compile Include="Models\Dtos\RegisterDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Auditorium.cs" />
     <Compile Include="Models\EFModels\Cinema.cs" />
@@ -196,7 +199,6 @@
     <Compile Include="Models\EFModels\Seat.cs" />
     <Compile Include="Models\EFModels\ShowDate.cs" />
     <Compile Include="Models\EFModels\ShowTime.cs" />
-    <Compile Include="Models\EFModels\sysdiagram.cs" />
     <Compile Include="Models\EFModels\Ticket.cs" />
     <Compile Include="Models\EFModels\Topup.cs" />
     <Compile Include="Models\EFModels\TransactionHistory.cs" />
@@ -207,11 +209,12 @@
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\MappingProfile.cs" />
     <Compile Include="Models\Repositories\BookTicketsRepository.cs" />
-    <Compile Include="Models\Repositories\MembersRepository.cs" />
+    <Compile Include="Models\Repositories\MemberRepository.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Services\BookTicketsService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVm.cs" />
+    <Compile Include="Models\ViewModels\RegisterVm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -366,9 +369,11 @@
     <Content Include="Views\Shared\_Layout.cshtml" />
     <Content Include="Views\BookTickets\ChoiceMovies.cshtml" />
     <Content Include="Views\BookTickets\ChoiceDates.cshtml" />
-    <Content Include="Views\Logins\Login.cshtml" />
     <Content Include="Views\BookTickets\ChoiceSeats.cshtml" />
     <Content Include="Views\BookTickets\CheckOrder.cshtml" />
+    <Content Include="Views\Members\Register.cshtml" />
+    <Content Include="Views\Members\RegisterConfirm.cshtml" />
+    <Content Include="Views\Members\MemberLogin.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
