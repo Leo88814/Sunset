@@ -62,21 +62,6 @@ namespace Sunset.WebAPI.Site.Models.Services
 
 			return orderdetail;
 		}
-        public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
-        {
-            var movieScheduleId = _repo.GetMovieScheduleId(movieId, showdateId, showtimeId);
-
-
-			return movieScheduleId;
-        }
-
-        public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
-        {
-            var orderdetail = _repo.CheckOrder(movieScheduleId, seatIds/*, memberId*/);
-
-			return orderdetail;
-        }
-
-        
+  
     }
 }

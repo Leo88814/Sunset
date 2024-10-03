@@ -36,13 +36,5 @@ namespace Sunset.WebAPI.Site.Controllers
 			//ViewBag.memberId = memberId;
 			return View();
 		}
-
-        public ActionResult CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
-        {
-            ViewBag.movieScheduleId = movieScheduleId;
-            ViewBag.seatIds = seatIds;
-            //ViewBag.memberId = memberId;
-            return View();
-        }
     }
 }
