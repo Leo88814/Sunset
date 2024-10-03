@@ -12,16 +12,16 @@ using System.Web.Http;
 
 namespace Sunset.WebAPI.Site.Controllers.Apis
 {
-	
+
 	public class BookTicketsApiController : ApiController
 	{
 		private readonly BookTicketsService _service;
 
 		public BookTicketsApiController()
-        {
+		{
 			_service = new BookTicketsService();
 		}
-		
+
 		public IHttpActionResult GetMovie()
 		{
 			var allMovie = _service.GetAllMovieInfo();
@@ -33,28 +33,13 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 		[Route("api/BookTicketsApi/ChoiceDates/{id}")]
 		public IHttpActionResult GetDate(int id)
 		{
-
 			var allDate = _service.GetDateInfo(id);
-			
 
 			if (allDate == null)
 			{
 				return NotFound();
 			}
 			return Ok(allDate);
-		}
-
-		[HttpGet]
-		[Route("ChoiceDates/{id}")]
-		public IHttpActionResult GetSeat(int id)
-		{
-			var allSeat = _service.GetSeatInfo(id);
-
-			if (allSeat == null)
-			{
-				return NotFound();
-			}
-			return Ok(allSeat);
 		}
 	}
 }

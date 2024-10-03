@@ -398,3 +398,6 @@ C:\Users\SKY3015\Desktop\Sunset-test\Subject\Sunset.WebAPI.Site\obj\Debug\Sunset
 C:\Users\SKY3015\Desktop\Sunset-test\Subject\Sunset.WebAPI.Site\obj\Debug\Sunset.W.4969DA82.Up2Date
 C:\Users\SKY3015\Desktop\Sunset-test\Subject\Sunset.WebAPI.Site\obj\Debug\Sunset.WebAPI.Site.dll
 C:\Users\SKY3015\Desktop\Sunset-test\Subject\Sunset.WebAPI.Site\obj\Debug\Sunset.WebAPI.Site.pdb
+C:\Users\USER\Downloads\Sunset\Subject\Sunset.WebAPI.Site\bin\AutoMapper.dll
+C:\Users\USER\Downloads\Sunset\Subject\Sunset.WebAPI.Site\bin\AutoMapper.xml
+C:\Users\USER\Downloads\Sunset\Subject\Sunset.WebAPI.Site\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
