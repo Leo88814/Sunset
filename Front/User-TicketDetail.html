@@ -122,9 +122,10 @@
         <table>
           <thead>
             <tr>
-              <th>位置</th>
+              <th>座位</th>
               <th>票卷序號</th>
               <th>票價</th>
+              <th>票種</th>
             </tr>
           </thead>
           <tbody>
@@ -132,6 +133,7 @@
               <td>{{ seat.seatNumber }}</td>
               <td>{{ seat.ticketNumber }}</td>
               <td>{{ seat.price }}</td>
+              <td>{{ seat.ticket }}</td>
             </tr>
           </tbody>
         </table>
@@ -167,14 +169,22 @@
             duration: 58,
             seats: [
               {
-                seatNumber: "A排4號",
-                ticketNumber: "202408241",
+                seatNumber: "A1",
+                ticketNumber: "A001",
                 price: "NT$230",
+                ticket: "全票",
               },
               {
-                seatNumber: "A排5號",
-                ticketNumber: "202408242",
-                price: "NT$230",
+                seatNumber: "A2",
+                ticketNumber: "B002",
+                price: "NT$200",
+                ticket: "優待票",
+              },
+              {
+                seatNumber: "A2",
+                ticketNumber: "C003",
+                price: "NT$180",
+                ticket: "愛心票",
               },
             ],
           });

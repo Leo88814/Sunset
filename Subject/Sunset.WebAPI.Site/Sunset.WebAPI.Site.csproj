@@ -166,6 +166,7 @@
     <Compile Include="Areas\HelpPage\SampleGeneration\TextSample.cs" />
     <Compile Include="Areas\HelpPage\XmlDocumentationProvider.cs" />
     <Compile Include="Controllers\Apis\BookTicketsApiController.cs" />
+    <Compile Include="Controllers\Apis\CheckOrderApiController.cs" />
     <Compile Include="Controllers\Apis\FrontMoviesApiController.cs" />
     <Compile Include="Controllers\Apis\GetSeatsApiController.cs" />
     <Compile Include="Controllers\Apis\LoginApiController.cs" />
@@ -174,8 +175,10 @@
     <Compile Include="Controllers\BookTicketsController.cs" />
     <Compile Include="Controllers\FrontMoviesController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
+    <Compile Include="Controllers\LoginsController.cs" />
     <Compile Include="Controllers\MemberController.cs" />
     <Compile Include="Controllers\MemberLoginController.cs" />
+    <Compile Include="Controllers\MembersController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -189,6 +192,7 @@
     <Compile Include="Models\Dtos\MovieBlockbusterDto.cs" />
     <Compile Include="Models\Dtos\MovieComingSoonDto.cs" />
     <Compile Include="Models\Dtos\MovieDetailDto.cs" />
+    <Compile Include="Models\Dtos\MovieDto.cs" />
     <Compile Include="Models\Dtos\MovieReleaseScheduleDto.cs" />
     <Compile Include="Models\Dtos\RateOrderDto.cs" />
     <Compile Include="Models\Dtos\RegisterDto.cs" />
@@ -219,6 +223,7 @@
     <Compile Include="Models\MappingProfile.cs" />
     <Compile Include="Models\Repositories\BookTicketsRepository.cs" />
     <Compile Include="Models\Repositories\MemberRepository.cs" />
+    <Compile Include="Models\Repositories\MembersRepository.cs" />
     <Compile Include="Models\Repositories\MovieBlockbusterRepository.cs" />
     <Compile Include="Models\Repositories\MovieComingSoonRepository.cs" />
     <Compile Include="Models\Repositories\MovieDetailRepository.cs" />
@@ -409,6 +414,12 @@
     <Content Include="Views\MemberLogin\Register.cshtml" />
     <Content Include="Views\MemberLogin\RegisterConfirm.cshtml" />
     <Content Include="Views\MemberLogin\MemberLogin.cshtml" />
+    <Content Include="Views\Logins\Login.cshtml" />
+    <Content Include="Views\Member\OrderDetails.cshtml" />
+    <Content Include="Views\Members\MemberLogin.cshtml" />
+    <Content Include="Views\Members\Register.cshtml" />
+    <Content Include="Views\Members\RegisterConfirm.cshtml" />
+    <Content Include="Views\Member\Tickets.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

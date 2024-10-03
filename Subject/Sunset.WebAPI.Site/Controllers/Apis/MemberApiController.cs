@@ -56,5 +56,16 @@ namespace Sunset.WebAPI.Site.Controllers.Api
 
             return Ok();
         }
+		[HttpGet]
+		[Route("OrderDetails/{orderNumber}")]
+		public IHttpActionResult GetOrderDetails(string orderNumber)
+		{
+			var orderDetails = _userHistoryService.GetUserHistoryDetail(orderNumber);
+			if (orderDetails == null)
+			{
+				return NotFound();
+			}
+			return Ok(orderDetails);
+		}
 	}
 }

@@ -79,16 +79,16 @@
         <div class="container">
             <h2>即將上映</h2>
             <div class="movie-list">
-                <div class="movie" v-for="movie in movies" :key="movie.Id">
-                    <a :href="`MovieComingSoonDetail?id=${movie.Id}`">
-                        <img :src="movie.MainPicture" :alt="movie.MovieName" />
+                <div class="movie" v-for="movie in movies" :key="movie.id">
+                    <a :href="`MovieComingSoonDetail?id=${movie.id}`">
+                        <img :src="movie.mainPicture" :alt="movie.movieName" />
                     </a>
                     <div class="movie-info">
-                        <h4>{{ movie.MovieName }} ({{ movie.Grading }})</h4>
-                        <p>片長: {{ movie.Duration }} </p>
-                        <p>類型: {{ movie.GenreName }}</p>
-                        <p><strong>上映日期：</strong>{{ formatDate(movie.PremiereDate) }}</p>
-                        <a :href="`MovieComingSoonDetail?id=${movie.Id}`">More</a>
+                        <h4>{{ movie.movieName }} ({{ movie.grading }})</h4>
+                        <p>片長: {{ movie.duration }} </p>
+                        <p>類型: {{ movie.genreName }}</p>
+                        <p><strong>上映日期：</strong>{{ formatDate(movie.premiereDate) }}</p>
+                        <a :href="`MovieComingSoonDetail?id=${movie.id}`">More</a>
                     </div>
                 </div>
             </div>
@@ -101,7 +101,6 @@
             const { createApp, ref, onMounted } = Vue;
 
             const config = {
-
                 setup() {
                     const movies = ref([]);
                     const apiUrl = "/api/FrontMoviesApiController/MovieComingSoon/";

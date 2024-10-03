@@ -401,3 +401,6 @@ C:\Users\SKY3015\Desktop\Sunset-test\Subject\Sunset.WebAPI.Site\obj\Debug\Sunset
 C:\Users\USER\Downloads\Sunset\Subject\Sunset.WebAPI.Site\bin\AutoMapper.dll
 C:\Users\USER\Downloads\Sunset\Subject\Sunset.WebAPI.Site\bin\AutoMapper.xml
 C:\Users\USER\Downloads\Sunset\Subject\Sunset.WebAPI.Site\bin\zh-Hant\EntityFramework.SqlServer.resources.dll
+C:\Users\SKY3015\Desktop\Sunset-test\Subject\Sunset.WebAPI.Site\bin\AutoMapper.dll
+C:\Users\SKY3015\Desktop\Sunset-test\Subject\Sunset.WebAPI.Site\bin\AutoMapper.xml
+C:\Users\SKY3015\Desktop\Sunset-test\Subject\Sunset.WebAPI.Site\bin\zh-Hant\EntityFramework.SqlServer.resources.dll

@@ -77,28 +77,28 @@ ViewBag.Title = "強檔熱映";
         <div class="container">
             <h2>強檔熱映</h2>
             <div class="movie-list">
-                <div class="movie" v-for="movie in movies" :key="movie.Id">
-                    <a :href="`MovieDetail?id=${movie.Id}`">
-                        <img :src="movie.MainPicture" :alt="movie.MovieName" />
+                <div class="movie" v-for="movie in movies" :key="movie.id">
+                    <a :href="`MovieDetail?id=${movie.id}`">
+                        <img :src="movie.mainPicture" :alt="movie.movieName" />
                     </a>
                     <div class="movie-info">
-                        <h4>{{ movie.MovieName }} ({{ movie.Grading }})</h4>
-                        <p>片長: {{ movie.Duration }} </p>
-                        <p>類型: {{ movie.GenreName }}</p>
-                        <div class="rating" v-if="movie.AverageRating !== undefined && movie.AverageRating !== null">
+                        <h4>{{ movie.movieName }} ({{ movie.grading }})</h4>
+                        <p>片長: {{ movie.duration }} </p>
+                        <p>類型: {{ movie.genreName }}</p>
+                        <div class="rating" v-if="movie.averageRating !== undefined && movie.averageRating !== null">
                             <p><strong>評分：</strong></p>
                             <div>
                                 <!-- 實心星星 -->
-                                <span v-for="star in Math.floor(movie.AverageRating)" :key="'filled-' + star"> ★ </span>
+                                <span v-for="star in Math.floor(movie.averageRating)" :key="'filled-' + star"> ★ </span>
                                 <!-- 半顆星星，若有需要，可用不同符號或樣式 -->
-                                <span v-if="(movie.AverageRating % 1) >= 0.5">✭</span>
+                                <span v-if="(movie.averageRating % 1) >= 0.5">✭</span>
                                 <!-- 空心星星 -->
-                                <span v-for="empty in 5 - Math.ceil(movie.AverageRating)" :key="'empty-' + empty"> ☆ </span>
-                                <p>{{ movie.AverageRating.toFixed(1) }} 顆星</p>
+                                <span v-for="empty in 5 - Math.ceil(movie.averageRating)" :key="'empty-' + empty"> ☆ </span>
+                                <p>{{ movie.averageRating.toFixed(1) }} 顆星</p>
                             </div>
                         </div>
                         <p v-else>無評分</p>
-                        <a :href="`MovieDetail?id=${movie.Id}`">More</a>
+                        <a :href="`MovieDetail?id=${movie.id}`">More</a>
                     </div>
                 </div>
             </div>
