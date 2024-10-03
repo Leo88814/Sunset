@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Web;
 
@@ -18,7 +17,7 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 
 		public string PhoneNumber { get; set; }
 
-        public string MemberName { get; set; }
+		public string MemberName { get; set; }
 
 		public DateTime DateOfBirth { get; set; }
 

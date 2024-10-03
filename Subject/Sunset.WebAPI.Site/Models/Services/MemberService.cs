@@ -10,13 +10,13 @@ using System.Web.Http.Results;
 
 namespace Sunset.WebAPI.Site.Models.Services
 {
-    public class MemberService
-    {
-        private readonly MemberRepository _repo;
-        public MemberService()
-        {
-            _repo = new MemberRepository();
-        }
+	public class MemberService
+	{
+		private readonly MemberRepository _repo;
+		public MemberService()
+		{
+			_repo = new MemberRepository();
+		}
 
 		public void Register(RegisterDto dto)
 		{

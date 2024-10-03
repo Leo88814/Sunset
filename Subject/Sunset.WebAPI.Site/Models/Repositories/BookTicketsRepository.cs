@@ -57,7 +57,7 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 				Id = g.Key.MovieInfoId,
 				MovieName = g.Key.MovieName,
 				MainPicture = g.Key.MainPicture,
-				DateId = g.Key.Id, 
+				DateId = g.Key.Id,
 				ShowtimeDate = g.Key.ShowTimeDate,
 				Times = g.Select(t => new ShowtimeDto
 				{
@@ -70,33 +70,33 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			return allDate;
 		}
 
-		public List<ChoiceSeatsDto> GetChoicedSeat(int movieId,int showdateId,int showtimeId)
+		public List<ChoiceSeatsDto> GetChoicedSeat(int movieId, int showdateId, int showtimeId)
 		{
 			var choicedSeat = _db.Orders
-            .Where(o => o.MovieReleaseSchedule.MovieInfoId == movieId
-                     && o.MovieReleaseSchedule.ShowDateId == showdateId
-                     && o.MovieReleaseSchedule.ShowTimeId == showtimeId)
-            .Join(_db.OrderDetails,
-                  o => o.Id,
-                  od => od.OrderId,
-                  (o, od) => new { Order = o, OrderDetail = od })
-            .Join(_db.Seats,
-                  joined => joined.OrderDetail.SeatId,
-                  s => s.Id,
-                  (joined, s) => new ChoiceSeatsDto
-                  {
-                      SeatId = s.Id,
-                      SeatNumber = s.SeatNumber,
-                      SeatStatus = s.SeatStatus
-                  })
-            .ToList();
+			.Where(o => o.MovieReleaseSchedule.MovieInfoId == movieId
+					 && o.MovieReleaseSchedule.ShowDateId == showdateId
+					 && o.MovieReleaseSchedule.ShowTimeId == showtimeId)
+			.Join(_db.OrderDetails,
+				  o => o.Id,
+				  od => od.OrderId,
+				  (o, od) => new { Order = o, OrderDetail = od })
+			.Join(_db.Seats,
+				  joined => joined.OrderDetail.SeatId,
+				  s => s.Id,
+				  (joined, s) => new ChoiceSeatsDto
+				  {
+					  SeatId = s.Id,
+					  SeatNumber = s.SeatNumber,
+					  SeatStatus = s.SeatStatus
+				  })
+			.ToList();
 
-            return choicedSeat;
+			return choicedSeat;
 
 		}
 
-        public List<ChoiceSeatsDto> GetAllSeat()
-        {
+		public List<ChoiceSeatsDto> GetAllSeat()
+		{
 			var allSeats = _db.Seats
 				.Select(s => new ChoiceSeatsDto
 				{
@@ -106,23 +106,23 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 				}).ToList();
 
 			return allSeats;
-        }
+		}
 
-        public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
-        {
-            var movieScheduleId = _db.MovieReleaseSchedules
-                .Where(mr => mr.MovieInfoId == movieId
-                      && mr.ShowDateId == showdateId
-                      && mr.ShowTimeId == showtimeId)
+		public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
+		{
+			var movieScheduleId = _db.MovieReleaseSchedules
+				.Where(mr => mr.MovieInfoId == movieId
+					  && mr.ShowDateId == showdateId
+					  && mr.ShowTimeId == showtimeId)
 				.Select(mr => mr.Id)
 				.FirstOrDefault();
 
-            return new GetMovieScheduleDto 
+			return new GetMovieScheduleDto
 			{ Id = movieScheduleId };
-        }
-        public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/) 
+		}
+		public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
 		{
-			
+
 			var movieSchedule = _db.MovieReleaseSchedules
 				.Where(mr => mr.Id == movieScheduleId)
 				.Select(mr => new MovieSchedule
@@ -135,9 +135,9 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 				}).FirstOrDefault();
 
 			var seats = _db.Seats
-                 .Where(s => seatIds.Contains(s.Id))
+				 .Where(s => seatIds.Contains(s.Id))
 				.Select(s => new ChoicedSeats
-                {
+				{
 					Id = s.Id,
 					SeatNumber = s.SeatNumber
 				}).ToList();
@@ -150,14 +150,14 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			//		CurrentBalance = m.CurrentBalance,
 			//	}).FirstOrDefault();
 
-            return new CheckOrderDto
-            {
-                MovieScheduleInfo = movieSchedule,
-                ChoiceSeatInfo = seats,
-                //MemberBalance = member
-            };
-        }
+			return new CheckOrderDto
+			{
+				MovieScheduleInfo = movieSchedule,
+				ChoiceSeatInfo = seats,
+				//MemberBalance = member
+			};
+		}
 
-       
-    }
+
+	}
 }

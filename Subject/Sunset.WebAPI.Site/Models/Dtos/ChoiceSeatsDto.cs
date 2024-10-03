@@ -7,9 +7,9 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 {
 	public class ChoiceSeatsDto
 	{
-        public int SeatId { get; set; }
-        public string SeatNumber { get; set; }
-        public bool SeatStatus { get; set; }
+		public int SeatId { get; set; }
+		public string SeatNumber { get; set; }
+		public bool SeatStatus { get; set; }
 
     }
 }

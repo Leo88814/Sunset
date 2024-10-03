@@ -3,7 +3,6 @@ using Sunset.WebAPI.Site.Models.EFModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Security.Principal;
 using System.Web;
 
 namespace Sunset.WebAPI.Site.Models.Repositories
@@ -12,9 +11,9 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 	{
 		private readonly AppDbContext _db;
 		public MemberRepository()
-        {
-            _db = new AppDbContext();
-        }
+		{
+			_db = new AppDbContext();
+		}
 		public void Create(RegisterDto dto)
 		{
 			_db.Members.Add(new Member

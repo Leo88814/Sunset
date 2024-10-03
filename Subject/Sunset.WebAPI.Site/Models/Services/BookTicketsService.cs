@@ -35,17 +35,32 @@ namespace Sunset.WebAPI.Site.Models.Services
 			return movieDate;
 		}
 
-        public List<ChoiceSeatsDto> GetChoicedSeatInfo(int movieId,int showdateId,int showtimeId)
+		public List<ChoiceSeatsDto> GetChoicedSeatInfo(int movieId, int showdateId, int showtimeId)
 		{
 			var choicedSeats = _repo.GetChoicedSeat(movieId, showdateId, showtimeId);
-            var allSeats = _repo.GetAllSeat();
+			var allSeats = _repo.GetAllSeat();
 
 			allSeats.ForEach(se => {
-				if (choicedSeats.Any(c => c.SeatId == se.SeatId)) {
+				if (choicedSeats.Any(c => c.SeatId == se.SeatId))
+				{
 					se.SeatStatus = false;
 				}
 			});
 			return allSeats;
+		}
+		public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
+		{
+			var movieScheduleId = _repo.GetMovieScheduleId(movieId, showdateId, showtimeId);
+
+
+			return movieScheduleId;
+		}
+
+		public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
+		{
+			var orderdetail = _repo.CheckOrder(movieScheduleId, seatIds/*, memberId*/);
+
+			return orderdetail;
 		}
         public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
         {

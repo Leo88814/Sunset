@@ -5,8 +5,8 @@ using System.Web;
 
 namespace Sunset.WebAPI.Site.Models.Dtos
 {
-    public class GetMovieScheduleDto
-    {
-        public int Id { get; set; }
-    }
+	public class GetMovieScheduleDto
+	{
+		public int Id { get; set; }
+	}
 }

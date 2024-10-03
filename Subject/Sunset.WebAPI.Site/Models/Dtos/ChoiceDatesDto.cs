@@ -9,13 +9,13 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 {
 	public class ChoiceDatesDto
 	{
-        public int Id { get; set; }
+		public int Id { get; set; }
 
 		public string MovieName { get; set; }
 		public string MainPicture { get; set; }
 
 		public int DateId { get; set; }
-        [DataType(DataType.Date)]
+		[DataType(DataType.Date)]
 		public DateTime ShowtimeDate { get; set; }
 
 		[NotMapped] // 不將此屬性映射到資料庫

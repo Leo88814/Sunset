@@ -1,28 +1,60 @@
-﻿using Sunset.WebAPI.Site.Models.Dtos;
-using Sunset.WebAPI.Site.Models.Services;
-using Sunset.WebAPI.Site.Models.ViewModels;
+﻿using Sunset.WebAPI.Site.Models.EFModels;
+using Sunset.WebAPI.Site.Repositories;
+using Sunset.WebAPI.Site.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
 using System.Web.Http;
+using Sunset.WebAPI.Site.Models.Dtos;
 
-namespace Sunset.WebAPI.Site.Controllers.Apis
+namespace Sunset.WebAPI.Site.Controllers.Api
 {
-    public class MemberApiController : ApiController
+	[RoutePrefix("api/MemberApiController")]
+	public class MemberApiController : ApiController
     {
-		private readonly MemberService _service;
+		private readonly UserHistoryService _userHistoryService;
+
+        // 預設建構函式
         public MemberApiController()
         {
-			_service = new MemberService();
-		}
+            _userHistoryService = new UserHistoryService(new UserHistoryRepository(new AppDbContext()));
+        }
 
-        public IHttpActionResult RegisterMember(RegisterDto dto)
-		{
-			_service.Register(dto);
+        public MemberApiController(UserHistoryService userHistoryService)
+        {
+            _userHistoryService = userHistoryService;
+        }
 
-			return Ok(dto);
-		}
+        [HttpGet]
+        [Route("UserHistory/{memberId}")]
+        public IHttpActionResult UserHistory(string memberId)
+        {
+            var userHistory = _userHistoryService.GetUserHistoryByMemberId(memberId);
+            if (userHistory == null || !userHistory.Any())
+            {
+                return NotFound();
+            }
+            return Ok(userHistory);
+        }
+
+        [HttpPost]
+        [Route("RateOrder")]
+        public IHttpActionResult RateOrder([FromBody] RateOrderDto rateOrderDto)
+        {
+            if (rateOrderDto == null || rateOrderDto.OrderId <= 0 || rateOrderDto.Rating < 1 || rateOrderDto.Rating > 5)
+            {
+                return BadRequest("Invalid rating data.");
+            }
+
+            var result = _userHistoryService.RateOrder(rateOrderDto.OrderId, rateOrderDto.Rating);
+            if (!result)
+            {
+                return InternalServerError();
+            }
+
+            return Ok();
+        }
 	}
 }

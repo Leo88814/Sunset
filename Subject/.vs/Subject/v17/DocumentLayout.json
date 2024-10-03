@@ -3,40 +3,36 @@
   "WorkspaceRootPath": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\controllers\\memberscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\controllers\\memberscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\views\\memberlogin\\memberlogin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\memberlogin\\memberlogin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\views\\members\\memberlogin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\members\\memberlogin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\views\\booktickets\\choicemovies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\booktickets\\choicemovies.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\models\\services\\memberservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\services\\memberservice.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\models\\dtos\\choicemoviesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\dtos\\choicemoviesdto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\controllers\\apis\\loginapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\controllers\\apis\\loginapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\shared\\_layout.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\models\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\mappingprofile.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\views\\memberlogin\\registerconfirm.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\memberlogin\\registerconfirm.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\models\\repositories\\memberrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\repositories\\memberrepository.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\views\\memberlogin\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\memberlogin\\register.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\models\\viewmodels\\registervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\viewmodels\\registervm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\app_start\\webapiconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\app_start\\webapiconfig.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\models\\dtos\\checkmemberlogindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\dtos\\checkmemberlogindto.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\models\\viewmodels\\memberloginvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\models\\viewmodels\\memberloginvm.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\user\\downloads\\sunset\\subject\\sunset.webapi.site\\controllers\\bookticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\controllers\\bookticketscontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     }
   ],
   "DocumentGroupContainers": [
@@ -45,7 +41,7 @@
       "VerticalTabListWidth": 256,
       "DocumentGroups": [
         {
-          "DockedWidth": 87,
+          "DockedWidth": 155,
           "SelectedChildIndex": 7,
           "Children": [
             {
@@ -79,118 +75,105 @@
             {
               "$type": "Document",
               "DocumentIndex": 0,
-              "Title": "MembersController.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\MembersController.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Controllers\\MembersController.cs",
-              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\MembersController.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Controllers\\MembersController.cs",
-              "ViewState": "AQIAAA4AAAAAAAAAAAA0wBUAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T10:08:11.257Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 6,
-              "Title": "RegisterVm.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\ViewModels\\RegisterVm.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\ViewModels\\RegisterVm.cs",
-              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\ViewModels\\RegisterVm.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\ViewModels\\RegisterVm.cs",
-              "ViewState": "AQIAADwAAAAAAAAAAAAuwEgAAAAZAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T09:42:38.675Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 8,
-              "Title": "MemberLoginVm.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\ViewModels\\MemberLoginVm.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\ViewModels\\MemberLoginVm.cs",
-              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\ViewModels\\MemberLoginVm.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\ViewModels\\MemberLoginVm.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T09:42:36.879Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 7,
-              "Title": "CheckMemberLoginDto.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\CheckMemberLoginDto.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\Dtos\\CheckMemberLoginDto.cs",
-              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\CheckMemberLoginDto.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\Dtos\\CheckMemberLoginDto.cs",
-              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA8AAAAbAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T09:40:09.607Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 3,
-              "Title": "LoginApiController.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\Apis\\LoginApiController.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Controllers\\Apis\\LoginApiController.cs",
-              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\Apis\\LoginApiController.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Controllers\\Apis\\LoginApiController.cs",
-              "ViewState": "AQIAAB0AAAAAAAAAAAAYwCQAAAAAAAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T08:30:40.283Z",
-              "EditorCaption": ""
-            },
-            {
-              "$type": "Document",
-              "DocumentIndex": 1,
               "Title": "MemberLogin.cshtml",
-              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\Members\\MemberLogin.cshtml",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\Members\\MemberLogin.cshtml",
-              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\Members\\MemberLogin.cshtml",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\Members\\MemberLogin.cshtml",
-              "ViewState": "AQIAAFYAAAAAAAAAAAAxwGkAAAA/AAAA",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\MemberLogin\\MemberLogin.cshtml",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\MemberLogin\\MemberLogin.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\MemberLogin\\MemberLogin.cshtml",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\MemberLogin\\MemberLogin.cshtml",
+              "ViewState": "AQIAAFoAAAAAAAAAAAAAAGsAAAA3AAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-03T08:28:52.545Z",
+              "WhenOpened": "2024-10-03T13:02:16.006Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 4,
-              "Title": "MappingProfile.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\MappingProfile.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\MappingProfile.cs",
-              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\MappingProfile.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\MappingProfile.cs",
-              "ViewState": "AQIAAAkAAAAAAAAAAAAAABEAAAA3AAAA",
-              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T08:24:46.108Z",
+              "Title": "RegisterConfirm.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\MemberLogin\\RegisterConfirm.cshtml",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\MemberLogin\\RegisterConfirm.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\MemberLogin\\RegisterConfirm.cshtml",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\MemberLogin\\RegisterConfirm.cshtml",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAAAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-03T12:58:30.039Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 5,
-              "Title": "MemberRepository.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Repositories\\MemberRepository.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\Repositories\\MemberRepository.cs",
-              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Repositories\\MemberRepository.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\Repositories\\MemberRepository.cs",
-              "ViewState": "AQIAABsAAAAAAAAAAAAuwC8AAAADAAAA",
+              "Title": "Register.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\MemberLogin\\Register.cshtml",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\MemberLogin\\Register.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\MemberLogin\\Register.cshtml",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\MemberLogin\\Register.cshtml",
+              "ViewState": "AQIAAMwAAAAAAAAAAAAAALcAAAAAAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-03T12:57:25.875Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "WebApiConfig.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\App_Start\\WebApiConfig.cs",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\App_Start\\WebApiConfig.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\App_Start\\WebApiConfig.cs",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\App_Start\\WebApiConfig.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAA4AAABMAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T08:23:10.41Z",
+              "WhenOpened": "2024-10-03T12:48:36.18Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "BookTicketsController.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\BookTicketsController.cs",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Controllers\\BookTicketsController.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\BookTicketsController.cs",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Controllers\\BookTicketsController.cs",
+              "ViewState": "AQIAAA0AAAAAAAAAAAAkwBMAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2024-10-03T12:28:31.984Z",
               "EditorCaption": ""
             },
             {
               "$type": "Document",
               "DocumentIndex": 2,
-              "Title": "MemberService.cs",
-              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Services\\MemberService.cs",
-              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\Services\\MemberService.cs",
-              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Services\\MemberService.cs",
-              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\Services\\MemberService.cs",
-              "ViewState": "AQIAABAAAAAAAAAAAAAowC4AAAADAAAA",
+              "Title": "ChoiceMoviesDto.cs",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceMoviesDto.cs",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceMoviesDto.cs",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceMoviesDto.cs",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Models\\Dtos\\ChoiceMoviesDto.cs",
+              "ViewState": "AQIAAAAAAAAAAAAAAAAAAAoAAAAZAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
-              "WhenOpened": "2024-10-03T08:22:46.849Z",
+              "WhenOpened": "2024-10-03T12:23:39.672Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "_Layout.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\Shared\\_Layout.cshtml",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\Shared\\_Layout.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\Shared\\_Layout.cshtml",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\Shared\\_Layout.cshtml",
+              "ViewState": "AQIAAGMAAAAAAAAAAAAEwHcAAAARAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-03T12:20:28.27Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "ChoiceMovies.cshtml",
+              "DocumentMoniker": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceMovies.cshtml",
+              "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceMovies.cshtml",
+              "ToolTip": "C:\\Users\\USER\\Downloads\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceMovies.cshtml",
+              "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\BookTickets\\ChoiceMovies.cshtml",
+              "ViewState": "AQIAAEUAAAAAAAAAAAAAADkAAAAWAAAA",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
+              "WhenOpened": "2024-10-03T12:19:10.118Z",
               "EditorCaption": ""
             }
           ]

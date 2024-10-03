@@ -13,8 +13,8 @@ namespace Sunset.WebAPI.Site
 {
 	public class WebApiApplication : System.Web.HttpApplication
 	{
-        public static IMapper _mapper;
-        protected void Application_Start()
+		public static IMapper _mapper;
+		protected void Application_Start()
 		{
 			AreaRegistration.RegisterAllAreas();
 			GlobalConfiguration.Configure(WebApiConfig.Register);
@@ -22,13 +22,13 @@ namespace Sunset.WebAPI.Site
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-            // AutoMapper °t¸m
-            var config = new MapperConfiguration(cfg =>
-            {
-                cfg.AddProfile<MappingProfile>();
-            });
+			// AutoMapper ï¿½tï¿½m
+			var config = new MapperConfiguration(cfg =>
+			{
+				cfg.AddProfile<MappingProfile>();
+			});
 
-            _mapper = config.CreateMapper();
-        }
+			_mapper = config.CreateMapper();
+		}
 	}
 }

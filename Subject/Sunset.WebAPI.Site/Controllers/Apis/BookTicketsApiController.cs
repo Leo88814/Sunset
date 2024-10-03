@@ -12,16 +12,16 @@ using System.Web.Http;
 
 namespace Sunset.WebAPI.Site.Controllers.Apis
 {
-	
+
 	public class BookTicketsApiController : ApiController
 	{
 		private readonly BookTicketsService _service;
 
 		public BookTicketsApiController()
-        {
+		{
 			_service = new BookTicketsService();
 		}
-		
+
 		public IHttpActionResult GetMovie()
 		{
 			var allMovie = _service.GetAllMovieInfo();
