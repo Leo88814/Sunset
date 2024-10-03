@@ -62,8 +62,8 @@
                     <div class="card border-0 text-center"
                          v-for="c in cards"
                          :key="c.id">
-                        <img :src="c.mainPicture" :alt="c.movieName" />
-                        <div class="text-center fw-bolder mt-1">{{ c.movieName }}</div>
+                        <img :src="c.MainPicture" :alt="c.movieName" />
+                        <div class="text-center fw-bolder mt-1">{{ c.MovieName }}</div>
                         <div class="text-center">
                             <a :href="`@Url.Action("ChoiceDates", "BookTickets")/${c.id}`" class="btn btn-dark">立即購票</a>
                         </div>

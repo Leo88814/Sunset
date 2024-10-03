@@ -180,6 +180,7 @@
     <Compile Include="Models\Dtos\MovieBlockbusterDto.cs" />
     <Compile Include="Models\Dtos\MovieComingSoonDto.cs" />
     <Compile Include="Models\Dtos\MovieDetailDto.cs" />
+    <Compile Include="Models\Dtos\MovieDto.cs" />
     <Compile Include="Models\Dtos\MovieReleaseScheduleDto.cs" />
     <Compile Include="Models\Dtos\RateOrderDto.cs" />
     <Compile Include="Models\Dtos\UserHistoryDto.cs" />
@@ -388,6 +389,7 @@
     <Content Include="Views\FrontMovies\MovieComingSoonDetail.cshtml" />
     <Content Include="Views\FrontMovies\MovieDetail.cshtml" />
     <Content Include="Views\Member\UserHistory.cshtml" />
+    <Content Include="Views\Member\OrderDetails.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

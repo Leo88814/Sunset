@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "歷史訂單";
+    ViewBag.Title = "歷史訂單詳情";
 }
 
 <style>
@@ -28,6 +28,27 @@
         .ticket-details p {
             margin: 5px 0;
         }
+
+    .rating {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rating-stars {
+        display: flex;
+        margin-top: 10px;
+    }
+
+        .rating-stars span {
+            font-size: 24px;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+            .rating-stars span.active {
+                color: gold;
+            }
 </style>
 
 <body>
@@ -41,54 +62,82 @@
                 </ol>
             </nav>
         </div>
-        <div>
-            <h1>歷史訂單</h1>
-            <div v-if="userHistory.length">
-                <div v-for="history in userHistory" :key="history.OrderNumber + history.Seat" class="ticket">
-                    <img v-if="history.Movie && history.Movie.MainPicture" :src="history.Movie.MainPicture" alt="Movie Picture" />
-                    <div class="ticket-details">
-                        <p>電影名稱：{{ history.Movie.MovieName }}</p>
-                        <p>訂單編號：{{ history.OrderNumber }}</p>
-                        <p>日期：{{ history.Date }} </p>
-                        <p>場次：{{ history.Time }}</p>
-                        <p>座位：{{ history.Seat }}</p>
-                        <p>票數：{{ history.Quantity }} 張</p>
+
+        <div class="container">
+            <h2>歷史訂單</h2>
+            <div v-for="ticket in tickets" :key="ticket.orderNumber" class="ticket">
+                <img :src="ticket.MainPicture" alt="ticket.movieName" v-on:click="viewDetails(ticket)" />
+                <div class="ticket-details">
+                    <p>
+                        <strong>電影名稱：</strong> {{ ticket.MovieName }}
+                    </p>
+                    <p><strong>訂單編號：</strong> {{ ticket.OrderNumber }}</p>
+                    <p><strong>票數：</strong> {{ ticket.TotalTicketCount }} 張</p>
+                    <p><strong>場次時間：</strong> {{ ticket.ShowTime }}</p> <!-- 顯示時間 -->
+                    <p><strong>場次日期：</strong> {{ ticket.ShowDate }}</p> <!-- 顯示日期 -->
+                    <div class="rating">
+                        <p><strong>評分：</strong></p>
+                        <div class="rating-stars">
+                            <span v-for="star in 5" :key="star" :class="{ active: star <= ticket.Rating }" v-on:click="rateOrder(ticket.Id, star)">★</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div v-else>
-                <p>No history available.</p>
             </div>
         </div>
     </div>
 
-    @section scripts {
-        <script>
-            const { createApp } = Vue;
+    @section scripts{
+    <script>
+        const { createApp, ref, onMounted } = Vue;
 
-            createApp({
-                data() {
-                    return {
-                        userHistory: []
-                    };
-                },
-                created() {
-                    this.fetchUserHistory();
-                },
-                methods: {
-                    async fetchUserHistory() {
-                        try {
-                            const response = await fetch('/api/MemberApiController/UserHistory?memberId=1');
-                            if (!response.ok) {
-                                throw new Error(`HTTP error! status: ${response.status}`);
-                            }
-                            this.userHistory = await response.json();
-                        } catch (error) {
-                            console.error('Error fetching user history:', error);
+        const config = {
+            setup() {
+                const tickets = ref([]);
+                const memberId = '1'; // 直接設置 memberId 為 1 來進行測試
+                const apiUrl = `/api/MemberApiController/UserHistory/${memberId}`;
+
+                const fetchOrders = async () => {
+                    try {
+                        const response = await fetch(apiUrl);
+                        if (!response.ok) {
+                            throw new Error(`API request failed with status: ${response.status}`);
                         }
+                        const data = await response.json();
+                        tickets.value = data;
+                    } catch (error) {
+                        console.error("Error fetching orders:", error);
                     }
-                }
-            }).mount('#app');
-        </script>
+                };
+
+                const rateOrder = async (orderId, rating) => {
+                    try {
+                        const response = await fetch(`/api/MemberApiController/RateOrder`, {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({ orderId, rating })
+                        });
+                        if (!response.ok) {
+                            throw new Error(`API request failed with status: ${response.status}`);
+                        }
+                        await fetchOrders(); // 重新獲取訂單以更新評分
+                    } catch (error) {
+                        console.error("Error rating order:", error);
+                    }
+                };
+
+                onMounted(fetchOrders);
+
+                return {
+                    tickets,
+                    rateOrder
+                };
+            },
+        };
+
+        const app = createApp(config);
+        app.mount("#app");
+    </script>
     }
 </body>

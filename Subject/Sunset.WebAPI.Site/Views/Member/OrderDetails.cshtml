@@ -1,0 +1,192 @@
+﻿@{
+    ViewBag.Title = "訂單詳情";
+}
+<style>
+    .ticket {
+    border: 1px solid #000;
+    padding: 15px;
+    margin-bottom: 20px;
+    background-color: #e7d7bc;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    }
+
+    .ticket img {
+    width: 100px;
+    cursor: pointer;
+    border-radius: 10px;
+    margin-right: 20px; /* 增加右邊距 */
+    }
+
+    .ticket-details {
+    flex: 1;
+    }
+
+    .ticket-details p {
+    margin: 5px 0;
+    }
+
+    .rating {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .rating-stars {
+        display: flex;
+        margin-top: 10px;
+    }
+
+        .rating-stars span {
+            font-size: 24px;
+            cursor: pointer;
+            color: #ccc;
+        }
+
+            .rating-stars span.active {
+                color: gold;
+            }
+            .order-detail {
+    font-family: Arial, sans-serif;
+    background-color: #f9f4e8;
+    padding: 20px;
+    border-radius: 8px;
+    max-width: 800px;
+    margin: auto;
+}
+
+.ticket-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+.ticket-table th, .ticket-table td {
+    border: 1px solid #000; /* 黑色邊框 */
+    padding: 10px;
+    text-align: center;
+    background-color: #d3d3d3; /* 統一背景色 */
+}
+
+.ticket-table th {
+    background-color: #333; /* 表頭背景色 */
+    color: white;
+}
+
+.ticket-table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+.back-button {
+    background-color: #ff0000; /* 紅色背景 */
+    color: white;
+    padding: 10px 20px;
+    border: none; /* 無邊框 */
+    border-radius: 5px;
+    cursor: pointer;
+    float: right; /* 靠右 */
+    margin-top: 20px;
+}
+
+.back-button:hover {
+    background-color: #cc0000; /* 懸停時的顏色 */
+}
+
+</style>
+<body>
+    <div id="app" class="page-container">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb">會員專區</li>
+                    <li class="breadcrumb">
+                        <a :href="`/Member/UserHistory?memberId=${memberId}`">歷史訂單</a> <!-- 修改這裡 -->
+                    </li>
+                    <li class="breadcrumb">訂單詳情</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="container">
+            <h2>訂單詳情</h2>
+            <div class="ticket" v-if="order">
+                    <img :src="order.MainPicture" alt="電影圖片" style="max-width: 100%; height: auto;">
+                <div class="ticket-details">
+                    <p><strong>電影名稱：</strong> {{ order.MovieName }}</p>
+                    <p><strong>訂單編號：</strong> {{ order.OrderNumber }}</p>
+                    <p><strong>票數：</strong> {{ order.TotalTicketCount }} 張</p>
+                    <p><strong>場次時間：</strong> {{ order.ShowTime }}</p>
+                    <p><strong>場次日期：</strong> {{ order.ShowDate }}</p>
+                </div>
+            </div>
+            <div class="container" v-if="order && order.Tickets">
+                <h3>票卷明細:</h3>
+                <table class="ticket-table" v-if="order.Tickets.length">
+                    <thead>
+                        <tr>
+                            <th>座位</th>
+                            <th>票卷序號</th>
+                            <th>票種</th>
+                            <th>票價</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="ticket in order.Tickets" :key="ticket.TicketNumber">
+                            <td>{{ ticket.SeatNumber }}</td>
+                            <td>{{ ticket.TicketNumber }}</td>
+                            <td>{{ ticket.TicketType }}</td>
+                            <td>{{ ticket.TicketPrice }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p v-else>沒有票卷資料。</p>
+            </div>
+            <button class="back-button btn-danger" v-on:click="goBack">返回上一頁</button>
+        </div>
+    </div>
+
+    @section scripts{
+        <script>
+            const { createApp, ref, onMounted } = Vue;
+
+            const config = {
+                setup() {
+                    const order = ref(null);
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const memberId = urlParams.get('memberId'); // 從 URL 中提取 memberId
+                    const orderNumber = window.location.pathname.split('/').pop();
+                    const apiUrl = `/api/MemberApiController/OrderDetails/${orderNumber}`;
+
+                    const fetchOrderDetails = async () => {
+                        try {
+                            const response = await fetch(apiUrl);
+                            if (!response.ok) {
+                                throw new Error(`API request failed with status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            console.log(data); // 檢查回應資料
+                            order.value = data;
+                        } catch (error) {
+                            console.error("Error fetching order details:", error);
+                        }
+                    };
+                    onMounted(fetchOrderDetails);
+
+                    const goBack = () => {
+                        window.history.back();
+                    };
+
+                    return {
+                        order,
+                        memberId,
+                        goBack
+                    };
+                },
+            };
+
+            const app = createApp(config);
+            app.mount("#app");
+        </script>
+    }
+</body>
