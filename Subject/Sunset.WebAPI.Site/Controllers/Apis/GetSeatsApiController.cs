@@ -1,4 +1,5 @@
-﻿using Sunset.WebAPI.Site.Models.Services;
+﻿using Sunset.WebAPI.Site.Models.EFModels;
+using Sunset.WebAPI.Site.Models.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;

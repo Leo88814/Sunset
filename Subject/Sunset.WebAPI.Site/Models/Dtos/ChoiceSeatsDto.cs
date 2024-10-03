@@ -11,5 +11,5 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 		public string SeatNumber { get; set; }
 		public bool SeatStatus { get; set; }
 
-	}
+    }
 }
