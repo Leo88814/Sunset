@@ -76,11 +76,7 @@
         <script>
             const { ref, createApp } = Vue;
 
-            const app = createApp({
-                components: {
-                    "header-component": HeaderComponent,
-                    "footer-component": FooterComponent,
-                },
+            const config = {    
                 setup() {
                     const email = ref("");
                     const password = ref("");
@@ -128,7 +124,7 @@
 
                     // 處理註冊
                     const register = () => {
-                        window.location.href = "/Members/Register"; // 跳轉到註冊頁面
+                        window.location.href = "/MemberLogin/Register"; // 跳轉到註冊頁面
                     };
 
                     return {
@@ -141,8 +137,8 @@
                         register,
                     };
                 },
-            });
-
+            };
+            const app = createApp(config);
             app.mount("#app");
         </script>
     }

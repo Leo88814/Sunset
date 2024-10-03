@@ -112,11 +112,8 @@
     @section scripts{
         <script>const { createApp, ref } = Vue;
 
-            const app = createApp({
-                components: {
-                    "header-component": HeaderComponent,
-                    "footer-component": FooterComponent,
-                },
+            const config = {  
+
                 setup() {
                     const formData = ref({
                         account: "",
@@ -246,8 +243,8 @@
                         submitForm,
                     };
                 },
-            });
-
+            };
+            const app = createApp(config);
             app.mount("#app");</script>
     }
 </body>

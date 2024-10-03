@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using System.Web.Security;
 
 namespace Sunset.WebAPI.Site.Controllers
 {
@@ -22,6 +23,15 @@ namespace Sunset.WebAPI.Site.Controllers
 		public ActionResult MemberLogin()
 		{
 			return View();
+		}
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public ActionResult Logout()
+		{
+			Session.Abandon();
+			FormsAuthentication.SignOut();
+
+			return RedirectToAction("MemberLogin", "MemberLogin");
 		}
 	}
 }

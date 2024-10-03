@@ -137,10 +137,6 @@
         const { createApp, ref, onMounted, computed } = Vue;
 
             const config = {
-            components: {
-                "header-component": HeaderComponent,
-                "footer-component": FooterComponent,
-            },
             setup() {
                 const seats = ref([]);
                 const movieScheduleId = ref();
@@ -300,8 +296,6 @@
                         //window.location.href = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId.value}/${choiceSeats.value}`;
                     }
                 };
-
-
 
                 return {
                     maxTickets,
