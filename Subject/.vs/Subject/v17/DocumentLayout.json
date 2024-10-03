@@ -3,16 +3,16 @@
   "WorkspaceRootPath": "C:\\Users\\SKY3015\\Desktop\\Sunset\\Subject\\",
   "Documents": [
     {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|C:\\Users\\SKY3015\\Desktop\\Sunset\\Subject\\sunset.webapi.site\\controllers\\apis\\memberapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|C:\\Users\\SKY3015\\Desktop\\Sunset\\Subject\\sunset.webapi.site\\views\\member\\userhistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
+      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\member\\userhistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\sky3015\\desktop\\sunset\\subject\\sunset.webapi.site\\controllers\\apis\\memberapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
       "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\controllers\\apis\\memberapicontroller.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|C:\\Users\\SKY3015\\Desktop\\Sunset\\Subject\\sunset.webapi.site\\views\\member\\tickets.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
       "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\member\\tickets.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
-    },
-    {
-      "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|c:\\users\\sky3015\\desktop\\sunset\\subject\\sunset.webapi.site\\views\\member\\userhistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
-      "RelativeMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|solutionrelative:sunset.webapi.site\\views\\member\\userhistory.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}"
     },
     {
       "AbsoluteMoniker": "D:0:0:{E0599A4D-C34F-4B6A-BF69-70E57A7D3B25}|Sunset.WebAPI.Site\\Sunset.WebAPI.Site.csproj|C:\\Users\\SKY3015\\Desktop\\Sunset\\Subject\\sunset.webapi.site\\views\\memberlogin\\memberlogin.cshtml||{40D31677-CBC0-4297-A9EF-89D907823A98}",
@@ -54,11 +54,11 @@
       "DocumentGroups": [
         {
           "DockedWidth": 155,
-          "SelectedChildIndex": 7,
+          "SelectedChildIndex": 0,
           "Children": [
             {
               "$type": "Document",
-              "DocumentIndex": 2,
+              "DocumentIndex": 0,
               "Title": "UserHistory.cshtml",
               "DocumentMoniker": "C:\\Users\\SKY3015\\Desktop\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\Member\\UserHistory.cshtml",
               "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\Member\\UserHistory.cshtml",
@@ -71,7 +71,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 1,
+              "DocumentIndex": 2,
               "Title": "Tickets.cshtml",
               "DocumentMoniker": "C:\\Users\\SKY3015\\Desktop\\Sunset\\Subject\\Sunset.WebAPI.Site\\Views\\Member\\Tickets.cshtml",
               "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Views\\Member\\Tickets.cshtml",
@@ -79,8 +79,7 @@
               "RelativeToolTip": "Sunset.WebAPI.Site\\Views\\Member\\Tickets.cshtml",
               "ViewState": "AQIAAGkAAAAAAAAAAAAAAAQAAAAHAAAA",
               "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000759|",
-              "WhenOpened": "2024-10-03T14:10:24.731Z",
-              "EditorCaption": ""
+              "WhenOpened": "2024-10-03T14:10:24.731Z"
             },
             {
               "$type": "Document",
@@ -144,7 +143,7 @@
             },
             {
               "$type": "Document",
-              "DocumentIndex": 0,
+              "DocumentIndex": 1,
               "Title": "MemberApiController.cs",
               "DocumentMoniker": "C:\\Users\\SKY3015\\Desktop\\Sunset\\Subject\\Sunset.WebAPI.Site\\Controllers\\Apis\\MemberApiController.cs",
               "RelativeDocumentMoniker": "Sunset.WebAPI.Site\\Controllers\\Apis\\MemberApiController.cs",
