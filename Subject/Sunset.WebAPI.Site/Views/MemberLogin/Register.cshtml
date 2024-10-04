@@ -1,0 +1,252 @@
+﻿
+@{
+    ViewBag.Title = "註冊會員";
+}
+
+<head>
+    <title>註冊會員</title>
+</head>
+<body>
+    <div id="app" class="page-container">
+        <div class="content-wrap">
+            <main class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb"><a href="Main.html">首頁</a></li>
+                        <li class="breadcrumb active">註冊會員</li>
+                    </ol>
+                </nav>
+
+                <h1 class="mt-3">註冊新帳號</h1>
+                <form v-on:submit.prevent="submitForm">
+                    <div class="mb-3">
+                        <label for="account" class="form-label">帳號:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="account"
+                               v-model="formData.account"
+                               v-on:blur="validateField('account')"
+                               :class="{ 'is-invalid': formErrors.account }"
+                               autocomplete="username">
+                        <div class="invalid-feedback">{{ formErrors.account }}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="password" class="form-label">密碼:</label>
+                        <input type="password"
+                               class="form-control"
+                               id="password"
+                               v-model="formData.password"
+                               v-on:blur="validateField('password')"
+                               :class="{ 'is-invalid': formErrors.password }"
+                               autocomplete="new-password">
+                        <div class="invalid-feedback">{{ formErrors.password }}</div>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="confirmPassword" class="form-label">確認密碼:</label>
+                        <input type="password"
+                               class="form-control"
+                               id="confirmPassword"
+                               v-model="formData.confirmPassword"
+                               v-on:blur="validateField('confirmPassword')"
+                               :class="{ 'is-invalid': formErrors.confirmPassword }"
+                               autocomplete="new-password">
+                        <div class="invalid-feedback">{{ formErrors.confirmPassword }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="memberName" class="form-label">姓名:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="memberName"
+                               v-model="formData.memberName"
+                               v-on:blur="validateField('memberName')"
+                               :class="{ 'is-invalid': formErrors.memberName }">
+                        <div class="invalid-feedback">{{ formErrors.memberName }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="phoneNumber" class="form-label">電話:</label>
+                        <input type="tel"
+                               class="form-control"
+                               id="phoneNumber"
+                               v-model="formData.phoneNumber" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">住址</label>
+                        <input type="text"
+                               class="form-control"
+                               id="address"
+                               v-model="formData.address" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">電子郵件:</label>
+                        <input type="email"
+                               class="form-control"
+                               id="email" v-model="formData.email"
+                               v-on:blur="validateField('email')"
+                               :class="{ 'is-invalid': formErrors.email }"
+                               autocomplete="email">
+                        <div class="invalid-feedback">{{ formErrors.email }}</div>
+                    </div>
+                    <div class="mb-3">
+                        <label for="dateOfBirth" class="form-label">生日:</label>
+                        <input type="date"
+                               class="form-control"
+                               id="dateOfBirth"
+                               v-modle="formData.dateOfBirth"
+                               v-on:blur="validateField('dateOfBirth')"
+                               :class="{ 'is-invalid': formErrors.dateOfBirth }">
+                        <div class="invalid-feedback">{{ formErrors.dateOfBirth }}</div>
+                    </div>
+
+                    <div class="mt-5 text-end">
+                        <button type="submit" class="btn btn-warning btn-custom-size">
+                            送出
+                        </button>
+                    </div>
+                </form>
+            </main>
+        </div>
+    </div>
+
+    @section scripts{
+        <script>const { createApp, ref } = Vue;
+
+            const config = {
+
+                setup() {
+                    const formData = ref({
+                        account: "",
+                        password: "",
+                        memberName: "",
+                        phoneNumber: null,
+                        address: null,
+                        email: "",
+                        dateOfBirth: null,
+                    });
+
+                    const formErrors = ref({
+                        account: "",
+                        password: "",
+                        confirmPassword: "",
+                        memberName: "",
+                        email: "",
+                        dateOfBirth: "",
+
+                    });
+                    const validateField = (fieldName) => {
+                        const value = formData.value[fieldName]?.trim() ?? '';
+                        let errorMessage = "";
+
+                        switch (fieldName) {
+                            case 'account':
+                                if (!value) {
+                                    errorMessage = "請輸入帳號";
+                                }
+                                break;
+
+                            case 'password':
+                                if (!value) {
+                                    errorMessage = "請輸入密碼";
+                                }
+                                break;
+
+                            case 'confirmPassword':
+                                if (value && value !== formData.value.password?.trim()) {
+                                    errorMessage = "確認密碼與密碼不符";
+                                }
+                                break;
+
+
+                            case 'memberName':
+                                if (!value) {
+                                    errorMessage = "請輸入姓名";
+                                }
+                                break;
+
+                            case 'email':
+                                if (!value) {
+                                    errorMessage = "請輸入電子郵件";
+                                } else if (!/\S+@@\S+\.\S+/.test(value)) {
+                                    errorMessage = "請輸入有效的電子郵件地址";
+                                }
+                                break;
+
+                            case 'dateOfBirth':
+                                if (!formData.value.dateOfBirth) {
+                                    errorMessage = "";
+                                } else {
+                                    const birthDate = new Date(formData.value.dateOfBirth);
+                                    const today = new Date();
+
+                                    // 檢查日期是否有效
+                                    if (isNaN(birthDate.getTime())) {
+                                        errorMessage = "請輸入有效的日期格式";
+                                    } else if (birthDate > today) {
+                                        errorMessage = "生日不能晚於今天";
+                                    } else if (today.getFullYear() - birthDate.getFullYear() > 120) {
+                                        errorMessage = "請輸入有效的生日";
+                                    } else {
+                                        errorMessage = ""; // 日期有效，清除錯誤信息
+                                    }
+                                }
+                                break;
+                        }
+
+                        formErrors.value[fieldName] = errorMessage;
+
+                        // 當密碼改變時，也要驗證確認密碼
+                        if (fieldName === 'password') {
+                            validateField('confirmPassword');
+                        }
+                    };
+
+                    const validateForm = () => {
+                        let isValid = true;
+                        Object.keys(formData.value).forEach(fieldName => {
+                            validateField(fieldName);
+                            if (formErrors.value[fieldName] && formErrors.value[fieldName] !== "") {
+                                isValid = false;
+                            }
+                        });
+                        return isValid;
+                    };
+
+                    const submitForm = async () => {
+                        if (!validateForm()) {
+                            return; // 如果驗證失敗，不執行提交
+                        }
+                        try {
+                            const response = await fetch('/api/RegisterApi', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                },
+                                body: JSON.stringify(formData.value)
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`HTTP 錯誤！狀態: ${response.status}`);
+                            }
+                            window.location.href = '/MemberLogin/RegisterConfirm';
+                        } catch (error) {
+                            console.error("註冊失敗:", error);
+                        }
+                    };
+
+                 
+
+                    return {
+                        formData,
+                        formErrors,
+                        validateField,
+                        validateForm,
+                        submitForm
+                    };
+                },
+            };
+            const app = createApp(config);
+            app.mount("#app");</script>
+    }
+</body>
+

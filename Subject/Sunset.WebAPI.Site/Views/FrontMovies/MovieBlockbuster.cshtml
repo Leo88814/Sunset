@@ -1,0 +1,144 @@
+﻿@{
+ViewBag.Title = "強檔熱映";
+}
+<style>
+    .movie-list {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+    }
+    .movie {
+        display: flex;
+        border: 1px solid #ddd;
+        margin-bottom: 20px;
+        width: 33%;
+        align-items: center;
+        background: linear-gradient(to right, #f4e7d4, #e9dac0);
+        box-sizing: border-box;
+        padding: 10px;
+        border-radius: 8px;
+    }
+        .movie img {
+            width: 120px;
+            height: auto;
+            object-fit: cover;
+            margin-right: 20px;
+            border-radius: 5px;
+            transition: transform 0.3s ease;
+        }
+
+            .movie img:hover {
+                transform: scale(1.1);
+            }
+
+    .movie-info {
+        padding: 10px;
+        background-color: transparent;
+        flex: 1;
+        justify-content: center;
+        align-items: flex-end;
+    }
+
+        .movie-info h4 {
+            margin: 0;
+            font-size: 18px;
+            color: #4a3f35;
+        }
+
+        .movie-info p {
+            margin: 5px 0;
+            font-size: 16px;
+            color: #5c4f3a;
+        }
+
+        .movie-info a {
+            color: #a67c52;
+            text-decoration: none;
+            font-size: 16px;
+        }
+
+            .movie-info a:hover {
+                font-weight: bold;
+                color: #5c4f3a;
+            }
+</style>
+<body>
+    <div id="app" class="page-container">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb">電影列表</li>
+                    <li class="breadcrumb-item active">強檔熱映</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="container">
+            <h2>強檔熱映</h2>
+            <div class="movie-list">
+                <div class="movie" v-for="movie in movies" :key="movie.id">
+                    <a :href="`MovieDetail?id=${movie.id}`">
+                        <img :src="movie.mainPicture" :alt="movie.movieName" />
+                    </a>
+                    <div class="movie-info">
+                        <h4>{{ movie.movieName }} ({{ movie.grading }})</h4>
+                        <p>片長: {{ movie.duration }} </p>
+                        <p>類型: {{ movie.genreName }}</p>
+                        <div class="rating" v-if="movie.averageRating !== undefined && movie.averageRating !== null">
+                            <p><strong>評分：</strong></p>
+                            <div>
+                                <!-- 實心星星 -->
+                                <span v-for="star in Math.floor(movie.averageRating)" :key="'filled-' + star"> ★ </span>
+                                <!-- 半顆星星，若有需要，可用不同符號或樣式 -->
+                                <span v-if="(movie.averageRating % 1) >= 0.5">✭</span>
+                                <!-- 空心星星 -->
+                                <span v-for="empty in 5 - Math.ceil(movie.averageRating)" :key="'empty-' + empty"> ☆ </span>
+                                <p>{{ movie.averageRating.toFixed(1) }} 顆星</p>
+                            </div>
+                        </div>
+                        <p v-else>無評分</p>
+                        <a :href="`MovieDetail?id=${movie.id}`">More</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    @section scripts{
+        <script>
+            const { createApp, ref, onMounted } = Vue;
+
+            const config = {
+                setup() {
+                    const movies = ref([]);
+                    const apiUrl = "/api/FrontMoviesApiController/MovieBlockbuster/";
+
+                    const fetchMovies = async () => {
+                        try {
+                            const response = await fetch(apiUrl);
+                            if (!response.ok) {
+                                throw new Error(`API request failed with status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            console.log("Fetched movies:", data); // 添加日誌
+                            movies.value = data;
+                        } catch (error) {
+                            console.error("Error fetching movies:", error);
+                        }
+                    };
+
+                    onMounted(fetchMovies);
+
+                    return {
+                        movies,
+                    };
+                },
+            };
+
+            const app = createApp(config);
+            app.mount("#app");
+        </script>
+    }
+</body>

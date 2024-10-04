@@ -1,0 +1,160 @@
+﻿@{
+    ViewBag.Title = "電影詳情";
+}
+
+<style>
+    iframe {
+        width: 100%;
+        height: 450px;
+        margin-top: 20px;
+    }
+
+    .carousel-inner {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        overflow: hidden;
+    }
+
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+</style>
+
+<body>
+    <div id="app" class="page-container">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb">電影列表</li>
+                    <li class="breadcrumb">
+                        <a href="MovieComingSoon">即將上映</a>
+                    </li>
+                    <li class="breadcrumb active">{{ movie.movieName }}</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- 電影資訊 -->
+        <div class="container">
+            <div class="row container">
+                <!-- 左邊電影海報 -->
+                <div class="col-md-4">
+                    <img :src="movie.mainPicture" :alt="movie.movieName" class="img-fluid" v-if="movie.mainPicture" />
+                </div>
+
+                <!-- 右邊電影詳細資料 -->
+                <div class="col-md-8">
+                    <h1 class="movie-title">
+                        {{ movie.movieName }} <small>{{ movie.englishName }}</small>
+                    </h1>
+                    <p><strong>分級：</strong>{{ movie.grading }}</p>
+                    <p><strong>類型：</strong>{{ movie.genreName }}</p>
+                    <p><strong>片長：</strong>{{ movie.duration }} </p>
+                    <p><strong>語言：</strong>{{ movie.movieLanguage }}</p>
+                    <p><strong>導演：</strong>{{ movie.director }}</p>
+                    <p><strong>演員：</strong>{{ movie.movieCast }}</p>
+                    <p><strong>發行：</strong>{{ movie.distributor }}</p>
+                    <p><strong>上映日期：</strong>{{ formattedPremiereDate }}</p>
+                </div>
+
+
+                <!-- 電影介紹 -->
+                <div class="container">
+                    <h2>電影介紹</h2>
+                    <p v-if="movie.synopsis">{{ movie.synopsis }}</p>
+                </div>
+
+                <!-- 劇照輪播 -->
+                <div class="container">
+                    <h2>劇照</h2>
+                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div v-for="(still, index) in movie.stills" :key="index" :class="['carousel-item', { active: index === 0 }]">
+                                <img :src="still" class="d-block w-100 img-fluid" :alt="'劇照 ' + (index + 1)" />
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="container" v-if="movie.trailerURL">
+                    <h2>電影預告片</h2>
+                    <!-- 動態設定 src 為 TrailerURL -->
+                    <iframe :src="movie.trailerURL"
+                            width="560"
+                            height="315"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    @section scripts {
+        <script>
+            const { createApp, ref, onMounted, computed } = Vue;
+
+            const app = createApp({
+                setup() {
+                    const movie = ref({});
+                    const apiUrl = "/api/FrontMoviesApiController/MovieComingSoonDetail"; // 確保API的路徑正確
+
+                    // 從 URL 中取得電影的 ID
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const movieId = urlParams.get('id');
+
+                    const fetchMovieDetail = async () => {
+                        try {
+                            const response = await fetch(`${apiUrl}?id=${movieId}`);
+                            if (!response.ok) {
+                                throw new Error(`API request failed with status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            movie.value = {
+                                ...data,
+                                showtimes: Array.isArray(data.showtimes) ? data.showtimes : [], // 確保 showtimes 是陣列
+                                totalRating: isNaN(data.totalRating) ? 0 : data.totalRating,
+                                stills: Array.isArray(data.stills) ? data.stills : [],
+                            };
+                        } catch (error) {
+                            console.error("Error fetching movie details:", error);
+                        }
+                    };
+
+                    onMounted(fetchMovieDetail);
+
+                    // 使用 computed 來格式化日期，僅顯示日期部分
+                    const formattedPremiereDate = computed(() => {
+                        if (!movie.value.premiereDate) return '';
+                        const date = new Date(movie.value.premiereDate);
+                        return date.toISOString().split('T')[0];  // ISO 字串格式，分離出日期部分
+                    });
+
+                    return {
+                        movie,
+                        formattedPremiereDate
+                    };
+                }
+            });
+
+            app.mount("#app");
+        </script>
+    }
+</body>

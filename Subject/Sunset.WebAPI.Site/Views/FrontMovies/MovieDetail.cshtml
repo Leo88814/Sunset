@@ -1,0 +1,222 @@
+﻿@{
+    ViewBag.Title = "電影詳情";
+}
+
+<style>
+    iframe {
+        width: 100%;
+        height: 450px;
+        margin-top: 20px;
+    }
+
+    .carousel-inner {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        overflow: hidden;
+    }
+
+        .carousel-inner img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+</style>
+
+<body>
+    <div id="app" class="page-container">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb">電影列表</li>
+                    <li class="breadcrumb">
+                        <a href="MovieBlockbuster">強檔熱映</a>
+                    </li>
+                    <li class="breadcrumb active">{{ movie.movieName }}</li>
+                </ol>
+            </nav>
+        </div>
+
+        <!-- 電影資訊 -->
+        <div class="container">
+            <div class="row container">
+                <!-- 左邊電影海報 -->
+                <div class="col-md-4">
+                    <img :src="movie.mainPicture" :alt="movie.movieName" class="img-fluid" v-if="movie.mainPicture" />
+                </div>
+
+                <!-- 右邊電影詳細資料 -->
+                <div class="col-md-8">
+                    <h1 class="movie-title">
+                        {{ movie.movieName }} <small>{{ movie.englishName }}</small>
+                    </h1>
+                    <p><strong>分級：</strong>{{ movie.grading }}</p>
+                    <p><strong>類型：</strong>{{ movie.genreName }}</p>
+                    <p><strong>片長：</strong>{{ movie.duration }} </p>
+                    <p><strong>語言：</strong>{{ movie.movieLanguage }}</p>
+                    <p><strong>導演：</strong>{{ movie.director }}</p>
+                    <p><strong>演員：</strong>{{ movie.movieCast }}</p>
+                    <p><strong>發行：</strong>{{ movie.distributor }}</p>
+                    <p><strong>上映日期：</strong>{{ formattedPremiereDate }}</p>
+                    <div class="rating" v-if="movie.totalRating && !isNaN(movie.totalRating)">
+                        <div class="rating" v-if="movie.averageRating !== undefined && !isNaN(movie.averageRating)">
+                            <p><strong>評分：</strong></p>
+                            <div>
+                                <!-- 實心星星 -->
+                                <span v-for="star in Math.floor(movie.averageRating)" :key="'filled-' + star"> ★ </span>
+                                <!-- 半顆星星，若有需要，可用不同符號或樣式 -->
+                                <span v-if="(movie.averageRating % 1) >= 0.5">✭</span>
+                                <!-- 空心星星 -->
+                                <span v-for="empty in 5 - Math.ceil(movie.averageRating)" :key="'empty-' + empty"> ☆ </span>
+                                <p>平均評分: {{ movie.averageRating.toFixed(1) }} 顆星</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- 電影場次 -->
+                <div class="container">
+                    <h2>電影場次</h2>
+                    <div v-if="movie.showtimes && movie.showtimes.length > 0">
+                        <div v-for="(times, date) in groupShowtimesByDate(movie.showtimes)" :key="date" class="mb-3">
+                            <h5>{{ date }}</h5>
+                            <div class="d-flex flex-wrap gap-2">
+                                <button v-for="(showtime, index) in times"
+                                        :key="index"
+                                        class="btn btn-outline-primary"
+                                        v-on:click="goToSeatSelection(showtime)">
+                                    {{ showtime.time }}
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div v-else>
+                        <p>目前沒有可用的電影場次。</p>
+                    </div>
+                </div>
+
+
+                <!-- 電影介紹 -->
+                <div class="container">
+                    <h2>電影介紹</h2>
+                    <p v-if="movie.synopsis">{{ movie.synopsis }}</p>
+                </div>
+
+                <!-- 劇照輪播 -->
+                <div class="container">
+                    <h2>劇照</h2>
+                    <div id="carouselExample" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div v-for="(still, index) in movie.stills" :key="index" :class="['carousel-item', { active: index === 0 }]">
+                                <img :src="still" class="d-block w-100 img-fluid" :alt="'劇照 ' + (index + 1)" />
+                            </div>
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExample" data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExample" data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+
+
+                <div class="container" v-if="movie.trailerUrl">
+                    <h2>電影預告片</h2>
+                    <!-- 動態設定 src 為 TrailerURL -->
+                    <iframe :src="movie.trailerUrl"
+                            width="560"
+                            height="315"
+                            title="YouTube video player"
+                            frameborder="0"
+                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                            referrerpolicy="strict-origin-when-cross-origin"
+                            allowfullscreen>
+                    </iframe>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+    @section scripts {
+        <script>
+            const { createApp, ref, onMounted, computed } = Vue;
+
+            const app = createApp({
+                setup() {
+                    const movie = ref({});
+                    const apiUrl = "/api/FrontMoviesApiController/MovieDetail"; // 確保API的路徑正確
+
+                    // 從 URL 中取得電影的 ID
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const movieId = urlParams.get('id');
+
+                    const fetchMovieDetail = async () => {
+                        try {
+                            const response = await fetch(`${apiUrl}?id=${movieId}`);
+                            if (!response.ok) {
+                                throw new Error(`API request failed with status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            console.log("Fetched movie details:", data); // 除錯訊息
+                            movie.value = {
+                                ...data,
+                                showtimes: Array.isArray(data.showtimes) ? data.showtimes : [], // 確保 showtimes 是陣列
+                                totalRating: isNaN(data.totalRating) ? 0 : data.totalRating,
+                                stills: Array.isArray(data.stills) ? data.stills : [],
+                            };
+                            console.log("Processed movie details:", movie.value); // 除錯訊息
+                        } catch (error) {
+                            console.error("Error fetching movie details:", error);
+                        }
+                    };
+
+                    onMounted(fetchMovieDetail);
+
+                    // 使用 computed 來格式化日期，僅顯示日期部分
+                    const formattedPremiereDate = computed(() => {
+                        if (!movie.value.premiereDate) return '';
+                        const date = new Date(movie.value.premiereDate);
+                        return date.toISOString().split('T')[0];  // ISO 字串格式，分離出日期部分
+                    });
+
+                    const groupShowtimesByDate = (showtimes) => {
+                        // 確保 showtimes 為陣列，若為 undefined 或 null 則設定為空陣列
+                        if (!Array.isArray(showtimes)) showtimes = [];
+
+                        return showtimes.reduce((acc, showtime) => {
+                            const date = new Date(showtime.date).toISOString().split('T')[0];
+                            if (!acc[date]) acc[date] = [];
+                            acc[date].push(showtime);
+                            return acc;
+                        }, {});
+                    };
+
+                    // 點擊場次跳轉到選擇座位的頁面
+                    const goToSeatSelection = (showtime) => {
+                        if (showtime) {
+                            // 轉跳到座位選擇頁面，並附上 showtime 參數
+                            const showtimeParam = encodeURIComponent(JSON.stringify(showtime));
+                            window.location.href = `/SeatSelection.html?showtime=${showtimeParam}`;
+                        } else {
+                            console.error("Showtime is missing.");
+                        }
+                    };
+
+                    return {
+                        movie,
+                        groupShowtimesByDate,
+                        goToSeatSelection,
+                        formattedPremiereDate
+                    };
+                }
+            });
+
+            app.mount("#app");
+        </script>
+    }
+</body>

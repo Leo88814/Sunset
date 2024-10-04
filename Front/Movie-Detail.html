@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>強檔熱映-驀然回首</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/header.css" />
+    <link rel="stylesheet" href="CSS/styles2.css" />
+    <style>
+      iframe {
+        width: 100%;
+        height: 450px;
+        margin-top: 20px;
+      }
+
+      .carousel-inner {
+        aspect-ratio: 16 / 9;
+        width: 100%;
+        overflow: hidden;
+      }
+
+      .carousel-inner img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <header-component></header-component>
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+            <li class="breadcrumb">
+              <a href="Movie-Blockbuster.html">電影列表</a>
+            </li>
+            <li class="breadcrumb active">{{ movie.title }}</li>
+          </ol>
+        </nav>
+      </div>
+
+      <!-- 電影資訊 -->
+      <div class="container">
+        <div class="row container">
+          <!-- 左邊電影海報 -->
+          <div class="col-md-4">
+            <img :src="movie.image" :alt="movie.title" class="img-fluid" />
+          </div>
+
+          <!-- 右邊電影詳細資料 -->
+          <div class="col-md-8">
+            <h1 class="movie-title">
+              {{ movie.title }} <small>{{ movie.title_english }}</small>
+            </h1>
+            <p><strong>分級：</strong>{{ movie.rating }}</p>
+            <p><strong>類型：</strong>{{ movie.genre }}</p>
+            <p><strong>片長：</strong>{{ movie.length }} 分鐘</p>
+            <p><strong>語言：</strong>{{ movie.language }}</p>
+            <p><strong>導演：</strong>{{ movie.director }}</p>
+            <p><strong>演員：</strong>{{ movie.actors }}</p>
+            <p><strong>發行：</strong>{{ movie.distributor }}</p>
+            <p><strong>上映日期：</strong>{{ movie.release_date }}</p>
+            <div class="rating">
+              <p><strong>評分：</strong></p>
+              <div>
+                <span v-for="star in rating" :key="star"> ★ </span>
+                <span v-for="empty in 5 - rating" :key="empty"> ☆ </span>
+                <p>這部電影的平均評分為 {{ rating }} 顆星</p>
+              </div>
+            </div>
+          </div>
+
+          <div class="container">
+            <h2>電影場次</h2>
+            <div
+              v-for="(times, date) in movie.showtimes"
+              :key="date"
+              class="mb-3"
+            >
+              <h5>{{ date }}</h5>
+              <div class="d-flex flex-wrap gap-2">
+                <button
+                  v-for="(showtime, index) in times"
+                  :key="index"
+                  class="btn btn-outline-primary"
+                  @click="selectShowtime(date, showtime)"
+                >
+                  {{ showtime }}
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <!-- 電影介紹 -->
+          <div class="container">
+            <h2>電影介紹</h2>
+            <p v-for="item in movie.introduction" :key="item">{{ item }}</p>
+            <p>{{ movie.description }}</p>
+          </div>
+
+          <!-- YouTube 預告片 -->
+          <div class="container">
+            <h2>電影預告片</h2>
+            <div id="player"></div>
+          </div>
+
+          <!-- 劇照輪播 -->
+          <div class="container">
+            <h2>劇照</h2>
+            <div
+              id="carouselExample"
+              class="carousel slide"
+              data-bs-ride="carousel"
+            >
+              <div class="carousel-inner">
+                <div
+                  v-for="(still, index) in movie.stills"
+                  :key="index"
+                  :class="['carousel-item', { active: index === 0 }]"
+                >
+                  <img
+                    :src="still"
+                    class="d-block w-100 img-fluid"
+                    :alt="'劇照 ' + (index + 1)"
+                  />
+                  <div class="carousel-caption d-none d-md-block">
+                    <h5>{{ movie.title }}</h5>
+                    <p>{{ movie.title_english }}</p>
+                  </div>
+                </div>
+              </div>
+              <button
+                class="carousel-control-prev"
+                type="button"
+                data-bs-target="#carouselExample"
+                data-bs-slide="prev"
+              >
+                <span
+                  class="carousel-control-prev-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button
+                class="carousel-control-next"
+                type="button"
+                data-bs-target="#carouselExample"
+                data-bs-slide="next"
+              >
+                <span
+                  class="carousel-control-next-icon"
+                  aria-hidden="true"
+                ></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer-component></footer-component>
+    </div>
+
+    <!-- 引入 Vue.js 和 Bootstrap -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="https://www.youtube.com/iframe_api"></script>
+    <script src="js/header-component.js"></script>
+    <script src="js/footer-component.js"></script>
+
+    <script>
+      // 初始化 YouTube API
+      var player;
+      function onYouTubeIframeAPIReady() {
+        if (
+          typeof app !== "undefined" &&
+          app.config.globalProperties.initPlayer
+        ) {
+          app.config.globalProperties.initPlayer();
+        }
+      }
+
+      // Vue.js 實例
+      const { createApp, ref, onMounted } = Vue;
+
+      const app = createApp({
+        components: {
+          "header-component": HeaderComponent,
+          "footer-component": FooterComponent,
+        },
+        setup() {
+          const movie = ref({
+            title: "驟然回首",
+            title_english: "LOOK BACK",
+            rating: "普遍級",
+            length: 58,
+            genre: "卡通動畫片",
+            score: 4.9,
+            image: "/images/LookBack.jpg",
+            language: "日文",
+            director: "押山清高",
+            actors: "河合優實、吉田美月喜",
+            distributor: "采昌國際多媒體股份有限公司",
+            release_date: "2024-08-01",
+            trailer: "6PwY3ZUaPoY",
+            introduction: [
+              "★青春 × 創作 × 夢想，探觸創作的艱辛與意義，極具衝擊的社會議題！",
+              "★悲喜交加的情節，令人揪心的轉折，觀眾看完直呼「必看神作」！",
+              "★好評入選安錫動畫影展、上海電影節，全球熱淚狂灑熱烈掌聲！",
+            ],
+            description:
+              "擅長創作四格漫畫的小四生藤野（河合優實配音），意外得知長期「家裡蹲」拒絕上學的京本（吉田美月喜配音），也跟她一起在校刊上連載四格漫畫。在藤野眼中，京本的畫功優異於她，讓藤野在自尊心作祟下，將其轉化成自己的成長動力，卯足全力鑽研畫功，花費一整年時間試圖追上差距，卻自認仍舊無法超越京本，導致她心灰冷意，決定放棄繪畫。直到小學畢業前夕，藤野在老師的請託下，轉交畢業證書給待在家中的京本。兩個性格相反的少女，也在此時正式相會，不僅促使藤野重燃對漫畫的熱愛，更牽起兩人不可分割的羈絆，共同踏上創作之路。隨著歲月流逝，兩人的逐夢之路有悲有喜，然而一場殘酷的意外，卻粉碎了她們對未來的一切幻想…。",
+            stills: ["/images/01.jpg", "/images/02.jpg", "/images/03.jpg"],
+            showtimes: {
+              "2024-09-26": ["10:00 AM", "1:00 PM", "4:00 PM"],
+              "2024-09-27": ["11:00 AM", "2:00 PM", "5:00 PM", "8:00 PM"],
+              "2024-09-28": ["9:00 AM", "12:00 PM", "3:00 PM", "6:00 PM"],
+            },
+          });
+
+          const rating = ref(0);
+
+          // 從後台取得評分資料
+          const fetchRating = async () => {
+            try {
+              // 替換為實際的 API URL
+              const response = await fetch("/api/getMovieRating");
+              const data = await response.json();
+              rating.value = data.rating; // 假設 API 回傳的評分數值是 0-5 顆星
+            } catch (error) {
+              console.error("取得評分時發生錯誤:", error);
+            }
+          };
+
+          const selectShowtime = (date, showtime) => {
+            // 將選擇的日期和場次儲存到 localStorage
+            localStorage.setItem("selectedDate", date);
+            localStorage.setItem("selectedShowtime", showtime);
+
+            // 跳轉到選擇座位的頁面
+            window.location.href = "Booking-ChoiceSeats.html";
+          };
+
+          // 初始化播放器
+          function initPlayer() {
+            player = new YT.Player("player", {
+              videoId: movie.value.trailer,
+              width: "100%",
+              height: "450",
+              playerVars: {
+                autoplay: 0,
+                controls: 1,
+                modestbranding: 1,
+                rel: 0,
+              },
+            });
+          }
+
+          onMounted(() => {
+            fetchRating();
+            if (typeof YT === "undefined" || typeof YT.Player === "undefined") {
+              window.onYouTubeIframeAPIReady = initPlayer;
+            } else {
+              initPlayer();
+            }
+          });
+
+          return { movie, rating, selectShowtime };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>

@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>影城介紹-品牌理念</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/header.css" />
+    <link rel="stylesheet" href="CSS/styles2.css" />
+    <style>
+      /* 特殊設備容器 */
+      .equipment-container {
+        display: flex;
+        justify-content: space-between;
+        overflow: hidden;
+      }
+
+      /* 特殊設備卡片 */
+      .equipment-card {
+        position: relative;
+        width: 20%;
+        height: 250px;
+        overflow: hidden;
+        transition: transform 0.3s ease, background-color 0.3s ease;
+        background-color: #f8f9fa;
+      }
+      .equipment-card:hover {
+        transform: scale(1.1);
+        z-index: 1;
+        background-color: #e9ecef;
+      }
+      .equipment-card img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+      }
+
+      /* 特殊設備卡片內容 */
+      .equipment-card .card-content {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: rgba(0, 0, 0, 0.7);
+        color: white;
+        padding: 10px;
+        transform: translateY(calc(100% - 40px));
+        transition: transform 0.3s ease;
+      }
+      .equipment-card:hover .card-content {
+        transform: translateY(0);
+      }
+      .equipment-card .card-title {
+        margin: 0;
+        transition: margin 0.3s ease;
+      }
+      .equipment-card:hover .card-title {
+        margin-bottom: 10px;
+      }
+      .equipment-card .card-description {
+        opacity: 0;
+        transition: opacity 0.3s ease;
+      }
+      .equipment-card:hover .card-description {
+        opacity: 1;
+      }
+
+      /* 品牌理念部分的樣式 */
+      .brand-philosophy {
+        background-color: #f8f9fa;
+        padding: 40px 0;
+        margin-bottom: 40px;
+      }
+      .brand-philosophy ul {
+        list-style-type: none;
+        padding-left: 0;
+      }
+      .brand-philosophy li {
+        margin-bottom: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="page-container">
+      <header-component></header-component>
+
+      <!-- Breadcrumb 導航列 -->
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+            <li class="breadcrumb">品牌理念</li>
+          </ol>
+        </nav>
+      </div>
+
+      <main class="content-wrap mb-5">
+        <div class="container">
+          <div class="theater-image mb-5">
+            <img
+              src="/images/Sunset Theater.jpg"
+              alt="影城形象照"
+              class="img-fluid w-100"
+            />
+          </div>
+
+          <!-- 品牌理念 -->
+          <section class="brand-philosophy">
+            <h2 class="text-center mb-4">我們的品牌理念</h2>
+            <div class="row">
+              <div class="col-md-8 offset-md-2">
+                <p class="text-center">
+                  我們致力於為每位觀眾提供最優質的觀影體驗。從舒適的座椅到先進的影音設備,
+                  我們的每一個細節都經過精心設計,旨在讓您沉浸在電影的魔力中。我們相信,
+                  電影不僅是一種娛樂,更是一種藝術,一種能夠啟發思考、觸動心靈的媒介。
+                </p>
+                <p class="text-center">我們的使命是:</p>
+                <ul class="text-center">
+                  <li>提供最高品質的視聽體驗</li>
+                  <li>創造溫馨舒適的觀影環境</li>
+                  <li>推廣電影文化,豐富觀眾的精神生活</li>
+                  <li>持續創新,引領影院行業的發展</li>
+                </ul>
+                <p class="text-center">
+                  無論您是電影愛好者還是偶爾放鬆的觀眾,我們都希望能為您帶來難忘的觀影時光。
+                  讓我們一起,在銀幕的光影中,體驗生活的縮影,感受藝術的魅力。
+                </p>
+              </div>
+            </div>
+          </section>
+
+          <h1 class="text-center mb-5">我們的特殊設備</h1>
+
+          <!-- 特殊設備 -->
+          <div class="equipment-container">
+            <div
+              v-for="equipment in specialEquipments"
+              :key="equipment.id"
+              class="equipment-card"
+            >
+              <img :src="equipment.image" :alt="equipment.title" />
+              <div class="card-content">
+                <h5 class="card-title">{{ equipment.title }}</h5>
+                <p class="card-description">{{ equipment.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer-component></footer-component>
+    </div>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="/js/header-component.js"></script>
+    <script src="/js/footer-component.js"></script>
+    <script>
+      const { createApp, ref } = Vue;
+
+      const app = createApp({
+        setup() {
+          const specialEquipments = ref([
+            {
+              id: 1,
+              title: "IMAX",
+              image: "/images/IMAX.jpg",
+              description: "體驗最大銀幕和最清晰的影像",
+            },
+            {
+              id: 2,
+              title: "3D",
+              image: "/images/3D.jpg",
+              description: "身臨其境的立體視覺效果",
+            },
+            {
+              id: 3,
+              title: "Dolby Atmos",
+              image: "/images/Dolby Atmos.jpg",
+              description: "360度環繞音效,帶來極致聽覺體驗",
+            },
+            {
+              id: 4,
+              title: "4DX",
+              image: "/images/4DX.jpg",
+              description: "動感座椅和環境特效,讓您身歷其境",
+            },
+            {
+              id: 5,
+              title: "VIP廳",
+              image: "/images/VIP.jpg",
+              description: "豪華座椅和專屬服務,享受頂級觀影體驗",
+            },
+          ]);
+
+          return {
+            specialEquipments,
+          };
+        },
+      });
+
+      app.component("header-component", HeaderComponent);
+      app.component("footer-component", FooterComponent);
+
+      app.mount("#app");
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>

@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Sunset Theater</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+
+    <link rel="stylesheet" href="CSS/header.css" />
+    <link rel="stylesheet" href="CSS/indexMovie.css" />
+    <link rel="stylesheet" href="CSS/styles2.css" />
+
+    <style>
+      @media (max-width: 991px) {
+        .navbar-nav {
+          align-items: flex-start;
+        }
+
+        .navbar-nav .nav-item {
+          width: 100%;
+        }
+
+        .navbar-collapse .d-flex {
+          flex-direction: row;
+          justify-content: flex-end;
+          width: 100%;
+          margin-top: 10px;
+        }
+
+        .login-container {
+          margin-right: 10px !important;
+        }
+
+        .ticketBtn {
+          white-space: nowrap;
+        }
+
+        .login-container .dropdown-menu {
+          position: absolute;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="page-container">
+      <header-component></header-component>
+      <main>
+        <div id="movieCarousel" class="carousel slide" data-bs-ride="carousel">
+          <div class="carousel-inner">
+            <div
+              class="carousel-item"
+              v-for="(movie, index) in featuredMovies"
+              :key="movie.id"
+              :class="{ active: index === 0 }"
+            >
+              <img
+                :src="movie.image"
+                class="d-block w-100"
+                :alt="movie.title"
+              />
+              <div class="carousel-caption d-none d-md-block">
+                <h5>{{ movie.title }}</h5>
+                <p>{{ movie.Etitle }}</p>
+              </div>
+            </div>
+          </div>
+          <button
+            class="carousel-control-prev"
+            type="button"
+            data-bs-target="#movieCarousel"
+            data-bs-slide="prev"
+          >
+            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Previous</span>
+          </button>
+          <button
+            class="carousel-control-next"
+            type="button"
+            data-bs-target="#movieCarousel"
+            data-bs-slide="next"
+          >
+            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+            <span class="visually-hidden">Next</span>
+          </button>
+        </div>
+
+        <div class="container mt-4">
+          <h2 id="recommended-movies" class="text-center">強檔熱映</h2>
+          <div
+            class="movie-list"
+            style="
+              display: flex;
+              justify-content: space-between;
+              flex-wrap: wrap;
+            "
+          >
+            <div
+              class="movie-item"
+              v-for="movie in recommendedMovies"
+              :key="movie.id"
+              style="width: 200px; margin: 10px"
+              @click="goToBooking(movie.id)"
+            >
+              <img :src="movie.poster" :alt="movie.title" />
+              <div class="movie-description">
+                <h5>{{ movie.title }}</h5>
+                <p>{{ movie.Etitle }}</p>
+                <p>推薦數: {{ movie.recommendations }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <footer-component></footer-component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="js/header-component.js"></script>
+    <script src="js/footer-component.js"></script>
+    <script>
+      const { createApp, ref } = Vue;
+
+      const app = createApp({
+        components: {
+          "header-component": HeaderComponent,
+          "footer-component": FooterComponent,
+        },
+        setup() {
+          const featuredMovies = ref([
+            {
+              id: 1,
+              title: "小丑：雙重瘋狂",
+              Etitle: "JOKER FOLIE A DEUX",
+              image: "/images/joker.jpg",
+            },
+            {
+              id: 2,
+              title: "小丑：雙重瘋狂",
+              Etitle: "JOKER FOLIE A DEUX",
+              image: "/images/joker1.jpg",
+            },
+            {
+              id: 3,
+              title: "小丑：雙重瘋狂",
+              Etitle: "JOKER FOLIE A DEUX",
+              image: "/images/joker2.jpg",
+            },
+          ]);
+
+          const recommendedMovies = ref([
+            {
+              id: 1,
+              title: "驀然回首",
+              Etitle: "Look Back",
+              poster: "/images/LookBack.jpg",
+              recommendations: 120,
+            },
+            {
+              id: 2,
+              title: "異形：羅瑟路斯",
+              Etitle: "ALIEN ROMULUS",
+              poster: "/images/Alien Romulus.jpg",
+              recommendations: 120,
+            },
+            {
+              id: 3,
+              title: "死侍與金鋼狼",
+              Etitle: "DEADPOOL AND WOLVERINE",
+              poster: "/images/DEADPOOL AND WOLVERINE.jpg",
+              recommendations: 120,
+            },
+            {
+              id: 4,
+              title: "霍爾的移動城堡",
+              Etitle: "HOWLS MOVING CASTLE",
+              poster: "/images/HOWLS MOVING CASTLE.jpg",
+              recommendations: 120,
+            },
+            {
+              id: 5,
+              title: "我的英雄學院劇場版：You're Next",
+              Etitle: "MY HERO ACADEMIA YOURE NEXT",
+              poster: "/images/MY HERO ACADEMIA THE MOVIE：You're Next.jpg",
+              recommendations: 120,
+            },
+          ]);
+
+          const goToBooking = (movieId) => {
+            window.location.href = `Booking-ChoiceDate.html?movieId=${movieId}`;
+          };
+
+          return {
+            featuredMovies,
+            recommendedMovies,
+            goToBooking,
+          };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>

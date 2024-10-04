@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>票夾-票卷明細</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/header.css" />
+    <link rel="stylesheet" href="CSS/styles2.css" />
+    <style>
+      .ticket-details {
+        display: flex;
+        align-items: center;
+        margin-bottom: 20px;
+      }
+
+      .ticket-details img {
+        width: 150px;
+        border-radius: 10px;
+        margin-right: 20px;
+      }
+
+      .ticket-info {
+        background-color: #e7d7bc;
+        padding: 15px;
+        border-radius: 10px;
+      }
+
+      .ticket-info p {
+        margin: 5px 0;
+      }
+
+      .order-info {
+        margin-bottom: 20px;
+        font-size: 18px;
+        font-weight: bold;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+      }
+
+      table th,
+      table td {
+        border: 1px solid #000;
+        padding: 10px;
+        text-align: left;
+      }
+
+      table th {
+        background-color: #0a7380;
+        color: white;
+      }
+
+      table tr:nth-child(even) {
+        background-color: #f2f2f2;
+      }
+
+      .back-button {
+        background-color: red;
+        color: white;
+        padding: 10px 20px;
+        text-align: center;
+        display: inline-block;
+        border-radius: 5px;
+        text-decoration: none;
+        font-size: 18px;
+        cursor: pointer;
+      }
+
+      .back-button:hover {
+        background-color: #cc0000;
+      }
+
+      .back-button-container {
+        text-align: right;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app" class="page-container">
+      <header-component></header-component>
+
+      <div class="container">
+        <nav aria-label="breadcrumb">
+          <ol class="breadcrumb">
+            <li class="breadcrumb"><a href="Main.html">首頁</a></li>
+            <li class="breadcrumb">會員專區</li>
+            <li class="breadcrumb">
+              <a href="User-Ticket.html">票夾</a>
+            </li>
+            <li class="breadcrumb active">{{ ticket.name }}</li>
+          </ol>
+        </nav>
+      </div>
+
+      <div class="container">
+        <div class="ticket-details">
+          <img :src="ticketImage" alt="電影海報" />
+          <div class="ticket-info">
+            <p>
+              <strong>電影名稱：</strong> {{ ticket.name }} ({{ ticket.rating
+              }})
+            </p>
+            <p><strong>日期：</strong> {{ ticket.date }} {{ ticket.time }}</p>
+            <p><strong>影廳：</strong> {{ ticket.theater }}</p>
+            <p><strong>分級：</strong> {{ ticket.rating }}</p>
+            <p><strong>片長：</strong> {{ ticket.duration }} 分</p>
+          </div>
+        </div>
+
+        <div class="order-info">
+          <p>票卷明細:</p>
+          <p>訂單編號: {{ ticket.orderNumber }}</p>
+        </div>
+
+        <table>
+          <thead>
+            <tr>
+              <th>座位</th>
+              <th>票卷序號</th>
+              <th>票價</th>
+              <th>票種</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="seat in ticket.seats" :key="seat.seatNumber">
+              <td>{{ seat.seatNumber }}</td>
+              <td>{{ seat.ticketNumber }}</td>
+              <td>{{ seat.price }}</td>
+              <td>{{ seat.ticket }}</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="back-button-container">
+          <a href="User-Ticket.html" class="back-button">上一頁</a>
+        </div>
+      </div>
+      <footer-component></footer-component>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="js/header-component.js"></script>
+    <script src="js/footer-component.js"></script>
+    <script>
+      const { ref, createApp } = Vue;
+
+      const app = createApp({
+        components: {
+          "header-component": HeaderComponent,
+          "footer-component": FooterComponent,
+        },
+        setup() {
+          const ticketImage = ref("images/LookBack.jpg");
+          const ticket = ref({
+            name: "驚然回首",
+            rating: "普",
+            orderNumber: "0120240824002",
+            date: "2024-08-28",
+            time: "10:00",
+            theater: "A廳",
+            duration: 58,
+            seats: [
+              {
+                seatNumber: "A1",
+                ticketNumber: "A001",
+                price: "NT$230",
+                ticket: "全票",
+              },
+              {
+                seatNumber: "A2",
+                ticketNumber: "B002",
+                price: "NT$200",
+                ticket: "優待票",
+              },
+              {
+                seatNumber: "A2",
+                ticketNumber: "C003",
+                price: "NT$180",
+                ticket: "愛心票",
+              },
+            ],
+          });
+
+          return { ticketImage, ticket };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>

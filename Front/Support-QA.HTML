@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Q&A</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="CSS/header.css" />
+    <link rel="stylesheet" href="CSS/styles2.css" />
+  </head>
+  <body>
+    <div id="app">
+      <div class="page-container">
+        <header-component></header-component>
+
+        <!-- Breadcrumb 導航列 -->
+        <div class="container">
+          <nav aria-label="breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+              <li class="breadcrumb">常見問題</li>
+            </ol>
+          </nav>
+        </div>
+
+        <div class="content-wrap">
+          <main class="container">
+            <div class="row">
+              <div class="col-12">
+                <h1 class="mt-5">常見問題</h1>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-12">
+                <ul class="list-unstyled">
+                  <li
+                    class="mt-3"
+                    v-for="item in faqList"
+                    :key="item.id"
+                    @click="toggleDetail(item.id)"
+                    style="cursor: pointer"
+                  >
+                    <strong>{{ item.title }}</strong>
+                    <div v-if="item.showDetail" class="mt-2">
+                      {{ item.detail }}
+                    </div>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </main>
+        </div>
+        <footer-component></footer-component>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/vue@3.5.4/dist/vue.global.js"></script>
+    <script src="js/header-component.js"></script>
+    <script src="js/footer-component.js"></script>
+    <script>
+      const { createApp, ref, onMounted } = Vue;
+
+      const app = createApp({
+        components: {
+          "header-component": HeaderComponent,
+          "footer-component": FooterComponent,
+        },
+        setup() {
+          // 範例資料
+          const faqList = ref([
+            {
+              id: 1,
+              title: "如何取消預訂的票？",
+              detail: "預訂的票無法於電影開始1小時前取消，請提前做好規劃。",
+              showDetail: false,
+            },
+            {
+              id: 2,
+              title: "票種分類有哪些？",
+              detail: "全票$230、優待票$200、愛心票$180。",
+              showDetail: false,
+            },
+            {
+              id: 3,
+              title: "取票須知",
+              detail:
+                "請於電影開演前30分鐘，持訂單編號或此確認單及相關證明文件至售票櫃台取票，逾時完成取票者，此訂票紀錄作廢。",
+              showDetail: false,
+            },
+          ]);
+
+          // 切換詳細內容顯示
+          const toggleDetail = (id) => {
+            const faq = faqList.value.find((item) => item.id === id);
+            if (faq) {
+              faq.showDetail = !faq.showDetail;
+            }
+          };
+
+          // 可以在未來用於從後端獲取資料
+          const fetchFaq = async () => {
+            try {
+              // 模擬從後台抓取資料
+              // const response = await fetch("/api/getFaqList");
+              // const data = await response.json();
+              // faqList.value = data.faqs.map((faq) => ({
+              //   ...faq,
+              //   showDetail: false,
+              // }));
+            } catch (error) {
+              console.error("取得常見問題時發生錯誤:", error);
+            }
+          };
+
+          onMounted(() => {
+            fetchFaq(); // 預留 API 呼叫
+          });
+
+          return { faqList, toggleDetail };
+        },
+      });
+
+      app.mount("#app");
+    </script>
+  </body>
+</html>
