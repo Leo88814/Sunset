@@ -10,6 +10,7 @@ namespace Sunset.WebAPI.Site.Controllers
     public class BookTicketsController : Controller
     {
 		// GET: BookTickets
+		[Authorize]
 		public ActionResult ChoiceMovies()
 		{
 			return View();

@@ -93,7 +93,7 @@
                         <input type="date"
                                class="form-control"
                                id="dateOfBirth"
-                               v-model="formData.dateOfBirth"
+                               v-modle="formData.dateOfBirth"
                                v-on:blur="validateField('dateOfBirth')"
                                :class="{ 'is-invalid': formErrors.dateOfBirth }">
                         <div class="invalid-feedback">{{ formErrors.dateOfBirth }}</div>
@@ -112,7 +112,7 @@
     @section scripts{
         <script>const { createApp, ref } = Vue;
 
-            const config = {  
+            const config = {
 
                 setup() {
                     const formData = ref({
@@ -164,7 +164,7 @@
                                 }
                                 break;
 
-                             case 'email':
+                            case 'email':
                                 if (!value) {
                                     errorMessage = "請輸入電子郵件";
                                 } else if (!/\S+@@\S+\.\S+/.test(value)) {
@@ -234,13 +234,14 @@
                         }
                     };
 
+                 
 
                     return {
                         formData,
                         formErrors,
                         validateField,
                         validateForm,
-                        submitForm,
+                        submitForm
                     };
                 },
             };

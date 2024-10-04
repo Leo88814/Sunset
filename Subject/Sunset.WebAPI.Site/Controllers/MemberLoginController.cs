@@ -24,8 +24,8 @@ namespace Sunset.WebAPI.Site.Controllers
 		{
 			return View();
 		}
-		[HttpPost]
-		[ValidateAntiForgeryToken]
+		
+
 		public ActionResult Logout()
 		{
 			Session.Abandon();
