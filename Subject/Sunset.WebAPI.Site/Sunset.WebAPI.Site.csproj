@@ -215,6 +215,7 @@
     <Compile Include="Controllers\Apis\CheckOrderApiController.cs" />
     <Compile Include="Controllers\Apis\FrontMoviesApiController.cs" />
     <Compile Include="Controllers\Apis\GetSeatsApiController.cs" />
+    <Compile Include="Controllers\Apis\HomeApiController.cs" />
     <Compile Include="Controllers\Apis\LoginApiController.cs" />
     <Compile Include="Controllers\Apis\MemberApiController.cs" />
     <Compile Include="Controllers\Apis\RegisterApiController.cs" />
@@ -232,6 +233,7 @@
     <Compile Include="Models\Dtos\ChoiceMoviesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceSeatsDto.cs" />
     <Compile Include="Models\Dtos\GetMovieScheduleDto.cs" />
+    <Compile Include="Models\Dtos\HomeDto.cs" />
     <Compile Include="Models\Dtos\MemberLoginDto.cs" />
     <Compile Include="Models\Dtos\MovieBlockbusterDto.cs" />
     <Compile Include="Models\Dtos\MovieComingSoonDto.cs" />
@@ -262,10 +264,12 @@
     <Compile Include="Models\EFModels\User.cs" />
     <Compile Include="Models\Exts\ChoiceDatesDto_Ext.cs" />
     <Compile Include="Models\Exts\ChoiceMoviesDto_Ext.cs" />
+    <Compile Include="Models\Exts\HomeDto_Ext.cs" />
     <Compile Include="Models\Infra\EmailHelper.cs" />
     <Compile Include="Models\Infra\HashUtility.cs" />
     <Compile Include="Models\MappingProfile.cs" />
     <Compile Include="Models\Repositories\BookTicketsRepository.cs" />
+    <Compile Include="Models\Repositories\HomeRepository.cs" />
     <Compile Include="Models\Repositories\MemberRepository.cs" />
     <Compile Include="Models\Repositories\MovieBlockbusterRepository.cs" />
     <Compile Include="Models\Repositories\MovieComingSoonRepository.cs" />
@@ -273,6 +277,7 @@
     <Compile Include="Models\Repositories\UserHistoryRepository.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Services\BookTicketsService.cs" />
+    <Compile Include="Models\Services\HomeService.cs" />
     <Compile Include="Models\Services\MemberService.cs" />
     <Compile Include="Models\Services\MovieBlockbusterService.cs" />
     <Compile Include="Models\Services\MovieComingSoonService.cs" />
