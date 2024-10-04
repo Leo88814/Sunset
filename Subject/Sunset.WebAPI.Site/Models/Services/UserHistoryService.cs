@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Sunset.WebAPI.Site.Models.Dtos;
+using Sunset.WebAPI.Site.Models.EFModels;
 using Sunset.WebAPI.Site.Repositories;
 
 namespace Sunset.WebAPI.Site.Services
@@ -43,6 +45,17 @@ namespace Sunset.WebAPI.Site.Services
 			{
 				history.MainPicture = path + history.MainPicture;
 			}
+		}
+
+		public Member GetMemberByEmail(string email)
+		{
+			// 實現根據 email 獲取會員的方法
+			return _userHistoryRepository.GetMemberByEmail(email);
+		}
+
+		public bool CancelOrder(int orderId, string memberId)
+		{
+			return _userHistoryRepository.CancelOrder(orderId, memberId);
 		}
 	}
 }

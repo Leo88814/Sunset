@@ -226,6 +226,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dtos\CancelOrderDto.cs" />
     <Compile Include="Models\Dtos\CheckMemberLoginDto.cs" />
     <Compile Include="Models\Dtos\CheckOrderDto.cs" />
     <Compile Include="Models\Dtos\ChoiceDatesDto.cs" />

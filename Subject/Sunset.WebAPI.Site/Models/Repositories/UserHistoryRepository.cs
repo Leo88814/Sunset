@@ -114,5 +114,34 @@ namespace Sunset.WebAPI.Site.Repositories
 			_context.SaveChanges();
 			return true;
 		}
+
+		public Member GetMemberByEmail(string email)
+		{
+			return _context.Members.FirstOrDefault(m => m.Email == email);
+		}
+
+		public Order GetOrderByOrderNumber(string orderNumber)
+		{
+			return _context.Orders.FirstOrDefault(o => o.OrderNumber == orderNumber);
+		}
+
+		public bool CancelOrder(int orderId, string memberId)
+		{
+			var order = GetOrderById(orderId);
+			if (order == null || order.MemberId.ToString() != memberId)
+			{
+				return false;
+			}
+
+			order.PaymentStatus = "Cancelled";
+			_context.SaveChanges();
+			return true;
+		}
+
+		public Order GetOrderById(int orderId)
+		{
+			return _context.Orders.FirstOrDefault(o => o.Id == orderId);
+		}
+
 	}
 }

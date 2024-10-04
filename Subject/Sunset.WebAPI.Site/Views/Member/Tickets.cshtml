@@ -73,7 +73,11 @@
                     <p><strong>票數：</strong> {{ ticket.totalTicketCount }} 張</p>
                     <p><strong>場次時間：</strong> {{ ticket.showTime }}</p> <!-- 顯示時間 -->
                     <p><strong>場次日期：</strong> {{ ticket.showDate }}</p> <!-- 顯示日期 -->
-                    
+                    <button 
+                        :disabled="isCancellationDisabled(ticket.showDate, ticket.showTime)"
+                        v-on:click="cancelOrder(ticket.orderId)">
+                        取消訂單
+                    </button>
                 </div>
             </div>
         </div>
@@ -85,12 +89,17 @@
             const config = {
                 setup() {
                     const tickets = ref([]);
-                    const memberId = '1'; // 直接設置 memberId 為 1 來進行測試
-                    const apiUrl = `/api/MemberApiController/UserHistory/${memberId}`;
+                    const memberId = getCookie("memberId"); // 從 Cookies 中獲取 memberId
+                    const apiUrl = `/api/MemberApiController/UserHistory`;
 
                     const fetchOrders = async () => {
                         try {
-                            const response = await fetch(apiUrl);
+                            const token = getCookie("bookmovie"); // 確保這裡的 token 是正確的
+                            const response = await fetch(apiUrl, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}` // 使用 Bearer token
+                                }
+                            });
                             if (!response.ok) {
                                 throw new Error(`API request failed with status: ${response.status}`);
                             }
@@ -105,20 +114,69 @@
                         }
                     };
 
+                    const isCancellationDisabled = (showDate, showTime) => {
+                        const showDateTime = new Date(`${showDate}T${showTime}`);
+                        const now = new Date();
+                        const timeDifference = showDateTime - now;
+                        return timeDifference <= 30 * 60 * 1000; // 30 分鐘
+                    };
+
+                    const cancelOrder = async (orderId) => {
+                        const memberId = getMemberId();
+                        if (!memberId) {
+                            console.error("Member ID not found");
+                            return;
+                        }
+                        try {
+                            const response = await fetch(`/api/MemberApiController/CancelOrder`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                },
+                                body: JSON.stringify({ orderId, memberId })
+                            });
+                        if (!response.ok) {
+                            throw new Error(`API request failed with status: ${response.status}`);
+                        }
+                        await fetchOrders(); // 重新取訂單以更新狀態
+                        } catch (error) {
+                            console.error("Error cancelling order:", error);
+                        }
+                    };
+
                     const viewDetails = (orderNumber) => {
-                        window.location.href = `/Member/OrderDetails/${orderNumber}?memberId=${memberId}`;
+                        window.location.href = `/Member/OrderDetails/${orderNumber}`;
                     };
 
                     onMounted(fetchOrders);
 
                     return {
                         tickets,
+                        isCancellationDisabled,
+                        cancelOrder,
                         viewDetails
                     };
                 },
             };
 
             const app = createApp(config);
-            app.mount("#app");</script>
+            app.mount("#app");
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null; // 如果沒有找到，返回 null
+            }
+
+            function getMemberId() {
+                const memberId = getCookie("memberId"); // 假設 memberId 存於名為 "memberId" 的 Cookie 中
+                if (!memberId) {
+                    console.error("Member ID not found in cookies");
+                }
+                return memberId;
+            }
+        </script>
     }
 </body>
