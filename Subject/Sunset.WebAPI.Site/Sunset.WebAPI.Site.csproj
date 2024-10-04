@@ -241,6 +241,7 @@
     <Compile Include="Models\Dtos\MovieReleaseScheduleDto.cs" />
     <Compile Include="Models\Dtos\RateOrderDto.cs" />
     <Compile Include="Models\Dtos\RegisterDto.cs" />
+    <Compile Include="Models\Dtos\TransactionHistoryDto.cs" />
     <Compile Include="Models\Dtos\UserHistoryDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Auditorium.cs" />
@@ -271,6 +272,7 @@
     <Compile Include="Models\Repositories\MovieBlockbusterRepository.cs" />
     <Compile Include="Models\Repositories\MovieComingSoonRepository.cs" />
     <Compile Include="Models\Repositories\MovieDetailRepository.cs" />
+    <Compile Include="Models\Repositories\TransactionHistoryRepository.cs" />
     <Compile Include="Models\Repositories\UserHistoryRepository.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Services\BookTicketsService.cs" />
@@ -278,6 +280,7 @@
     <Compile Include="Models\Services\MovieBlockbusterService.cs" />
     <Compile Include="Models\Services\MovieComingSoonService.cs" />
     <Compile Include="Models\Services\MovieDetailService.cs" />
+    <Compile Include="Models\Services\TransactionHistoryService.cs" />
     <Compile Include="Models\Services\UserHistoryService.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVm.cs" />
     <Compile Include="Models\ViewModels\RegisterVm.cs" />
@@ -459,6 +462,7 @@
     <Content Include="Views\MemberLogin\MemberLogin.cshtml" />
     <Content Include="Views\Member\OrderDetails.cshtml" />
     <Content Include="Views\Member\Tickets.cshtml" />
+    <Content Include="Views\Member\TransactionHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

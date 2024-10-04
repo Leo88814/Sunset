@@ -9,6 +9,7 @@ using System.Net.Http;
 using System.Web.Http;
 using Sunset.WebAPI.Site.Models.Dtos;
 using System.Web.Security;
+using Sunset.WebAPI.Site.Models.Services;
 
 namespace Sunset.WebAPI.Site.Controllers.Api
 {
@@ -16,16 +17,23 @@ namespace Sunset.WebAPI.Site.Controllers.Api
 	public class MemberApiController : ApiController
     {
 		private readonly UserHistoryService _userHistoryService;
+		private readonly TransactionHistoryService _transactionHistoryService;
 
         // 預設建構函式
         public MemberApiController()
         {
             _userHistoryService = new UserHistoryService(new UserHistoryRepository(new AppDbContext()));
+            _transactionHistoryService = new TransactionHistoryService();
         }
 
         public MemberApiController(UserHistoryService userHistoryService)
         {
             _userHistoryService = userHistoryService;
+        }
+
+        public MemberApiController(TransactionHistoryService transactionHistoryService)
+        {
+            _transactionHistoryService = transactionHistoryService;
         }
 
         [HttpGet]
@@ -106,24 +114,52 @@ namespace Sunset.WebAPI.Site.Controllers.Api
 				return NotFound();
 			}
 			return Ok(orderDetails);
-		}
+        }
 
-		[HttpPost]
-		[Route("CancelOrder")]
-		public IHttpActionResult CancelOrder([FromBody] CancelOrderDto cancelOrderDto)
-		{
-			if (cancelOrderDto == null || cancelOrderDto.OrderId <= 0 || string.IsNullOrEmpty(cancelOrderDto.MemberId))
-			{
-				return BadRequest("Invalid order data.");
-			}
+        [HttpPost]
+        [Route("CancelOrder")]
+        public IHttpActionResult CancelOrder([FromBody] CancelOrderDto cancelOrderDto)
+        {
+            if (cancelOrderDto == null || cancelOrderDto.OrderId <= 0 || string.IsNullOrEmpty(cancelOrderDto.MemberId))
+            {
+                return BadRequest("Invalid order data.");
+            }
 
-			var result = _userHistoryService.CancelOrder(cancelOrderDto.OrderId, cancelOrderDto.MemberId);
-			if (!result)
-			{
-				return InternalServerError(new Exception("Failed to cancel the order."));
-			}
+            var result = _userHistoryService.CancelOrder(cancelOrderDto.OrderId, cancelOrderDto.MemberId);
+            if (!result)
+            {
+                return InternalServerError(new Exception("Failed to cancel the order."));
+            }
 
-			return Ok("Order cancelled successfully.");
-		}
-	}
+            return Ok("Order cancelled successfully.");
+        }
+
+        [HttpGet]
+        [Route("TopupHistory")]
+        public IHttpActionResult TopupHistory()
+        {
+            var authHeader = Request.Headers.Authorization;
+            if (authHeader == null || authHeader.Scheme != "Bearer")
+            {
+                return Unauthorized();
+            }
+
+            var token = authHeader.Parameter;
+            var memberId = GetMemberIdFromToken(token); // 從 Token 中獲取 memberId
+
+            if (string.IsNullOrEmpty(memberId))
+            {
+                return Unauthorized();
+            }
+
+            var (topupHistory, currentBalance) = _transactionHistoryService.GetTopupHistoryByMemberId(memberId);
+
+            if (topupHistory == null || !topupHistory.Any())
+            {
+                return NotFound();
+            }
+
+            return Ok(new { CurrentBalance = currentBalance, TopupHistory = topupHistory });
+        }
+    }
 }

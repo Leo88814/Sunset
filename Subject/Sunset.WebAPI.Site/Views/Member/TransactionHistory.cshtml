@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "交易紀錄";
+}
+<style>
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-bottom: 20px;
+    }
+
+        table th,
+        table td {
+            border: 1px solid #000;
+            padding: 10px;
+            text-align: center;
+        }
+
+        table th {
+            background-color: #0a7380;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #e7e7e7;
+        }
+</style>
+<body>
+    <div id="app" class="page-container">
+        <!-- Breadcrumb 導航列 -->
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb">會員專區</li>
+                    <li class="breadcrumb">交易紀錄</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="content-wrap">
+            <main class="container mt-5">
+                <h1 class="mb-4">儲值</h1>
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">當前餘額</h5>
+                                <p class="card-text fs-4">{{ currentBalance }} 元</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">儲值金額</h5>
+                                <div class="mb-3">
+                                    <input type="number"
+                                           v-model="chargeAmount"
+                                           class="form-control"
+                                           placeholder="請輸入儲值金額" />
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button v-on:click="submitCharge" class="btn btn-primary">
+                                        儲值
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <div class="container">
+                <h1 class="mb-4">儲值紀錄</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>訂單編號</th>
+                            <th>時間</th>
+                            <th>合計</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="order in orders" :key="order.id">
+                            <td>{{ order.orderNumber }}</td>
+                            <td>{{ new Date(order.transactionDate).toLocaleString() }}</td> <!-- 確保日期格式正確 -->
+                            <td>{{ order.amount }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+        <script>
+            const { createApp, ref, onMounted } = Vue;
+
+            const app = createApp({
+                setup() {
+                    const orders = ref([]);
+                    const currentBalance = ref(0); // 假設初始餘額為 0
+                    const chargeAmount = ref(0);
+                    const apiUrl = `/api/MemberApiController/TopupHistory`;
+
+                    const fetchTopupHistory = async () => {
+                        try {
+                            const token = getCookie("bookmovie");
+                            const response = await fetch(apiUrl, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`API request failed with status: ${response.status}`);
+                            }
+
+                            const data = await response.json();
+                            currentBalance.value = data.CurrentBalance; // 確保這裡的資料結構正確
+                            orders.value = data.TopupHistory; // 確保這裡的資料結構正確
+                        } catch (error) {
+                            console.error('Error fetching topup history:', error);
+                        }
+                    };
+
+                    const submitCharge = () => {
+                        if (chargeAmount.value > 0) {
+                            // 這裡應該發送請求到後端進行實際儲值操作
+                            currentBalance.value += chargeAmount.value;
+                            alert(`儲值成功！已儲值 ${chargeAmount.value} 元`);
+                            chargeAmount.value = 0;
+                        } else {
+                            alert("請輸入有效的儲值金額");
+                        }
+                    };
+
+                    onMounted(fetchTopupHistory);
+
+                    return {
+                        orders,
+                        currentBalance,
+                        chargeAmount,
+                        submitCharge
+                    };
+                }
+            });
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+            app.mount("#app");
+        </script>
+    }
+</body>

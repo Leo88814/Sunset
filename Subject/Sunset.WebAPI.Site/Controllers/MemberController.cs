@@ -22,6 +22,9 @@ namespace Sunset.WebAPI.Site.Controllers
 		{
 			return View();
 		}
-
+        public ActionResult TransactionHistory()
+        {
+            return View();
+        }
     }
 }
