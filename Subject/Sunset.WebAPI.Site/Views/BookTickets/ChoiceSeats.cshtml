@@ -1,8 +1,6 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "線上訂票-選擇座位";
 }
-
 <head>
     <title>線上訂票-選擇座位</title>
     <link rel="stylesheet" href="~/CSS/styles.css" />
@@ -155,8 +153,6 @@
                     { name: "愛心票", price: 180, selected: 0 },
                 ]);
 
-
-
                 const choiceSeatInfo = async () => {
                     try {
                         const response = await fetch(`/api/GetSeatsApi/ChoiceSeats/${movieId}/${showdateId}/${showtimeId}`, {
@@ -252,10 +248,12 @@
                 const handleSeatClick = (seat) => {
                     if (seat.seatStatus) {
                         toggleSeatSelection(seat);
-                        if (seat.selected) {
-                            addChoiceSeat(seat.id);
-                        } else {
-                            removeChoiceSeat(seat.id);
+                        console.log(seat)
+                        if (seat.seatId !== undefined && seat.seatId !== null) {
+                            addChoiceSeat(seat.seatId);
+                        }
+                        else {
+                            removeChoiceSeat(seat.seatId);
                         }
                     }
                 };
@@ -287,12 +285,19 @@
                                 price: ticket.price,
                                 quantity: ticket.selected,
                             }));
-
                         localStorage.setItem(
                             "selectedTickets",
                             JSON.stringify(selectedTicketInfo)
                         );
-
+                        //  localStorage.setItem(
+                        //    "selectedSeats",
+                        //    JSON.stringify(choiceSeats.value)
+                        //);
+                        // 構建URL，使用重複的查詢參數來傳遞多個整數
+                        const seatsString = Object.values(choiceSeats.value).join(',');
+                        const url = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId.value}/${choiceSeats.value}`;
+                        // 導航到新頁面
+                        window.location.href = url;
                         //window.location.href = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId.value}/${choiceSeats.value}`;
                     }
                 };
@@ -313,7 +318,7 @@
                     choiceSeatInfo,
                     getMovieScheduleInfo,
                     movieScheduleId,
-
+                    movieId,
                     handleSeatClick,
                     addChoiceSeat,
                     removeChoiceSeat
@@ -322,7 +327,7 @@
         };
         const app = createApp(config);
         app.mount("#app");
+
         </script>
     }
 </body>
-

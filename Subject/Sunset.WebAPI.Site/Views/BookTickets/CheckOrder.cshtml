@@ -9,6 +9,7 @@
 </head>
 <body>
     <div id="app" class="page-container">
+        
         <section class="login-section container">
             <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
                 <ol class="breadcrumb ms-3">
@@ -32,9 +33,9 @@
             <div class="container mt-3">
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
-                        <img class="img-fluid" :src="selectedMovie?.image" />
+                        <img class="img-fluid mt-4" :src="`/images/${orderDetail.mainPicture}`"/>
                         <p class="text-center fw-bolder mt-2">
-                            {{ selectedMovie?.name }}
+                            {{ orderDetail.movieName }}
                         </p>
                     </div>
 
@@ -52,11 +53,16 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{ selectedMovie?.name }}</td>
-                                        <td>{{ selectedDate?.date }}</td>
-                                        <td>{{ selectedTime?.time }}</td>
-                                        <td>{{ movie.cinema }}</td>
-                                        <td>{{ formattedSeats }}</td>
+                                        <td>{{ orderDetail.movieName }}</td>
+                                        <td>{{ orderDetail.showtimeDateString }}</td>
+                                        <td>{{ orderDetail.startTime}}</td>
+                                        <td>{{ orderDetail.auditoriumName }}</td>
+                                        <td>
+                                            <span v-for="(seat, index) in seatInfo" :key="index">
+                                                {{ seat.seatNumber }}
+                                                <span v-if="index < seatInfo.length - 1">, </span>
+                                            </span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -123,36 +129,33 @@
             const { createApp, ref, onMounted, computed } = Vue;
 
             const config = {
-                components: {
-                    "header-component": HeaderComponent,
-                    "footer-component": FooterComponent,
-                },
                 setup() {
                     const orderDetail = ref([]);
+                    const seatInfo = ref([]);
                     const selectedMovie = ref(null);
                     const selectedDate = ref(null);
                     const selectedTime = ref(null);
-                    const movieScheduleId = @Html.ViewBag.movieScheduleId;
-                    const seatIds = @Html.ViewBag.seatIds ;
+                    const movieScheduleId = @Html.Raw(ViewBag.movieScheduleId);
+                    const seatIds = @Html.Raw(Json.Encode(ViewBag.seatsId));
                     const storedBalance = ref(3000); // 儲值金
-
                     onMounted(async () => {
-                            try {
-                                const response = await fetch(`/api/CheckOrderApi/CheckOrder/${movieScheduleId}/${seatIds}`, {
-                                    method: 'GET',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    }
-                                });
-                                if (!response.ok) {
-                                    throw new Error(`HTTP error! status: ${response.status}`);
+                        try {
+                            const response = await fetch(`/api/CheckOrderApi/CheckOrder/${movieScheduleId}/${seatIds}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
                                 }
-                                const data = await response.json();
-                                orderDetail.value = data;
-                            } catch (error) {
-                                console.error("Error:", error);
+                            });
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
                             }
-
+                            const data = await response.json();
+                            orderDetail.value = data.movieScheduleInfo;
+                            seatInfo.value = data.choiceSeatInfo;
+                            console.log("seatInfo.value", seatInfo.value);
+                        } catch (error) {
+                            console.error("Error:", error);
+                        }
                     });
 
                     const goToPreviousPage = () => {
@@ -165,8 +168,6 @@
                         }
                     };
 
-
-
                     const confirmOrder = () => {
                         alert("訂單已確認！");
                     };
@@ -174,6 +175,7 @@
                     const selectedTickets = JSON.parse(
                         localStorage.getItem("selectedTickets")
                     );
+
 
                     const ticketNames = selectedTickets
                         .map((ticket) => ticket.name)
@@ -216,7 +218,7 @@
                         selectedTime,
                         selectedTickets,
 
-                        formattedSeats,
+
                         ticketNames,
                         ticketPrices,
                         ticketQuantities,
@@ -225,6 +227,9 @@
                         remainingBalance,
                         isBalanceInsufficient,
                         storedBalance,
+                        orderDetail,
+                        seatInfo,
+
                     };
                 },
             };

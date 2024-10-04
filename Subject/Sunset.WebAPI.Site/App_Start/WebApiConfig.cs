@@ -28,6 +28,14 @@ namespace Sunset.WebAPI.Site
 				defaults: new { id = RouteParameter.Optional }
 			);
 
+            config.ParameterBindingRules.Add(p =>
+            {
+                if (p.ParameterType.IsGenericType && p.ParameterType.GetGenericTypeDefinition() == typeof(List<>))
+                {
+                    return new FromUriAttribute().GetBinding(p);
+                }
+                return null;
+            });
         }
     }
 }
