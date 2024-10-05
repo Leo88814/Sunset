@@ -18,9 +18,10 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 		public List<HomeDto.HomeIndexPicture> GetHomePicture()
 		{
 			var movieImages = _db.MovieImages
-				.Where(mig => mig.stills == "Main1.jpg" || mig.stills == "Main2.jpg" || mig.stills == "Main3.jpg")
+				.Where(mig => mig.stills == "Main1.jpg" || mig.stills == "Main2.jpg" || mig.stills == "Main4.jpg")
 				.Select(mig => new HomeDto.HomeIndexPicture
 				{
+					Id = mig.Id,
 					Stills = mig.stills
 				})
 				.ToList();
@@ -28,5 +29,22 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			return movieImages;
 		}
 
-	}
+        public List<HomeDto.HomeIndexFeaturedFilms> GetTopFive(int count = 5)
+        {
+            var topFive = _db.MovieInfos
+                .OrderByDescending(mi => mi.TotalRating)
+				.Take(count)
+                .Select(mi => new HomeDto.HomeIndexFeaturedFilms
+                {
+                    Id = mi.Id,
+                    MovieName = mi.MovieName,
+                    EnglishName = mi.EnglishName,
+                    MainPicture = mi.MainPicture,
+                    TotalRating = mi.TotalRating
+                })
+                .ToList();
+            
+			return topFive;
+        }
+    }
 }

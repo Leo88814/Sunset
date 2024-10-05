@@ -4,9 +4,8 @@
 }
 
 <head>
-   
     <title>Sunset Theater</title>
-    <link rel="stylesheet" href="CSS/indexMovie.css" />
+    <link rel="stylesheet" href="~/CSS/indexMovie.css" />
     <style>
       @@media (max-width: 991px) {
         .navbar-nav {
@@ -48,13 +47,10 @@
                          v-for="(movie, index) in featuredMovies"
                          :key="movie.id"
                          :class="{ active: index === 0 }">
-                        <img :src="movie.image"
+                        <img :src="movie.stills"
                              class="d-block w-100"
-                             :alt="movie.title" />
-                        <div class="carousel-caption d-none d-md-block">
-                            <h5>{{ movie.title }}</h5>
-                            <p>{{ movie.Etitle }}</p>
-                        </div>
+                             />
+
                     </div>
                 </div>
                 <button class="carousel-control-prev"
@@ -86,11 +82,11 @@
                          :key="movie.id"
                          style="width: 200px; margin: 10px"
                          v-on:click="goToBooking(movie.id)">
-                        <img :src="movie.poster" :alt="movie.title" />
+                        <img :src="movie.mainPicture" :alt="movie.movieName" />
                         <div class="movie-description">
-                            <h5>{{ movie.title }}</h5>
-                            <p>{{ movie.Etitle }}</p>
-                            <p>推薦數: {{ movie.recommendations }}</p>
+                            <h5>{{ movie.movieName }}</h5>
+                            <p>{{ movie.englishName }}</p>
+                            <p>總評分: {{ movie.totalRating }}</p>
                         </div>
                     </div>
                 </div>
@@ -99,87 +95,86 @@
 
 
     </div>
-
+@section scripts{
     <script>
-      const { createApp, ref } = Vue;
+        const { createApp, ref, onMounted } = Vue;
 
-      const app = {
+      const config = {
 
         setup() {
-          const featuredMovies = ref([
-            {
-              id: 1,
-              title: "小丑：雙重瘋狂",
-              Etitle: "JOKER FOLIE A DEUX",
-              image: "/images/joker.jpg",
-            },
-            {
-              id: 2,
-              title: "小丑：雙重瘋狂",
-              Etitle: "JOKER FOLIE A DEUX",
-              image: "/images/joker1.jpg",
-            },
-            {
-              id: 3,
-              title: "小丑：雙重瘋狂",
-              Etitle: "JOKER FOLIE A DEUX",
-              image: "/images/joker2.jpg",
-            },
-          ]);
+              const featuredMovies = ref([]);
+              const recommendedMovies = ref([]);
 
-          const recommendedMovies = ref([
-            {
-              id: 1,
-              title: "驀然回首",
-              Etitle: "Look Back",
-              poster: "/images/LookBack.jpg",
-              recommendations: 120,
-            },
-            {
-              id: 2,
-              title: "異形：羅瑟路斯",
-              Etitle: "ALIEN ROMULUS",
-              poster: "/images/Alien Romulus.jpg",
-              recommendations: 120,
-            },
-            {
-              id: 3,
-              title: "死侍與金鋼狼",
-              Etitle: "DEADPOOL AND WOLVERINE",
-              poster: "/images/DEADPOOL AND WOLVERINE.jpg",
-              recommendations: 120,
-            },
-            {
-              id: 4,
-              title: "霍爾的移動城堡",
-              Etitle: "HOWLS MOVING CASTLE",
-              poster: "/images/HOWLS MOVING CASTLE.jpg",
-              recommendations: 120,
-            },
-            {
-              id: 5,
-              title: "我的英雄學院劇場版：You're Next",
-              Etitle: "MY HERO ACADEMIA YOURE NEXT",
-              poster: "/images/MY HERO ACADEMIA THE MOVIE：You're Next.jpg",
-              recommendations: 120,
-            },
-          ]);
+              const GetHomeIndexPicture = async () => {
+                  try {
+                      const response = await fetch("/api/HomeApi/MainPicture", {
+                          method: 'GET',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          }
+                      });
+
+                      if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+
+                      const data = await response.json();   
+                      featuredMovies.value = data;
+                      
+
+                  } catch (error) {
+                      console.error("Error:", error);
+                  }
+              };
+
+              const GetTopFive = async () => {
+                  try {
+                      const response = await fetch("/api/HomeApi/TopFive", {
+                          method: 'GET',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          }
+                      });
+
+                      if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+
+                      const data = await response.json();
+                      recommendedMovies.value = data;
+                  
+
+                  } catch (error) {
+                      console.error("Error:", error);
+                  }
+              };
+          
+
+
+              onMounted(() => {
+                  GetHomeIndexPicture();
+                  GetTopFive();
+              })
 
           const goToBooking = (movieId) => {
             window.location.href = `Booking-ChoiceDate.html?movieId=${movieId}`;
           };
 
           return {
+            GetHomeIndexPicture,
             featuredMovies,
             recommendedMovies,
-            goToBooking,
+              goToBooking,
+              GetTopFive,
+            
           };
         }
       }
        
-        const app = createApp(config)
+      const app = createApp(config)
       app.mount("#app");
     </script>
+    }
 </body>
 
 

@@ -13,6 +13,7 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 		public string Password { get; set; }
 
 		public bool MemberStatus { get; set; }
+
 		public string ConfirmCode { get; set; }
 
 		public bool? IsConfirmed { get; set; }

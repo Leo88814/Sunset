@@ -19,5 +19,18 @@ namespace Sunset.WebAPI.Site.Models.Exts
 		{
 			return dto.Select(x => x.MatchPath(path)).ToList();
 		}
-	}
+
+        
+		public static HomeDto.HomeIndexFeaturedFilms MatchPath(this HomeDto.HomeIndexFeaturedFilms dto, string path)
+        {
+            dto.MainPicture = path + dto.MainPicture;
+
+            return dto;
+        }
+
+        public static List<HomeDto.HomeIndexFeaturedFilms> MatchPath(this List<HomeDto.HomeIndexFeaturedFilms> dto, string path)
+        {
+            return dto.Select(x => x.MatchPath(path)).ToList();
+        }
+    }
 }

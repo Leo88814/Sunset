@@ -31,7 +31,7 @@ namespace Sunset.WebAPI.Site.Controllers
 			Session.Abandon();
 			FormsAuthentication.SignOut();
 
-			return RedirectToAction("MemberLogin", "MemberLogin");
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }

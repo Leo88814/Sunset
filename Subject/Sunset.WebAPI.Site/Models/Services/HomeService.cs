@@ -19,10 +19,19 @@ namespace Sunset.WebAPI.Site.Models.Services
         public List<HomeDto.HomeIndexPicture> GetMainPicture()
 		{
 			var path = "../images/";
-			var indexMovie = _repo.GetHomePicture();
-			indexMovie.MatchPath(path);
+			var homePicture = _repo.GetHomePicture();
+            homePicture.MatchPath(path);
 
-			return indexMovie;
+			return homePicture;
 		}
-	}
+
+        public List<HomeDto.HomeIndexFeaturedFilms> GetTopFive()
+        {
+            var path = "../images/";
+            var topFive = _repo.GetTopFive();
+            topFive.MatchPath(path);
+
+            return topFive;
+        }
+    }
 }

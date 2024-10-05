@@ -36,6 +36,7 @@ namespace Sunset.WebAPI.Site.Models.Services
 			dto.ConfirmCode = confirmCode;
 			dto.EncryptedPassword = hasPassword;
 			dto.IsConfirmed = false;
+			dto.MemberStatus = true;
 			_repo.Create(dto);
 
 			// todo 寄送驗證信
@@ -48,7 +49,7 @@ namespace Sunset.WebAPI.Site.Models.Services
 			if (member == null) return Result.Fail("帳號或密碼錯誤"); //帳號不存在
 
 			// 是否已開通
-			if (!member.IsConfirmed.HasValue || member.IsConfirmed.Value == false || member.MemberStatus == false)
+			if (member.MemberStatus == false)
 			{
 				return Result.Fail("帳戶尚未開通");
 			}

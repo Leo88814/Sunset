@@ -17,10 +17,10 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
         }
 
 		[HttpGet]
-		[Route("api/HomeApi/")]
-		public IHttpActionResult GetMainPicture(int id)
+		[Route("api/HomeApi/MainPicture")]
+		public IHttpActionResult GetMainPicture()
 		{
-			var mainPicture = _service.GetMainPicture(id);
+			var mainPicture = _service.GetMainPicture();
 
 			if (mainPicture == null)
 			{
@@ -28,5 +28,18 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 			}
 			return Ok(mainPicture);
 		}
-	}
+
+        [HttpGet]
+        [Route("api/HomeApi/TopFive")]
+        public IHttpActionResult GetTopFive()
+        {
+            var topFive = _service.GetTopFive();
+
+            if (topFive == null)
+            {
+                return NotFound();
+            }
+            return Ok(topFive);
+        }
+    }
 }
