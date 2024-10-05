@@ -24,14 +24,14 @@ namespace Sunset.WebAPI.Site.Controllers
 		{
 			return View();
 		}
-		[HttpPost]
-		[ValidateAntiForgeryToken]
+		
+
 		public ActionResult Logout()
 		{
 			Session.Abandon();
 			FormsAuthentication.SignOut();
 
-			return RedirectToAction("MemberLogin", "MemberLogin");
+			return RedirectToAction("Index", "Home");
 		}
 	}
 }

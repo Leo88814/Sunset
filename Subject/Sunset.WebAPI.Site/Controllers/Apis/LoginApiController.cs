@@ -15,6 +15,7 @@ using System.Web.Http;
 using System.Web.Security;
 using System.Web.UI.WebControls;
 using System.Web.Http.Results;
+using Newtonsoft.Json.Linq;
 
 
 namespace Sunset.WebAPI.Site.Controllers.Apis
@@ -49,6 +50,10 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 					AuthToken = token
 				};
 
+				var cookie = new HttpCookie("bookmovie", token);
+
+				HttpContext.Current.Response.Cookies.Add(cookie);
+
 				return Ok(response);
 			}
 			else
@@ -75,8 +80,9 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 			// 將它加密
 			var token = FormsAuthentication.Encrypt(ticket);
 
-			// 取得 return url
-			var url = FormsAuthentication.GetRedirectUrl(email, true);  //第二個引數沒有用處
+     
+            // 取得 return url
+            var url = FormsAuthentication.GetRedirectUrl(email, true);  //第二個引數沒有用處
 
 			return (url, token);
 		}

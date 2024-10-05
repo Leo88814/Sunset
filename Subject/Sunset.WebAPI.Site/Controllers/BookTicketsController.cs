@@ -1,15 +1,19 @@
-﻿using System;
+﻿using Sunset.WebAPI.Site.Models.EFModels;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Net.NetworkInformation;
 using System.Web;
+using System.Web.Http;
 using System.Web.Mvc;
 
 namespace Sunset.WebAPI.Site.Controllers
 {
-    public class BookTicketsController : Controller
-    {
+	public class BookTicketsController : Controller
+	{
 		// GET: BookTickets
+		//[Authorize]
 		public ActionResult ChoiceMovies()
 		{
 			return View();
@@ -29,12 +33,13 @@ namespace Sunset.WebAPI.Site.Controllers
 			return View();
 		}
 
-		public ActionResult CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
+		public ActionResult CheckOrder(int movieScheduleId, string seats/*, int memberId*/)
 		{
-			ViewBag.movieScheduleId = movieScheduleId;
-			ViewBag.seatIds = seatIds;
-			//ViewBag.memberId = memberId;
-			return View();
+           
+            ViewBag.movieScheduleId = movieScheduleId;
+            ViewBag.seatsId = seats;
+            //ViewBag.memberId = memberId;
+            return View();
 		}
     }
 }

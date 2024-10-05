@@ -25,7 +25,7 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 				Address = dto.Address,
 				Email = dto.Email,
 				DateOfBirth = dto.DateOfBirth,
-
+				MemberStatus = dto.MemberStatus,
 				ConfirmCode = dto.ConfirmCode,
 				IsConfirmed = dto.IsConfirmed,
 			});

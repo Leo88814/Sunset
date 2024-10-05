@@ -1,26 +1,180 @@
-﻿<main>
-    <section class="row" aria-labelledby="aspnetTitle">
-        <h1 id="aspnetTitle">ASP.NET</h1>
-        <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS, and JavaScript.</p>
-        <p><a href="https://asp.net" class="btn btn-primary btn-md">Learn more &raquo;</a></p>
-    </section>
-    <div class="row">
-        <section class="col-md-4" aria-labelledby="gettingStartedTitle">
-            <h2 id="gettingStartedTitle">Getting started</h2>
-            <p>ASP.NET Web API is a framework that makes it easy to build HTTP services that reach
-            a broad range of clients, including browsers and mobile devices. ASP.NET Web API
-            is an ideal platform for building RESTful applications on the .NET Framework.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301870">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="librariesTitle">
-            <h2 id="librariesTitle">Get more libraries</h2>
-            <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301871">Learn more &raquo;</a></p>
-        </section>
-        <section class="col-md-4" aria-labelledby="hostingTitle">
-            <h2 id="hostingTitle">Web Hosting</h2>
-            <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-            <p><a class="btn btn-outline-dark" href="https://go.microsoft.com/fwlink/?LinkId=301872">Learn more &raquo;</a></p>
-        </section>>
+﻿
+@{
+    ViewBag.Title = "Sunset Theater";
+}
+
+<head>
+    <title>Sunset Theater</title>
+    <link rel="stylesheet" href="~/CSS/indexMovie.css" />
+    <style>
+      @@media (max-width: 991px) {
+        .navbar-nav {
+          align-items: flex-start;
+        }
+
+        .navbar-nav .nav-item {
+          width: 100%;
+        }
+
+        .navbar-collapse .d-flex {
+          flex-direction: row;
+          justify-content: flex-end;
+          width: 100%;
+          margin-top: 10px;
+        }
+
+        .login-container {
+          margin-right: 10px !important;
+        }
+
+        .ticketBtn {
+          white-space: nowrap;
+        }
+
+        .login-container .dropdown-menu {
+          position: absolute;
+        }
+      }
+    </style>
+</head>
+<body>
+    <div id="app" class="page-container">
+
+        <main>
+            <div id="movieCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item"
+                         v-for="(movie, index) in featuredMovies"
+                         :key="movie.id"
+                         :class="{ active: index === 0 }">
+                        <img :src="movie.stills"
+                             class="d-block w-100"
+                             />
+
+                    </div>
+                </div>
+                <button class="carousel-control-prev"
+                        type="button"
+                        data-bs-target="#movieCarousel"
+                        data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next"
+                        type="button"
+                        data-bs-target="#movieCarousel"
+                        data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+
+            <div class="container mt-4">
+                <h2 id="recommended-movies" class="text-center">強檔熱映</h2>
+                <div class="movie-list"
+                     style="
+              display: flex;
+              justify-content: space-between;
+              flex-wrap: wrap;
+            ">
+                    <div class="movie-item"
+                         v-for="movie in recommendedMovies"
+                         :key="movie.id"
+                         style="width: 200px; margin: 10px"
+                         v-on:click="goToBooking(movie.id)">
+                        <img :src="movie.mainPicture" :alt="movie.movieName" />
+                        <div class="movie-description">
+                            <h5>{{ movie.movieName }}</h5>
+                            <p>{{ movie.englishName }}</p>
+                            <p>總評分: {{ movie.totalRating }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+
+
     </div>
-</main>
+@section scripts{
+    <script>
+        const { createApp, ref, onMounted } = Vue;
+
+      const config = {
+
+        setup() {
+              const featuredMovies = ref([]);
+              const recommendedMovies = ref([]);
+
+              const GetHomeIndexPicture = async () => {
+                  try {
+                      const response = await fetch("/api/HomeApi/MainPicture", {
+                          method: 'GET',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          }
+                      });
+
+                      if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+
+                      const data = await response.json();   
+                      featuredMovies.value = data;
+                      
+
+                  } catch (error) {
+                      console.error("Error:", error);
+                  }
+              };
+
+              const GetTopFive = async () => {
+                  try {
+                      const response = await fetch("/api/HomeApi/TopFive", {
+                          method: 'GET',
+                          headers: {
+                              'Content-Type': 'application/json'
+                          }
+                      });
+
+                      if (!response.ok) {
+                          throw new Error(`HTTP error! status: ${response.status}`);
+                      }
+
+                      const data = await response.json();
+                      recommendedMovies.value = data;
+                  
+
+                  } catch (error) {
+                      console.error("Error:", error);
+                  }
+              };
+          
+
+
+              onMounted(() => {
+                  GetHomeIndexPicture();
+                  GetTopFive();
+              })
+
+          const goToBooking = (movieId) => {
+            window.location.href = `Booking-ChoiceDate.html?movieId=${movieId}`;
+          };
+
+          return {
+            GetHomeIndexPicture,
+            featuredMovies,
+            recommendedMovies,
+              goToBooking,
+              GetTopFive,
+            
+          };
+        }
+      }
+       
+      const app = createApp(config)
+      app.mount("#app");
+    </script>
+    }
+</body>
+
+

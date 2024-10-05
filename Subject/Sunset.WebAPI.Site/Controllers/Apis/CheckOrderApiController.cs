@@ -1,4 +1,5 @@
-﻿using Sunset.WebAPI.Site.Models.Services;
+﻿using Sunset.WebAPI.Site.Models.EFModels;
+using Sunset.WebAPI.Site.Models.Services;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -30,11 +31,21 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
         }
 
         [HttpGet]
-        [Route("api/CheckOrderApi/CheckOrder/{movieScheduleId}/{seatIds}")]
-        public IHttpActionResult CheckCurrentOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
+        [Route("api/CheckOrderApi/CheckOrder/{movieScheduleId}/{seats}")]
+        public IHttpActionResult CheckCurrentOrder(int movieScheduleId, string seats/*, int memberId*/)
         {
-			
-			var checkOrder = _service.CheckOrder(movieScheduleId, seatIds /*, showtimeId*/);
+
+            List<int> seatIds;
+            try
+            {
+                seatIds = seats.Split(',').Select(int.Parse).ToList();
+            }
+            catch (FormatException)
+            {
+                return BadRequest("Invalid seat IDs format");
+            }
+
+            var checkOrder = _service.CheckOrder(movieScheduleId, seatIds);
 
             if (checkOrder == null)
             {

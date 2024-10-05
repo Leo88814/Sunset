@@ -1,8 +1,6 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "線上訂票-選擇座位";
 }
-
 <head>
     <title>線上訂票-選擇座位</title>
     <link rel="stylesheet" href="~/CSS/styles.css" />
@@ -47,8 +45,6 @@
                     <li class="breadcrumb-item"><a href="@Url.Action("index", "Home")">首頁</a></li>
                     <li class="breadcrumb">線上訂票</li>
                     <li class="breadcrumb"><a href="@Url.Action("ChoiceMovies", "BookTickets")">選擇電影</a></li>
-                    <li class="breadcrumb"><a href="/BookTickets/ChoiceDates/${movieId}">選擇日期</a></li>
-                    <li class="breadcrumb">選擇座位</li>
                 </ol>
             </nav>
 
@@ -122,9 +118,6 @@
             </div>
 
             <div class="text-end mt-3">
-                <a href="`@Url.Action("ChoiceDates", "BookTickets")/${movieId}`" class="btn btn-outline-danger">
-                    上一頁
-                </a>
                 <button v-on:click="goToNextPage" class="btn btn-outline-primary ms-2">
                     下一頁
                 </button>
@@ -137,192 +130,199 @@
         const { createApp, ref, onMounted, computed } = Vue;
 
             const config = {
-            setup() {
-                const seats = ref([]);
-                const movieScheduleId = ref();
-                const choiceSeats = ref([]);
-                const movieId = @Html.Raw(ViewBag.movieId);
-                const showdateId = @Html.Raw(ViewBag.showdateId);
-                const showtimeId = @Html.Raw(ViewBag.showtimeId);
-                const maxTickets = ref(3);
-                const maxTotalTickets = ref(3);
-                const seatError = ref("");
-                const ticketError = ref("");
-                const selectedTicketInfo = ref("");
-                const ticketTypes = ref([
-                    { name: "全票", price: 230, selected: 0 },
-                    { name: "優待票", price: 200, selected: 0 },
-                    { name: "愛心票", price: 180, selected: 0 },
-                ]);
+                setup() {
+                    const seats = ref([]);
+                    const movieScheduleId = ref();
+                    const choiceSeats = ref([]);
+                    const movieId = @Html.Raw(ViewBag.movieId);
+                    const showdateId = @Html.Raw(ViewBag.showdateId);
+                    const showtimeId = @Html.Raw(ViewBag.showtimeId);
+                    const maxTickets = ref(3);
+                    const maxTotalTickets = ref(3);
+                    const seatError = ref("");
+                    const ticketError = ref("");
+                    const selectedTicketInfo = ref("");
+                    const ticketTypes = ref([
+                        { name: "全票", price: 230, selected: 0 },
+                        { name: "優待票", price: 200, selected: 0 },
+                        { name: "愛心票", price: 180, selected: 0 },
+                    ]);
 
-
-
-                const choiceSeatInfo = async () => {
-                    try {
-                        const response = await fetch(`/api/GetSeatsApi/ChoiceSeats/${movieId}/${showdateId}/${showtimeId}`, {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json'
+                    const choiceSeatInfo = async () => {
+                        try {
+                            const response = await fetch(`/api/GetSeatsApi/ChoiceSeats/${movieId}/${showdateId}/${showtimeId}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
                             }
-                        });
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
+                            const data = await response.json();
+                            seats.value = data;
+
+                        } catch (error) {
+                            console.error("Error:", error);
                         }
-                        const data = await response.json();
-                        seats.value = data;
+                    };
 
-                    } catch (error) {
-                        console.error("Error:", error);
-                    }
-                };
-
-                const getMovieScheduleInfo = async () => {
-                    try {
-                        const response = await fetch(`/api/CheckOrderApi/GetMovieScheduleId/${movieId}/${showdateId}/${showtimeId}`, {
-                            method: 'GET',
-                            headers: {
-                                'Content-Type': 'application/json'
+                    const getMovieScheduleInfo = async () => {
+                        try {
+                            const response = await fetch(`/api/CheckOrderApi/GetMovieScheduleId/${movieId}/${showdateId}/${showtimeId}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
                             }
+                            const data2 = await response.json();
+                            movieScheduleId.value = data2.id;
+
+
+
+                        } catch (error) {
+                            console.error("Error:", error);
+                        }
+                    };
+
+                    onMounted(() => {
+                        choiceSeatInfo();
+                        getMovieScheduleInfo();
+                    })
+
+                        //計算總票數
+                        const totalTickets = computed(() => {
+                            return ticketTypes.value.reduce(
+                                (total, ticket) => total + ticket.selected,
+                                0
+                            );
                         });
-                        if (!response.ok) {
-                            throw new Error(`HTTP error! status: ${response.status}`);
-                        }
-                        const data2 = await response.json();
-                        movieScheduleId.value = data2.id;
+                        //判斷是否超過所選的總票數
+                        const validateSelection = () => {
+                            if (totalTickets.value > maxTotalTickets.value) {
+                                ticketError.value = `最多只能選擇 ${maxTotalTickets.value} 張票`;
+                                return false;
+                            }
+                            ticketError.value = "";
+                            return true;
+                        };
+
+                        //計算可選票種的票數
+                        const availableOptions = (ticket) => {
+                            const remainingTickets = maxTotalTickets.value - totalTickets.value;
+                            const currentSelected = ticket.selected;
+                            return Array.from(
+                                {
+                                    length:
+                                        Math.min(
+                                            remainingTickets + currentSelected,
+                                            maxTickets.value
+                                        ) + 1,
+                                },
+                                (_, i) => i
+                            );
+                        };
+
+                        const selectedSeats = computed(() => {
+                            return seats.value.filter((seat) => seat.selected).length;
+                        });
+
+                        const toggleSeatSelection = (seat) => {
+                            if (seat.unavailable || (selectedSeats.value >= totalTickets.value && !seat.selected)) {
+                                seatError.value = "選擇的座位不能超過總票數";
+                                return false;
+                            }
+                            seat.selected = !seat.selected;
+                            seatError.value = "";
+                            return seat.selected;
+                        };
+
+                        const handleSeatClick = (seat) => {
+                            if (seat.seatStatus) {
+                                toggleSeatSelection(seat);
+                                console.log(seat)
+                                if (seat.seatId !== undefined && seat.seatId !== null) {
+                                    addChoiceSeat(seat.seatId);
+                                }
+                                else {
+                                    removeChoiceSeat(seat.seatId);
+                                }
+                            }
+                        };
+
+                        const addChoiceSeat = (seatId) => {
+                            if (!choiceSeats.value.includes(seatId)) {
+                                choiceSeats.value.push(seatId);
+                            }
+                            console.log("choiceSeats.value", choiceSeats.value);
+                        };
+
+                        const removeChoiceSeat = (seatId) => {
+                            choiceSeats.value = choiceSeats.value.filter(id => id !== seatId);
+                            console.log("choiceSeats.value", choiceSeats.value);
+                        };
+
+                        const goToNextPage = () => {
+                            if (selectedSeats.value !== totalTickets.value) {
+                                seatError.value = `您需要選擇 ${totalTickets.value} 個座位`;
+                            }
+                            else {
+                                seatError.value = "";
+                                const selectedTicketInfo = ticketTypes.value
+                                    .filter((ticket) => ticket.selected > 0)
+                                    .map((ticket) => ({
+                                        name: ticket.name,
+                                        price: ticket.price,
+                                        quantity: ticket.selected,
+                                    }));
+                                localStorage.setItem(
+                                    "selectedTickets",
+                                    JSON.stringify(selectedTicketInfo)
+                                );
+                                //  localStorage.setItem(
+                                //    "selectedSeats",
+                                //    JSON.stringify(choiceSeats.value)
+                                //);
+                                // 構建URL，使用重複的查詢參數來傳遞多個整數
+                                const seatsString = Object.values(choiceSeats.value).join(',');
+                                const url = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId.value}/${choiceSeats.value}`;
+                                // 導航到新頁面
+                                window.location.href = url;
+                                //window.location.href = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId.value}/${choiceSeats.value}`;
+                            }
+                        };
+         
+                    return {
+                        maxTickets,
+                        maxTotalTickets,
+                        ticketTypes,
+                        totalTickets,
+                        availableOptions,
+                        ticketError,
+                        goToNextPage,
+                        toggleSeatSelection,
+                        selectedSeats,
+                        seats,
+                        validateSelection,
+                        seatError,
+                        choiceSeatInfo,
+                        getMovieScheduleInfo,
+                        movieScheduleId,
+                        movieId,
+                        handleSeatClick,
+                        addChoiceSeat,
+                        removeChoiceSeat
+                    };
 
 
-
-                    } catch (error) {
-                        console.error("Error:", error);
-                    }
-                };
-
-                onMounted(() => {
-                    choiceSeatInfo();
-                    getMovieScheduleInfo();
-                });
-
-                //計算總票數
-                const totalTickets = computed(() => {
-                    return ticketTypes.value.reduce(
-                        (total, ticket) => total + ticket.selected,
-                        0
-                    );
-                });
-                //判斷是否超過所選的總票數
-                const validateSelection = () => {
-                    if (totalTickets.value > maxTotalTickets.value) {
-                        ticketError.value = `最多只能選擇 ${maxTotalTickets.value} 張票`;
-                        return false;
-                    }
-                    ticketError.value = "";
-                    return true;
-                };
-
-                //計算可選票種的票數
-                const availableOptions = (ticket) => {
-                    const remainingTickets = maxTotalTickets.value - totalTickets.value;
-                    const currentSelected = ticket.selected;
-                    return Array.from(
-                        {
-                            length:
-                                Math.min(
-                                    remainingTickets + currentSelected,
-                                    maxTickets.value
-                                ) + 1,
-                        },
-                        (_, i) => i
-                    );
-                };
-
-                const selectedSeats = computed(() => {
-                    return seats.value.filter((seat) => seat.selected).length;
-                });
-
-                const toggleSeatSelection = (seat) => {
-                    if (seat.unavailable || (selectedSeats.value >= totalTickets.value && !seat.selected)) {
-                        seatError.value = "選擇的座位不能超過總票數";
-                        return false;
-                    }
-                    seat.selected = !seat.selected;
-                    seatError.value = "";
-                    return seat.selected;
-                };
-
-                const handleSeatClick = (seat) => {
-                    if (seat.seatStatus) {
-                        toggleSeatSelection(seat);
-                        if (seat.selected) {
-                            addChoiceSeat(seat.id);
-                        } else {
-                            removeChoiceSeat(seat.id);
-                        }
-                    }
-                };
-
-                const addChoiceSeat = (seatId) => {
-                    if (!choiceSeats.value.includes(seatId)) {
-                        choiceSeats.value.push(seatId);
-                    }
-                    console.log("choiceSeats.value", choiceSeats.value);
-                };
-
-                const removeChoiceSeat = (seatId) => {
-                    choiceSeats.value = choiceSeats.value.filter(id => id !== seatId);
-                    console.log("choiceSeats.value", choiceSeats.value);
-                };
-
-
-                const goToNextPage = () => {
-                    if (selectedSeats.value !== totalTickets.value) {
-                        seatError.value = `您需要選擇 ${totalTickets.value} 個座位`;
-                    }
-                    else
-                    {
-                        seatError.value = "";
-                        const selectedTicketInfo = ticketTypes.value
-                            .filter((ticket) => ticket.selected > 0)
-                            .map((ticket) => ({
-                                name: ticket.name,
-                                price: ticket.price,
-                                quantity: ticket.selected,
-                            }));
-
-                        localStorage.setItem(
-                            "selectedTickets",
-                            JSON.stringify(selectedTicketInfo)
-                        );
-
-                        //window.location.href = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId.value}/${choiceSeats.value}`;
-                    }
-                };
-
-                return {
-                    maxTickets,
-                    maxTotalTickets,
-                    ticketTypes,
-                    totalTickets,
-                    availableOptions,
-                    ticketError,
-                    goToNextPage,
-                    toggleSeatSelection,
-                    selectedSeats,
-                    seats,
-                    validateSelection,
-                    seatError,
-                    choiceSeatInfo,
-                    getMovieScheduleInfo,
-                    movieScheduleId,
-
-                    handleSeatClick,
-                    addChoiceSeat,
-                    removeChoiceSeat
-                };
-            },
-        };
+                }
+            }
         const app = createApp(config);
         app.mount("#app");
+
         </script>
     }
 </body>
-

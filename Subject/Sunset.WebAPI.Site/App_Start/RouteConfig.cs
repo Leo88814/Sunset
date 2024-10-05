@@ -27,9 +27,10 @@ namespace Sunset.WebAPI.Site
 
 			routes.MapRoute(
 			  name: "CheckOrder",
-			  url: "BookTickets/CheckOrder/{movieScheduleId}/{seatId}",
+			  url: "BookTickets/CheckOrder/{movieScheduleId}/{seats}",
 			  defaults: new { controller = "BookTickets", action = "CheckOrder" }
 			);
+
 		}
 	}
 }

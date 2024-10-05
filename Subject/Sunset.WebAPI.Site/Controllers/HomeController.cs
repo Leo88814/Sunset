@@ -10,8 +10,6 @@ namespace Sunset.WebAPI.Site.Controllers
 	{
 		public ActionResult Index()
 		{
-			ViewBag.Title = "Home Page";
-
 			return View();
 		}
 	}
