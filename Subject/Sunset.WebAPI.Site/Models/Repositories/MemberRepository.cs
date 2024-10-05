@@ -50,5 +50,5 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			return WebApiApplication._mapper.Map<CheckMemberLoginDto>(member);
 		}
 
-	}
+    }
 }

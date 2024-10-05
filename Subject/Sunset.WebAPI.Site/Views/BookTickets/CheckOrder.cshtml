@@ -52,7 +52,7 @@
                                     <tr>
                                         <td>{{ orderDetail.movieName }}</td>
                                         <td>{{ orderDetail.showtimeDateString }}</td>
-                                        <td>{{ orderDetail.startTime}}</td>
+                                        <td>{{ orderDetail.startTimeMin}}</td>
                                         <td>{{ orderDetail.auditoriumName }}</td>
                                         <td>
                                             <span v-for="(seat, index) in seatInfo" :key="index">
@@ -135,6 +135,7 @@
                     const movieScheduleId = @Html.Raw(ViewBag.movieScheduleId);
                     const seatIds = @Html.Raw(Json.Encode(ViewBag.seatsId));
                     const storedBalance = ref(3000); // 儲值金
+
                     onMounted(async () => {
                         try {
                             const response = await fetch(`/api/CheckOrderApi/CheckOrder/${movieScheduleId}/${seatIds}`, {
@@ -172,8 +173,6 @@
                     const selectedTickets = JSON.parse(
                         localStorage.getItem("selectedTickets")
                     );
-
-
                     const ticketNames = selectedTickets
                         .map((ticket) => ticket.name)
                         .join(", ");

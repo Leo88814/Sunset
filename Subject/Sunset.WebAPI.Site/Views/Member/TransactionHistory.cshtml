@@ -1,0 +1,249 @@
+﻿@{
+    ViewBag.Title = "儲值紀錄";
+}
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    .pageContainer {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .container {
+        margin-top: 20px;
+    }
+
+    .card {
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        margin-bottom: 20px;
+    }
+
+    .card-body {
+        padding: 20px;
+        background-color: #fff;
+    }
+
+    .card-title {
+        font-size: 1.25rem;
+        margin-bottom: 10px;
+        color: #333;
+    }
+
+    .card-text {
+        font-size: 1rem;
+        color: #333;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+        .btn-primary:hover {
+            background-color: #0056b3;
+        }
+
+    table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+    }
+
+        table th,
+        table td {
+            border: 1px solid #ddd;
+            padding: 10px;
+            text-align: center;
+            background-color: #f9f9f9;
+        }
+
+        table th {
+            background-color: #333;
+            color: white;
+        }
+
+        table tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+</style>
+<body>
+    <div id="app" class="page-container">
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">首頁</a></li>
+                    <li class="breadcrumb">會員專區</li>
+                    <li class="breadcrumb">儲值紀錄</li>
+                </ol>
+            </nav>
+        </div>
+
+        <div class="content-wrap">
+            <main class="container mt-5">
+                <h1 class="mb-4">儲值</h1>
+                <div class="row">
+                    <div class="col-md-8 mx-auto">
+                        <div class="card mb-4">
+                            <div class="card-body">
+                                <h5 class="card-title">當前餘額</h5>
+                                <p class="card-text fs-4">{{ currentBalance }} 元</p>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-body">
+                                <h5 class="card-title">儲值金額</h5>
+                                <div class="mb-3">
+                                    <input type="number"
+                                           v-model="chargeAmount"
+                                           class="form-control"
+                                           placeholder="請輸入儲值金額" />
+                                </div>
+                                <div class="d-flex justify-content-end">
+                                    <button v-on:click="submitCharge" class="btn btn-primary">
+                                        儲值
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <div class="container">
+                <h1 class="mb-4">儲值紀錄</h1>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>訂單編號</th>
+                            <th>時間</th>
+                            <th>合計</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr v-for="order in orders" :key="order.id">
+                            <td>{{ order.orderNumber }}</td>
+                            <td>{{ new Date(order.orderTime).toLocaleString() }}</td>
+                            <td>{{ order.amount }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    @section scripts{
+        <script>const { createApp, ref, onMounted } = Vue;
+
+            const app = createApp({
+                setup() {
+                    const orders = ref([]);
+                    const currentBalance = ref(0);
+                    const chargeAmount = ref(0);
+                    const apiUrl = `/api/MemberApiController/TopupHistory`;
+
+                    const fetchTopupHistory = async () => {
+                        try {
+                            const token = getCookie("bookmovie");
+                            if (!token) {
+                                throw new Error('Token not found');
+                            }
+                            const response = await fetch(apiUrl, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`API request failed with status: ${response.status}`);
+                            }
+
+                            const data = await response.json();
+
+                            if (data.currentBalance !== undefined) {
+                                const balance = parseFloat(data.currentBalance);
+                                currentBalance.value = isNaN(balance) ? 0 : balance;
+                            }
+
+                            orders.value = Array.isArray(data.topupHistory) ? data.topupHistory : [];
+                        } catch (error) {
+                            console.error('Error fetching topup history:', error);
+                        }
+                    };
+
+                    const submitCharge = async () => {
+                        if (chargeAmount.value > 0) {
+                            try {
+                                const token = getCookie("bookmovie");
+                                if (!token) {
+                                    alert('Token not found. Please log in again.');
+                                    return;
+                                }
+
+                                const response = await fetch('/api/MemberApiController/Topup', {
+                                    method: 'POST',
+                                    headers: {
+                                        'Content-Type': 'application/json',
+                                        'Authorization': `Bearer ${token}`
+                                    },
+                                    body: JSON.stringify({ amount: chargeAmount.value })
+                                });
+
+                                if (!response.ok) {
+                                    throw new Error(`Failed to top up: ${response.statusText}`);
+                                }
+
+                                const result = await response.json();
+                                currentBalance.value = result.newBalance;
+                                alert(`儲值成功！已儲值 ${chargeAmount.value} 元`);
+                                chargeAmount.value = 0;
+
+                                await fetchTopupHistory();
+
+                            } catch (error) {
+                                console.error('Error during top up:', error);
+                                alert('儲值失敗，請稍後再試');
+                            }
+                        } else {
+                            alert("請輸入有效的儲值金額");
+                        }
+                    };
+
+                    onMounted(fetchTopupHistory);
+
+                    return {
+                        orders,
+                        currentBalance,
+                        chargeAmount,
+                        submitCharge
+                    };
+                }
+            });
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+                return null;
+            }
+            app.mount("#app");</script>
+    }
+</body>

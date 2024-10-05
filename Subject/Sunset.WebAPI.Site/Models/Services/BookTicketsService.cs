@@ -48,7 +48,13 @@ namespace Sunset.WebAPI.Site.Models.Services
 			});
 			return allSeats;
 		}
-		public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
+        public List<GetTicketsInfoDto> GetTicketsInfo()
+        {
+            var ticket = _repo.GetTicketsInfo();
+
+            return ticket;
+        }
+        public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
 		{
 			var movieScheduleId = _repo.GetMovieScheduleId(movieId, showdateId, showtimeId);
 
@@ -56,12 +62,13 @@ namespace Sunset.WebAPI.Site.Models.Services
 			return movieScheduleId;
 		}
 
-		public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
+		public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds)
 		{
-			var orderdetail = _repo.CheckOrder(movieScheduleId, seatIds/*, memberId*/);
+			var orderdetail = _repo.CheckOrder(movieScheduleId, seatIds);
 
             return orderdetail;
 		}
-  
+
+        
     }
 }

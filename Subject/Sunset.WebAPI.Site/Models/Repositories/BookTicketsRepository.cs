@@ -120,7 +120,7 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			return new GetMovieScheduleDto
 			{ Id = movieScheduleId };
 		}
-		public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
+		public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds)
 		{
 
 			var movieSchedule = _db.MovieReleaseSchedules
@@ -142,22 +142,26 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 					SeatNumber = s.SeatNumber
 				}).ToList();
 
-			//var member = _db.Members
-			//	.Where(m => m.Id == memberId)
-			//	.Select(m => new MemberCurrentBalance
-			//	{
-			//		Id = m.Id,
-			//		CurrentBalance = m.CurrentBalance,
-			//	}).FirstOrDefault();
-
 			return new CheckOrderDto
 			{
 				MovieScheduleInfo = movieSchedule,
 				ChoiceSeatInfo = seats,
-				//MemberBalance = member
+
 			};
 		}
 
+        public List<GetTicketsInfoDto> GetTicketsInfo()
+        {
+			var ticket = _db.Tickets
+				.Select(t => new GetTicketsInfoDto
+                {
+                Id = t.Id,
+                TicketType = t.TicketType,
+                TicketPrice = t.TicketPrice
+                })
+            .ToList();
 
-	}
+			return ticket;
+        }
+    }
 }

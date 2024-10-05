@@ -17,7 +17,7 @@
             <div class="container">
                 <nav aria-label="breadcrumb">
                     <ol class="breadcrumb">
-                        <li class="breadcrumb"><a href="Main.html">首頁</a></li>
+                        <li class="breadcrumb"><a href="@Url.Action("index", "Home")">首頁</a></li>
                         <li class="breadcrumb active">會員登入</li>
                     </ol>
                 </nav>
@@ -76,7 +76,7 @@
         <script>
             const { ref, createApp } = Vue;
 
-            const config = {    
+            const config = {
                 setup() {
                     const email = ref("");
                     const password = ref("");
@@ -98,13 +98,13 @@
                             });
 
                             const data = await response.json();
-                        
+
                             if (response.ok) {
                                 message.value = "登入成功！正在跳轉...";
                                 isSuccess.value = true;
                                 // 可根據後台回應進行跳轉，例如：
                                 setTimeout(() => {
-                                    window.location.href = "@Url.Action("ChoiceMovies", "BookTickets")"; // 登入成功後跳轉頁面
+                                    window.location.href = "@Url.Action("index", "Home")"; // 登入成功後跳轉頁面
                                 }, 1000);
                             } else {
                                 message.value = data.error || "登入失敗，請檢查帳號密碼。";
