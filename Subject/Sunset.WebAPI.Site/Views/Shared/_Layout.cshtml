@@ -34,8 +34,8 @@
                                 電影列表
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="Movie-Blockbuster.html">強檔熱映</a></li>
-                                <li><a class="dropdown-item" href="Movie-ComingSoon.html">即將上映</a></li>
+                                <li><a class="dropdown-item" href="~/FrontMovies/MovieBlockbuster">強檔熱映</a></li>
+                                <li><a class="dropdown-item" href="~/FrontMovies/MovieComingSoon">即將上映</a></li>
                             </ul>
                         </li>
                         <li class="nav-item dropdown">
@@ -43,7 +43,7 @@
                                 影城介紹
                             </a>
                             <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="Theater-SpecialEquipment.html">品牌理念</a></li>
+                                <li><a class="dropdown-item" href="@Url.Action("About", "Home")">品牌理念</a></li>
                                 <li><a class="dropdown-item" href="Theater-Info.html">影城位置</a></li>
                             </ul>
                         </li>
@@ -79,9 +79,9 @@
                                         <ul class="dropdown-menu dropdown-menu-end">
                                             <li><a class="dropdown-item" href="">變更資料</a></li>
                                             <li><a class="dropdown-item" href="">變更密碼</a></li>
-                                            <li><a class="dropdown-item" href="">票夾</a></li>
-                                            <li><a class="dropdown-item" href="">歷史訂單</a></li>
-                                            <li><a class="dropdown-item" href="">儲值資訊</a></li>
+                                            <li><a class="dropdown-item" href="~/Member/Tickets">票夾</a></li>
+                                            <li><a class="dropdown-item" href="~/Member/UserHistory">歷史訂單</a></li>
+                                            <li><a class="dropdown-item" href="~/Member/TransactionHistory">儲值資訊</a></li>
                                             <li><a class="dropdown-item" href="@Url.Action("Logout", "MemberLogin")" v-on:click="logout">登出</a></li>
                                         </ul>
                                     </div>

@@ -215,6 +215,7 @@
     <Compile Include="Controllers\Apis\CheckOrderApiController.cs" />
     <Compile Include="Controllers\Apis\FrontMoviesApiController.cs" />
     <Compile Include="Controllers\Apis\GetSeatsApiController.cs" />
+    <Compile Include="Controllers\Apis\GetTicketsInfoApiController.cs" />
     <Compile Include="Controllers\Apis\HomeApiController.cs" />
     <Compile Include="Controllers\Apis\LoginApiController.cs" />
     <Compile Include="Controllers\Apis\MemberApiController.cs" />
@@ -227,12 +228,14 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\Dtos\CancelOrderDto.cs" />
     <Compile Include="Models\Dtos\CheckMemberLoginDto.cs" />
     <Compile Include="Models\Dtos\CheckOrderDto.cs" />
     <Compile Include="Models\Dtos\ChoiceDatesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceMoviesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceSeatsDto.cs" />
     <Compile Include="Models\Dtos\GetMovieScheduleDto.cs" />
+    <Compile Include="Models\Dtos\GetTicketsInfoDto.cs" />
     <Compile Include="Models\Dtos\HomeDto.cs" />
     <Compile Include="Models\Dtos\MemberLoginDto.cs" />
     <Compile Include="Models\Dtos\MovieBlockbusterDto.cs" />
@@ -242,6 +245,7 @@
     <Compile Include="Models\Dtos\MovieReleaseScheduleDto.cs" />
     <Compile Include="Models\Dtos\RateOrderDto.cs" />
     <Compile Include="Models\Dtos\RegisterDto.cs" />
+    <Compile Include="Models\Dtos\TopupDto.cs" />
     <Compile Include="Models\Dtos\UserHistoryDto.cs" />
     <Compile Include="Models\EFModels\AppDbContext.cs" />
     <Compile Include="Models\EFModels\Auditorium.cs" />
@@ -274,6 +278,7 @@
     <Compile Include="Models\Repositories\MovieBlockbusterRepository.cs" />
     <Compile Include="Models\Repositories\MovieComingSoonRepository.cs" />
     <Compile Include="Models\Repositories\MovieDetailRepository.cs" />
+    <Compile Include="Models\Repositories\TransactionHistoryRepository.cs" />
     <Compile Include="Models\Repositories\UserHistoryRepository.cs" />
     <Compile Include="Models\Result.cs" />
     <Compile Include="Models\Services\BookTicketsService.cs" />
@@ -282,6 +287,7 @@
     <Compile Include="Models\Services\MovieBlockbusterService.cs" />
     <Compile Include="Models\Services\MovieComingSoonService.cs" />
     <Compile Include="Models\Services\MovieDetailService.cs" />
+    <Compile Include="Models\Services\TransactionHistoryService.cs" />
     <Compile Include="Models\Services\UserHistoryService.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVm.cs" />
     <Compile Include="Models\ViewModels\RegisterVm.cs" />
@@ -464,11 +470,12 @@
     <Content Include="Views\MemberLogin\MemberLogin.cshtml" />
     <Content Include="Views\Member\OrderDetails.cshtml" />
     <Content Include="Views\Member\Tickets.cshtml" />
+    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Member\TransactionHistory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="obj\Debug\TempPE\" />
-    <Folder Include="Views\Base\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Scripts\bootstrap.min.js.map" />

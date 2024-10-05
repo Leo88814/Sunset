@@ -3,52 +3,74 @@
 }
 
 <style>
-    .ticket {
-        border: 1px solid #000;
-        padding: 15px;
-        margin-bottom: 20px;
-        background-color: #e7d7bc;
-        border-radius: 15px;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
     }
 
-    .ticket img {
-        width: 100px;
-        cursor: pointer;
-        border-radius: 10px;
+    .pageContainer {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
     }
+
+    .breadcrumb {
+        background-color: transparent;
+        padding: 0;
+        margin-bottom: 20px;
+    }
+
+    .ticket {
+        border: 1px solid #ddd;
+        padding: 15px;
+        margin-bottom: 20px;
+        background-color: #fff;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+        .ticket img {
+            width: 120px;
+            height: auto;
+            cursor: pointer;
+            border-radius: 8px;
+            margin-right: 20px;
+        }
 
     .ticket-details {
         flex: 1;
         margin-left: 20px;
     }
 
-    .ticket-details p {
-        margin: 5px 0;
-    }
+        .ticket-details p {
+            margin: 5px 0;
+            color: #333;
+        }
 
     .rating {
         display: flex;
-        flex-direction: column;
         align-items: center;
+        justify-content: flex-end;
     }
 
     .rating-stars {
         display: flex;
-        margin-top: 10px;
+        margin-left: 5px;
     }
 
-    .rating-stars span {
-        font-size: 24px;
-        cursor: pointer;
-        color: #ccc;
-    }
+        .rating-stars span {
+            font-size: 24px;
+            cursor: pointer;
+            color: #ccc;
+        }
 
-    .rating-stars span.active {
-        color: gold;
-    }
+            .rating-stars span.active {
+                color: gold;
+            }
 </style>
 
 <body>
@@ -56,7 +78,7 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">首頁</a></li>
                     <li class="breadcrumb">會員專區</li>
                     <li class="breadcrumb active">歷史訂單</li>
                 </ol>
@@ -91,12 +113,17 @@
             const config = {
                 setup() {
                     const tickets = ref([]);
-                    const memberId = '1'; // 直接設置 memberId 為 1 來進行測試
-                    const apiUrl = `/api/MemberApiController/UserHistory/${memberId}`;
+                    const memberId = getCookie("memberId");
+                    const apiUrl = `/api/MemberApiController/UserHistory`;
 
                     const fetchOrders = async () => {
                         try {
-                            const response = await fetch(apiUrl);
+                            const token = getCookie("bookmovie");
+                            const response = await fetch(apiUrl, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
                             if (!response.ok) {
                                 throw new Error(`API request failed with status: ${response.status}`);
                             }
@@ -116,21 +143,24 @@
                             const response = await fetch(`/api/MemberApiController/RateOrder`, {
                                 method: 'POST',
                                 headers: {
-                                    'Content-Type': 'application/json'
+                                    'Content-Type': 'application/json',
+                                    'X-MemberId': memberId
                                 },
                                 body: JSON.stringify({ orderId, rating })
                             });
                             if (!response.ok) {
                                 throw new Error(`API request failed with status: ${response.status}`);
                             }
-                            await fetchOrders(); // 重新獲取訂單以更新評分
+                            await fetchOrders();
+                            alert(`給予 ${rating} 星評分`);
                         } catch (error) {
                             console.error("Error rating order:", error);
                         }
                     };
 
                     const viewDetails = (orderNumber) => {
-                        window.location.href = `/Member/OrderDetails/${orderNumber}?memberId=${memberId}`;
+                        localStorage.setItem('orderNumber', orderNumber);
+                        window.location.href = '/Member/OrderDetails';
                     };
 
                     onMounted(fetchOrders);
@@ -145,6 +175,12 @@
 
             const app = createApp(config);
             app.mount("#app");
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
         </script>
     }
 </body>

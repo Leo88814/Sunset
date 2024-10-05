@@ -64,11 +64,11 @@
                         <div class="row">
                             <div class="col-4"
                                  v-for="(ticket, index) in ticketTypes"
-                                 :key="ticket.name">
-                                {{ ticket.name }} {{ ticket.price }}元
+                                 :key="ticket.id">
+                                {{ ticket.ticketType }} {{ ticket.ticketPriceAsInt }}元
                                 <select v-model="ticket.selected"
                                         class="form-select"
-                                        v-on:change="validateSelection">
+                                       v-on:change="validateSelection">
                                     <option v-for="n in availableOptions(ticket)"
                                             :key="n"
                                             :value="n">
@@ -142,11 +142,30 @@
                     const seatError = ref("");
                     const ticketError = ref("");
                     const selectedTicketInfo = ref("");
-                    const ticketTypes = ref([
-                        { name: "全票", price: 230, selected: 0 },
-                        { name: "優待票", price: 200, selected: 0 },
-                        { name: "愛心票", price: 180, selected: 0 },
-                    ]);
+                    const ticketTypes = ref([]);
+                    const selectedTickets = ref({}); 
+
+                    const GetTicketsInfo = async () => {
+                        try {
+                            const response = await fetch(`/api/GetTicketsInfoApi/`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            ticketTypes.value = data.map(ticket => ({
+                                ...ticket,
+                                selected: 0
+                            }));
+
+                        } catch (error) {
+                            console.error("Error:", error);
+                        }
+                    };
 
                     const choiceSeatInfo = async () => {
                         try {
@@ -191,6 +210,7 @@
                     onMounted(() => {
                         choiceSeatInfo();
                         getMovieScheduleInfo();
+                        GetTicketsInfo();
                     })
 
                         //計算總票數
@@ -200,6 +220,7 @@
                                 0
                             );
                         });
+                 
                         //判斷是否超過所選的總票數
                         const validateSelection = () => {
                             if (totalTickets.value > maxTotalTickets.value) {
@@ -243,7 +264,6 @@
                         const handleSeatClick = (seat) => {
                             if (seat.seatStatus) {
                                 toggleSeatSelection(seat);
-                                console.log(seat)
                                 if (seat.seatId !== undefined && seat.seatId !== null) {
                                     addChoiceSeat(seat.seatId);
                                 }
@@ -254,15 +274,21 @@
                         };
 
                         const addChoiceSeat = (seatId) => {
-                            if (!choiceSeats.value.includes(seatId)) {
-                                choiceSeats.value.push(seatId);
+                            const index = choiceSeats.value.indexOf(seatId);
+
+                            if (index === -1) {
+                               
+                                    choiceSeats.value.push(seatId);
+                                
+                            } else {
+                                // 如果 seatId 已經存在於陣列中，則移除
+                                choiceSeats.value.splice(index, 1);
                             }
-                            console.log("choiceSeats.value", choiceSeats.value);
                         };
 
                         const removeChoiceSeat = (seatId) => {
                             choiceSeats.value = choiceSeats.value.filter(id => id !== seatId);
-                            console.log("choiceSeats.value", choiceSeats.value);
+                            choiceSeats.value.pop(seatId);
                         };
 
                         const goToNextPage = () => {
@@ -274,24 +300,21 @@
                                 const selectedTicketInfo = ticketTypes.value
                                     .filter((ticket) => ticket.selected > 0)
                                     .map((ticket) => ({
-                                        name: ticket.name,
-                                        price: ticket.price,
+                                        id: ticket.id,
+                                        name: ticket.ticketType,
+                                        price: ticket.ticketPriceAsInt,
                                         quantity: ticket.selected,
                                     }));
                                 localStorage.setItem(
                                     "selectedTickets",
                                     JSON.stringify(selectedTicketInfo)
                                 );
-                                //  localStorage.setItem(
-                                //    "selectedSeats",
-                                //    JSON.stringify(choiceSeats.value)
-                                //);
+                       
                                 // 構建URL，使用重複的查詢參數來傳遞多個整數
                                 const seatsString = Object.values(choiceSeats.value).join(',');
                                 const url = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId.value}/${choiceSeats.value}`;
                                 // 導航到新頁面
                                 window.location.href = url;
-                                //window.location.href = `@Url.Action("CheckOrder", "BookTickets")/${movieScheduleId.value}/${choiceSeats.value}`;
                             }
                         };
          

@@ -32,7 +32,7 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 
         [HttpGet]
         [Route("api/CheckOrderApi/CheckOrder/{movieScheduleId}/{seats}")]
-        public IHttpActionResult CheckCurrentOrder(int movieScheduleId, string seats/*, int memberId*/)
+        public IHttpActionResult CheckCurrentOrder(int movieScheduleId, string seats)
         {
 
             List<int> seatIds;
@@ -53,5 +53,6 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
             }
             return Ok(checkOrder);
         }
+
     }
 }
