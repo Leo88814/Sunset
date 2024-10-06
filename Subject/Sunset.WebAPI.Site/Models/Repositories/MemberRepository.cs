@@ -50,5 +50,14 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			return WebApiApplication._mapper.Map<CheckMemberLoginDto>(member);
 		}
 
-    }
+		public void Update(CheckMemberLoginDto dto)
+		{
+			Member member = WebApiApplication._mapper.Map<Member>(dto);
+
+			//更新 member 到 db
+			_db.Entry(member).State = System.Data.Entity.EntityState.Modified;
+
+			_db.SaveChanges();
+		}
+	}
 }

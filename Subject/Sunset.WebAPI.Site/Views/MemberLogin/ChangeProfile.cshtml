@@ -1,0 +1,88 @@
+﻿@{
+    ViewBag.Title = "ChangeProfile";
+}
+
+<body>
+    <div id="app" class="page-container">
+        <!-- Breadcrumb 導航列 -->
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("index", "Home")">首頁</a></li>
+                    <li class="breadcrumb">會員專區</li>
+                    <li class="breadcrumb">變更資料</li>
+                </ol>
+            </nav>
+        </div>
+
+        <main class="content-wrap">
+            <div class="container mt-5">
+                <h2 class="mb-4">變更資料</h2>
+                <form v-on:submit.prevent="updateProfile">
+                    <div class="mb-3">
+                        <label for="name" class="form-label">姓名:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               v-model="formData.name"
+                               required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">電話</label>
+                        <input type="tel"
+                               class="form-control"
+                               id="phone"
+                               v-model="formData.phone" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">住址</label>
+                        <input type="text"
+                               class="form-control"
+                               id="address"
+                               v-model="formData.address" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthday" class="form-label">生日:</label>
+                        <input type="date"
+                               class="form-control"
+                               id="birthday"
+                               v-model="formData.birthday" />
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+
+    <script>
+      import { ref, createApp } from 'vue';
+
+      const app = createApp({
+        setup() {
+          const formData = ref({
+            name: "",
+            phone: "",
+            address: "",
+            email: "",
+            birthday: "",
+          });
+
+          const updateProfile = () => {
+            // 處理表單提交邏輯
+            console.log("更新用戶資料:", formData.value);
+            // 可以在這裡添加API調用來保存數據
+            alert("用戶資料已更新");
+          };
+
+          return {
+            formData,
+            updateProfile, // 確保這裡返回了 updateProfile 方法
+          };
+        },
+      });
+
+      app.mount("#app"); // 確保掛載到正確的元素
+    </script>
+</body>

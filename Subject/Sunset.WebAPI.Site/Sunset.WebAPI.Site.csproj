@@ -229,11 +229,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Models\Dtos\CancelOrderDto.cs" />
+    <Compile Include="Models\Dtos\ChangePasswordDto.cs" />
     <Compile Include="Models\Dtos\CheckMemberLoginDto.cs" />
     <Compile Include="Models\Dtos\CheckOrderDto.cs" />
     <Compile Include="Models\Dtos\ChoiceDatesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceMoviesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceSeatsDto.cs" />
+    <Compile Include="Models\Dtos\CurrentBalanceDto.cs" />
     <Compile Include="Models\Dtos\GetMovieScheduleDto.cs" />
     <Compile Include="Models\Dtos\GetTicketsInfoDto.cs" />
     <Compile Include="Models\Dtos\HomeDto.cs" />
@@ -243,6 +245,7 @@
     <Compile Include="Models\Dtos\MovieDetailDto.cs" />
     <Compile Include="Models\Dtos\MovieDto.cs" />
     <Compile Include="Models\Dtos\MovieReleaseScheduleDto.cs" />
+    <Compile Include="Models\Dtos\PostOrderDto.cs" />
     <Compile Include="Models\Dtos\RateOrderDto.cs" />
     <Compile Include="Models\Dtos\RegisterDto.cs" />
     <Compile Include="Models\Dtos\TopupDto.cs" />
@@ -289,6 +292,7 @@
     <Compile Include="Models\Services\MovieDetailService.cs" />
     <Compile Include="Models\Services\TransactionHistoryService.cs" />
     <Compile Include="Models\Services\UserHistoryService.cs" />
+    <Compile Include="Models\ViewModels\ChangePasswordVm.cs" />
     <Compile Include="Models\ViewModels\MemberLoginVm.cs" />
     <Compile Include="Models\ViewModels\RegisterVm.cs" />
     <Compile Include="obj\Debug\.NETFramework,Version=v4.8.AssemblyAttributes.cs" />
@@ -472,6 +476,9 @@
     <Content Include="Views\Member\Tickets.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Member\TransactionHistory.cshtml" />
+    <Content Include="Views\MemberLogin\ChangeProfile.cshtml" />
+    <Content Include="Views\BookTickets\OrderComplete.cshtml" />
+    <Content Include="Views\MemberLogin\ChangePassword.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

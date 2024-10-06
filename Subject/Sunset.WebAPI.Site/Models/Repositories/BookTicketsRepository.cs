@@ -2,6 +2,7 @@
 using Sunset.WebAPI.Site.Models.EFModels;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Http.Results;
@@ -37,7 +38,6 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 
 			return allMovie;
 		}
-
 
 		public List<ChoiceDatesDto> GetMovieDate(int id)
 		{
@@ -126,7 +126,8 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			var movieSchedule = _db.MovieReleaseSchedules
 				.Where(mr => mr.Id == movieScheduleId)
 				.Select(mr => new MovieSchedule
-				{
+				{	
+					Id = mr.MovieInfo.Id,
 					MovieName = mr.MovieInfo.MovieName,
 					MainPicture = mr.MovieInfo.MainPicture,
 					ShowtimeDate = mr.ShowDate.ShowTimeDate,
@@ -146,7 +147,6 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			{
 				MovieScheduleInfo = movieSchedule,
 				ChoiceSeatInfo = seats,
-
 			};
 		}
 
@@ -163,5 +163,104 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 
 			return ticket;
         }
-    }
+
+		public Member GetMemberByEmail(string email)
+		{
+			return _db.Members.FirstOrDefault(m => m.Email == email);
+		}
+
+		public CurrentBalanceDto GetCurrentBalance(int memberId)
+		{
+			var currentBalance = _db.Members
+				.Where(m => m.Id == memberId)
+				.Select(m => new CurrentBalanceDto
+				{
+					Id = m.Id,
+					CurrentBalance = m.CurrentBalance
+				})
+				.FirstOrDefault();
+
+			return  currentBalance;
+		}
+
+		public bool PostOrder(PostOrderDto dto, int memberId,string orderNumber)
+		{
+			var member = _db.Members.FirstOrDefault(o => o.Id == memberId);
+			if (member == null)
+			{
+				return false;
+			}
+			else
+			{
+				// 建立 Order 物件並新增到 DbSet 中
+				var order = new Order
+				{
+					MovieReleaseScheduleId = dto.DataForOrder.MovieReleaseScheduleId,
+					MemberId = memberId,
+					OrderDate = DateTime.Now,
+					TotalTicketCount = dto.DataForOrder.TotalTicketCount,
+					TotalAmount = dto.DataForOrder.TotalAmount,
+					PaymentStatus = "已付款",
+					OrderNumber = orderNumber
+				};
+				_db.Orders.Add(order); 
+				var resp = _db.SaveChanges();
+				// 建立並新增 OrderDetail
+				var new_order = _db.Orders.FirstOrDefault(o => o.OrderNumber == orderNumber);
+				foreach (var detailData in dto.DataForOrderDetail)
+				{
+
+					var orderDetail = new OrderDetail
+					{
+						TicketId = detailData.TicketId,
+						OrderId = new_order.Id, // 關聯到已經追蹤的 Order
+						SeatId = detailData.SeatId,
+						TicketNumber = GenerateTicketNumber() // 假設這是一個生成票號的方法
+					};
+					//Console.Write(orderDetail);
+					_db.OrderDetails.Add(orderDetail);
+					_db.SaveChanges();
+				}
+
+				// 建立並新增 MovieRating
+				var movieRating = new MovieRating
+				{
+					MemberId = memberId,
+					MovieInfoId = dto.DataForMovieRating.MovieInfoId,
+					Order = order, // 關聯到已經追蹤的 Order
+					Rating = null
+				};
+				_db.MovieRatings.Add(movieRating);
+
+
+				var memberBalance = _db.Members
+			   .Where(m => m.Id == memberId)
+			   .Select(m => m.CurrentBalance)
+			   .FirstOrDefault();
+			
+
+				try
+				{
+					_db.SaveChanges();
+					return true;
+				}
+				catch (Exception ex)
+				{
+					Console.WriteLine(ex.Message);
+					return false;
+				}
+			}
+		}
+
+		private string GenerateTicketNumber()
+		{
+			var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+			var random = new Random();
+			var randomNumber = random.Next(1000, 9999);
+			var ticketNumber = "TIC-" + timestamp + "-" + randomNumber;
+			return ticketNumber;
+		}
+
+	
+	}
 }

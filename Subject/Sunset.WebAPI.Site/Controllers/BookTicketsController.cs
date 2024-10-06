@@ -37,11 +37,14 @@ namespace Sunset.WebAPI.Site.Controllers
 
 		public ActionResult CheckOrder(int movieScheduleId, string seats)
 		{
-
 			ViewBag.movieScheduleId = movieScheduleId;
 			ViewBag.seatsId = seats;
 			return View();
 		}
 
+		public ActionResult OrderComplete()
+		{
+			return View();
+		}
 	}
 }

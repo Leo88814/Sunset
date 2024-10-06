@@ -17,7 +17,7 @@ namespace Sunset.WebAPI.Site.Models.EFModels
         public int SeatId { get; set; }
 
         [Required]
-        [StringLength(20)]
+        [StringLength(50)]
         public string TicketNumber { get; set; }
 
         public virtual Order Order { get; set; }
