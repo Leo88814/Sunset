@@ -1,0 +1,240 @@
+﻿@model IEnumerable<Theater_Admin.Models.Vms.MemberVm>
+
+@{
+    ViewBag.Title = "會員清單";
+}
+
+<div id="app">
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
+        <h2 class="text-center text-white mb-4">管理系統</h2>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <!-- 維護會員系統 -->
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMember"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMember">
+                    維護會員系統
+                </a>
+                <div class="collapse" id="collapseMember">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Members")" class="nav-link text-white">註銷會員</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 電影詳情頁面 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMovie"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMovie">
+                    電影清單頁面
+                </a>
+                <div class="collapse" id="collapseMovie">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Movie")" class="nav-link text-white">電影清單</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 購票訂位系統 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseBooking"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseBooking">
+                    購票訂位系統
+                </a>
+                <div class="collapse" id="collapseBooking">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Auditorum")" class="nav-link text-white">影廳管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ShowtimeIndex", "ShowTimes")" class="nav-link text-white">場次管理</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 客服Q&A -->
+            <li>
+                <a href="@Url.Action("Logout", "Users")" class="nav-link text-white">登出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="header ">
+        <div class="container-fluid d-flex  ">
+
+            <h1 class="text-end pe-5 pt-2" style="align-content">Sunset影城管理系統</h1>
+            <img src="~/Img/sunset-svgrepo-com.png" alt="Logo" class="me-3" />
+        </div>
+    </div>
+    <div class="content">
+        <h2>會員清單</h2>
+        <div class="mb-3">
+            <input v-model="searchName" placeholder="搜索會員名稱或帳號" class="form-control">
+        </div>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th>帳號</th>
+                    <th>電子郵件</th>
+                    <th>電話號碼</th>
+                    <th>當前餘額</th>
+                    <th>會員姓名</th>
+                    <th>出生日期</th>
+                    <th>地址</th>
+                    <th>會員狀態</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="member in paginatedMembers">
+                    <td>{{ member.account }}</td>
+                    <td>{{ member.email }}</td>
+                    <td>{{ member.phoneNumber }}</td>
+                    <td>{{ member.currentBalance }}</td>
+                    <td>{{ member.memberName }}</td>
+                    <td>{{ formatDate(member.dateOfBirth) }}</td>
+                    <td>{{ member.address }}</td>
+                    <td>
+                        <select v-model="member.memberStatus" class="form-control" v-on:change="updateMemberStatus(member)">
+                            <option :value="true">啟用</option>
+                            <option :value="false">停用</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <button v-on:click="prevPage" :disabled="currentPage === 1" class="btn btn-secondary">上一頁</button>
+                <span>第 {{ currentPage }} 頁，共 {{ totalPages }} 頁</span>
+                <button v-on:click="nextPage" :disabled="currentPage === totalPages" class="btn btn-secondary">下一頁</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { ref, computed, onMounted, watch } = Vue;
+
+        const app = Vue.createApp({
+
+            setup() {
+                const members = ref([]);
+                const searchName = ref('');
+                const currentPage = ref(1);
+                const pageSize = 10;
+
+                const filteredMembers = computed(() => {
+                    return members.value.filter(member =>
+                        member.memberName.toLowerCase().includes(searchName.value.toLowerCase()) ||
+                        member.account.toLowerCase().includes(searchName.value.toLowerCase())
+                    );
+                });
+
+                const totalPages = computed(() => Math.ceil(filteredMembers.value.length / pageSize));
+
+                const paginatedMembers = computed(() => {
+                    const start = (currentPage.value - 1) * pageSize;
+                    return filteredMembers.value.slice(start, start + pageSize);
+                });
+
+                onMounted(async () => {
+                    try {
+                        const response = await fetch('/apis/members/getall');
+                        const data = await response.json();
+                        members.value = data;
+                        console.log('設置後的 members 數據:', members.value);
+                    } catch (error) {
+                        console.error('無法獲取會員數據:', error);
+                    }
+                });
+
+                const formatDate = (dateString) => {
+                    if (!dateString) return '';
+                    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                    return new Date(dateString).toLocaleDateString('zh-TW', options);
+                };
+
+                const updateMemberStatus = async (member) => {
+                    try {
+                        // 創建一個新的對象，包含所有可能需要的屬性
+                        const memberData = {
+                            id: member.id,
+                            account: member.account,
+      
+                            email: member.email,
+                            phoneNumber: member.phoneNumber,
+                            currentBalance: member.currentBalance,
+                            memberName: member.memberName,
+                            dateOfBirth: member.dateOfBirth,
+                            address: member.address,
+                            memberStatus: member.memberStatus
+                        };
+
+                        const response = await fetch('/apis/members/suspend', {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(memberData),
+                        });
+
+                        if (response.ok) {
+                            const updatedMember = await response.json();
+                            // 更新本地數據
+                            Object.assign(member, updatedMember);
+                            alert('會員狀態已更新');
+                        } else {
+                            alert('更新會員狀態失敗');
+                            // 如果更新失敗，恢復原來的狀態
+                            member.memberStatus = !member.memberStatus;
+                        }
+                    } catch (error) {
+                        console.error('更新會員狀態時發生錯誤:', error);
+                        alert('更新會員狀態時發生錯誤');
+                        // 如果發生錯誤，恢復原來的狀態
+                        member.memberStatus = !member.memberStatus;
+                    }
+                };
+
+                const prevPage = () => {
+                    if (currentPage.value > 1) currentPage.value--;
+                };
+
+                const nextPage = () => {
+                    if (currentPage.value < totalPages.value) currentPage.value++;
+                };
+
+                watch(searchName, () => {
+                    currentPage.value = 1;
+                });
+
+                return {
+                    paginatedMembers,
+                    currentPage,
+                    totalPages,
+                    searchName,
+                    formatDate,
+                    updateMemberStatus,
+                    prevPage,
+                    nextPage,
+                };
+            },
+        });
+
+        app.mount("#app");
+    </script>
+}

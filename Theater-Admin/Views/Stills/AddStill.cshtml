@@ -1,0 +1,200 @@
+﻿@model Theater_Admin.Models.Vms.StillVm
+
+
+
+@{
+    ViewBag.Title = "新增劇照";
+}
+
+<div id="app">
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
+        <h2 class="text-center text-white mb-4">管理系統</h2>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <!-- 維護會員系統 -->
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMember"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMember">
+                    維護會員系統
+                </a>
+                <div class="collapse" id="collapseMember">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Members")" class="nav-link text-white">註銷會員</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 電影詳情頁面 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMovie"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMovie">
+                    電影清單頁面
+                </a>
+                <div class="collapse" id="collapseMovie">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Movie")" class="nav-link text-white">電影清單</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 購票訂位系統 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseBooking"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseBooking">
+                    購票訂位系統
+                </a>
+                <div class="collapse" id="collapseBooking">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Auditorum")" class="nav-link text-white">影廳管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ShowtimeIndex", "ShowTimes")" class="nav-link text-white">場次管理</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 客服Q&A -->
+            <li>
+                <a href="@Url.Action("Logout", "Users")" class="nav-link text-white">登出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="header ">
+        <div class="container-fluid d-flex  ">
+
+            <h1 class="text-end pe-5 pt-2" style="align-content">Sunset影城管理系統</h1>
+            <img src="~/Img/sunset-svgrepo-com.png" alt="Logo" class="me-3" />
+        </div>
+    </div>
+    <div class="content container">
+        <h2>新增劇照</h2>
+        <form id="stillForm" enctype="multipart/form-data" class="justify-content-center text-center">
+            <div class="mb-3">
+                <label for="stills" class="form-label">選擇劇照</label>
+                <input type="file" class="form-control" id="stills" ref="stills" v-on:change="previewImage" required>
+                <img :src="previewImageUrl" alt="劇照預覽" class="img-thumbnail mt-2" v-if="previewImageUrl">
+            </div>
+            <button type="button" class="btn btn-primary" v-on:click="addStill">上傳劇照</button>
+        </form>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            
+            setup() {
+                const movieId = new URLSearchParams(window.location.search).get('movieId');
+                const previewImageUrl = Vue.ref(null);
+                const stills = Vue.ref(null);
+                const uploadedFileName = Vue.ref('');
+
+                const previewImage = async (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            previewImageUrl.value = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                        // 上傳圖片
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        try {
+                            const response = await fetch('/apis/stills/UploadImage', {
+                                method: 'POST',
+                                body: formData
+                            });
+                            if (response.ok) {
+                                const result = await response.json();
+                                uploadedFileName.value = result.fileName;
+                            } else {
+                                alert('圖片上傳失敗，請重試。');
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('圖片上傳時發生錯誤，請重試。');
+                        }
+                    }
+                };
+
+                const addStill = async () => {
+                    if (!uploadedFileName.value) {
+                        alert('請先上傳圖片');
+                        return;
+                    }
+
+                    if (!movieId) {
+                        alert('無效的電影ID');
+                        return;
+                    }
+
+                    const stillData = {
+                        Id: 0,
+                        MovieInfoId: parseInt(movieId),
+                        stills: uploadedFileName.value
+                    };
+
+                    console.log('Sending data:', stillData);
+
+                    try {
+                        const response = await fetch('/apis/stills/create', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(stillData)
+                        });
+
+                        if (response.ok) {
+                            alert('劇照新增成功！');
+                            window.location.href = `@Url.Action("GetAllStills", "Stills")?id=${movieId}`;
+                        } else {
+                            const errorData = await response.json();
+                            let errorMessage = '新增劇照失敗，請重試。\n';
+                            if (errorData.message) {
+                                errorMessage += `錯誤訊息: ${errorData.message}\n`;
+                            }
+                            if (errorData.modelState) {
+                                for (let key in errorData.modelState) {
+                                    errorMessage += `${key}: ${errorData.modelState[key].join(', ')}\n`;
+                                }
+                            }
+                            alert(errorMessage);
+                            console.error('Error data:', errorData);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('發生錯誤，請重試。');
+                    }
+                };
+
+                return {
+                    previewImageUrl,
+                    stills,
+                    previewImage,
+                    addStill
+                };
+            }
+        });
+
+        app.mount("#app");
+    </script>
+}
+

@@ -1,0 +1,207 @@
+﻿@model Theater_Admin.Models.Vms.ShowtimeVm
+
+@{
+    ViewBag.Title = "新增場次";
+}
+
+<div id="app">
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
+        <h2 class="text-center text-white mb-4">管理系統</h2>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <!-- 維護會員系統 -->
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMember"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMember">
+                    維護會員系統
+                </a>
+                <div class="collapse" id="collapseMember">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Members")" class="nav-link text-white">註銷會員</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 電影詳情頁面 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMovie"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMovie">
+                    電影清單頁面
+                </a>
+                <div class="collapse" id="collapseMovie">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Movie")" class="nav-link text-white">電影清單</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 購票訂位系統 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseBooking"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseBooking">
+                    購票訂位系統
+                </a>
+                <div class="collapse" id="collapseBooking">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Auditorum")" class="nav-link text-white">影廳管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ShowtimeIndex", "ShowTimes")" class="nav-link text-white">場次管理</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 客服Q&A -->
+            <li>
+                <a href="@Url.Action("Logout", "Users")" class="nav-link text-white">登出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="header ">
+        <div class="container-fluid d-flex  ">
+
+            <h1 class="text-end pe-5 pt-2" style="align-content">Sunset影城管理系統</h1>
+            <img src="~/Img/sunset-svgrepo-com.png" alt="Logo" class="me-3" />
+        </div>
+    </div>
+
+    <div class="content">
+        <div class="container mt-4">
+            <h1 class="mb-4">新增場次</h1>
+            <form v-on:submit.prevent="submitForm">
+                <input type="hidden" v-model="auditoriumId">
+                <div class="mb-3">
+                    <label for="movieSelect" class="form-label">選擇電影</label>
+                    <select id="movieSelect" v-model="selectedMovie" class="form-select" required>
+                        <option value="">請選擇電影</option>
+                        <option v-for="movie in movies" :key="movie.id" :value="movie.id">
+                            {{ movie.movieName }}
+                        </option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="showDate" class="form-label">上映日期</label>
+                    <input type="date" id="showDate" v-model="showDate" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="startTime" class="form-label">開始時間</label>
+                    <input type="time" id="startTime" v-model="startTime" class="form-control" required>
+                </div>
+                <div class="mb-3">
+                    <label for="endTime" class="form-label">結束時間</label>
+                    <input type="time" id="endTime" v-model="endTime" class="form-control" required>
+                </div>
+                <button type="submit" class="btn btn-primary">新增場次</button>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const { ref, onMounted } = Vue;
+
+        const app = Vue.createApp({
+
+            setup() {
+                const auditoriumId = ref('');
+                const movies = ref([]);
+                const selectedMovie = ref('');
+                const showDate = ref('');
+                const startTime = ref('');
+                const endTime = ref('');
+
+                const fetchMovies = async () => {
+                    try {
+                        const response = await fetch('/apis/showtime/GetAllOnAirMovies');
+                        if (!response.ok) {
+                            throw new Error('獲取上映電影列表失敗');
+                        }
+                        movies.value = await response.json();
+                    } catch (error) {
+                        console.error("獲取電影列表失敗:", error);
+                    }
+                };
+
+                const submitForm = async () => {
+                    // 创建一个代表台湾时间的 Date 对象
+                    const taiwanDate = new Date(`${showDate.value}T${startTime.value}:00+08:00`);
+
+                    // 将台湾时间转换为 UTC
+                    const utcDateTime = new Date(taiwanDate.toUTCString());
+
+                    const formData = {
+                        MovieInfoId: parseInt(selectedMovie.value),
+                        AuditoriumId: parseInt(auditoriumId.value),
+                        ShowDateTime: utcDateTime.toISOString(), // 使用 UTC 时间
+                        StartTime: startTime.value,
+                        EndTime: endTime.value
+                    };
+
+                    try {
+                        const response = await fetch('/apis/showtime/Create', {
+                            method: 'POST',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(formData),
+                        });
+
+                        if (!response.ok) {
+                            const errorData = await response.json();
+                            throw new Error(errorData.Message || '新增場次失敗');
+                        }
+
+                        alert('場次新增成功');
+                        // 修改這裡：使用 auditoriumId.value 而不是 auditoriumId
+                        window.location.href = `@Url.Action("ShowtimeInAud", "Showtimes")?id=${auditoriumId.value}`;
+
+                    } catch (error) {
+                        console.error("新增場次失敗:", error);
+                        alert(error.message);
+                    }
+                };
+
+                const theaterShowtimesPage = (auditoriumId) => {
+    window.location.href = `@Url.Action("ShowtimeInAud", "Showtimes")?id=${auditoriumId}`;
+};
+
+                onMounted(() => {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    auditoriumId.value = urlParams.get('auditoriumId');
+                    fetchMovies();
+                });
+
+                return {
+                    auditoriumId,
+                    movies,
+                    selectedMovie,
+                    showDate,
+                    startTime,
+                    endTime,
+                    submitForm,
+                    theaterShowtimesPage
+                };
+            },
+        });
+
+        app.mount("#app");
+    </script>
+}
+
+
