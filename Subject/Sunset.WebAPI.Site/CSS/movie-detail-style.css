@@ -12,10 +12,10 @@ header {
     text-align: center;
 }
 
-header .logo {
-    font-size: 24px;
-    font-weight: bold;
-}
+    header .logo {
+        font-size: 24px;
+        font-weight: bold;
+    }
 
 nav ul {
     list-style: none;
@@ -23,15 +23,15 @@ nav ul {
     margin: 0;
 }
 
-nav ul li {
-    display: inline;
-    margin: 0 15px;
-}
+    nav ul li {
+        display: inline;
+        margin: 0 15px;
+    }
 
-nav ul li a {
-    color: white;
-    text-decoration: none;
-}
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
 
 main {
     padding: 20px;
@@ -44,19 +44,19 @@ main {
     margin-bottom: 20px;
 }
 
-.movie-detail h1, .booking h1 {
-    font-size: 28px;
-    margin-bottom: 10px;
-}
+    .movie-detail h1, .booking h1 {
+        font-size: 28px;
+        margin-bottom: 10px;
+    }
 
 .session-times {
     list-style: none;
     padding: 0;
 }
 
-.session-times li {
-    margin-bottom: 5px;
-}
+    .session-times li {
+        margin-bottom: 5px;
+    }
 
 .btn {
     display: inline-block;

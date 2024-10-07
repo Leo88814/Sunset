@@ -118,7 +118,7 @@
             </div>
 
             <div class="text-end mt-3">
-                <button v-on:click="goToNextPage" class="btn btn-outline-primary ms-2">
+                <button v-on:click="goToNextPage" class="btn btn-primary ms-2">
                     下一頁
                 </button>
             </div>
@@ -200,17 +200,17 @@
                             const data2 = await response.json();
                             movieScheduleId.value = data2.id;
 
-
-
                         } catch (error) {
                             console.error("Error:", error);
                         }
                     };
 
                     onMounted(() => {
-                        choiceSeatInfo();
                         getMovieScheduleInfo();
                         GetTicketsInfo();
+                        choiceSeatInfo();
+                       
+                       
                     })
 
                         //計算總票數

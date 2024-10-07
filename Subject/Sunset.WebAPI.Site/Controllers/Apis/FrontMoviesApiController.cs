@@ -27,7 +27,7 @@ namespace Sunset.WebAPI.Site.Controllers.Api
         public IHttpActionResult MovieBlockbuster()
         {
             var allMovie = _blockbusterService.GetInfo();
-            return Ok(allMovie); // 確保返回JSON格式
+            return Ok(allMovie);
         }
 
         [HttpGet]

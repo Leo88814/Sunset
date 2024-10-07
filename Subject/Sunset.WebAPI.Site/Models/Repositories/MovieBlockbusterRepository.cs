@@ -22,6 +22,7 @@ namespace Sunset.WebAPI.Site.Models.Repositories
             var allMovie = _db.MovieInfos
                 .AsNoTracking()
                 .OrderBy(x => x.PremiereDate)
+                .Where(x=> x.PremiereDate <= DateTime.Now)
                 .Join(
                     _db.MovieGenres,
                     movie => movie.GenreId,

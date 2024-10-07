@@ -2,6 +2,11 @@
     ViewBag.Title = "即將上映";
 }
 <style>
+    body {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
+
     .movie-list {
         display: flex;
         flex-wrap: wrap;
@@ -10,11 +15,11 @@
 
     .movie {
         display: flex;
-        border: 1px solid #ddd;
+        border: 1px solid #333;
         margin-bottom: 20px;
         width: 33%;
         align-items: center;
-        background: linear-gradient(to right, #f4e7d4, #e9dac0);
+        background: #2a2a2a;
         box-sizing: border-box;
         padding: 10px;
         border-radius: 8px;
@@ -35,34 +40,53 @@
 
     .movie-info {
         padding: 10px;
-        background-color: transparent;
+        background-color: #2a2a2a;
         flex: 1;
         justify-content: center;
         align-items: flex-end;
+        color: #ffffff;
     }
 
         .movie-info h4 {
             margin: 0;
             font-size: 18px;
-            color: #4a3f35;
+            color: #ffffff;
         }
 
         .movie-info p {
             margin: 5px 0;
             font-size: 16px;
-            color: #5c4f3a;
+            color: #cccccc;
         }
 
         .movie-info a {
-            color: #a67c52;
+            color: #ffd700;
             text-decoration: none;
             font-size: 16px;
         }
 
             .movie-info a:hover {
                 font-weight: bold;
-                color: #5c4f3a;
+                color: #ffffff;
             }
+
+    .container h2 {
+        color: #ffffff;
+    }
+
+    .breadcrumb {
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .breadcrumb-item a {
+        color: #ffd700;
+    }
+
+    .breadcrumb-item.active {
+        color: #ffffff;
+    }
 </style>
 <body>
     <div id="app" class="page-container">
@@ -80,7 +104,7 @@
             <h2>即將上映</h2>
             <div class="movie-list">
                 <div class="movie" v-for="movie in movies" :key="movie.id">
-                    <a :href="`MovieComingSoonDetail?id=${movie.id}`">
+                    <a v-on:click="viewMovieDetail(movie.id)">
                         <img :src="movie.mainPicture" :alt="movie.movieName" />
                     </a>
                     <div class="movie-info">
@@ -88,7 +112,7 @@
                         <p>片長: {{ movie.duration }} </p>
                         <p>類型: {{ movie.genreName }}</p>
                         <p><strong>上映日期：</strong>{{ formatDate(movie.premiereDate) }}</p>
-                        <a :href="`MovieComingSoonDetail?id=${movie.id}`">More</a>
+                        <a v-on:click="viewMovieDetail(movie.id)">More</a>
                     </div>
                 </div>
             </div>
@@ -126,10 +150,15 @@
                         const date = new Date(premiereDate);
                         return date.toISOString().split('T')[0]; // 只顯示日期部分
                     };
+                    const viewMovieDetail = (movieId) => {
+                        localStorage.setItem('selectedMovieId', movieId);
+                        window.location.href = 'MovieComingSoonDetail';
+                    };
 
                     return {
                         movies,
-                        formatDate
+                        formatDate,
+                        viewMovieDetail
                     };
                 },
             };

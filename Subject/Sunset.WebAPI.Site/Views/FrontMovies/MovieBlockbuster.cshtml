@@ -1,23 +1,30 @@
 ﻿@{
-ViewBag.Title = "強檔熱映";
+    ViewBag.Title = "強檔熱映";
 }
 <style>
+    body {
+        background-color: #1a1a1a;
+        color: #ffffff;
+    }
+
     .movie-list {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
     }
+
     .movie {
         display: flex;
-        border: 1px solid #ddd;
+        border: 1px solid #333;
         margin-bottom: 20px;
         width: 33%;
         align-items: center;
-        background: linear-gradient(to right, #f4e7d4, #e9dac0);
+        background: #2a2a2a;
         box-sizing: border-box;
         padding: 10px;
         border-radius: 8px;
     }
+
         .movie img {
             width: 120px;
             height: auto;
@@ -33,34 +40,53 @@ ViewBag.Title = "強檔熱映";
 
     .movie-info {
         padding: 10px;
-        background-color: transparent;
+        background-color: #2a2a2a;
         flex: 1;
         justify-content: center;
         align-items: flex-end;
+        color: #ffffff;
     }
 
         .movie-info h4 {
             margin: 0;
             font-size: 18px;
-            color: #4a3f35;
+            color: #ffffff;
         }
 
         .movie-info p {
             margin: 5px 0;
             font-size: 16px;
-            color: #5c4f3a;
+            color: #cccccc;
         }
 
         .movie-info a {
-            color: #a67c52;
+            color: #ffd700;
             text-decoration: none;
             font-size: 16px;
         }
 
             .movie-info a:hover {
                 font-weight: bold;
-                color: #5c4f3a;
+                color: #ffffff;
             }
+
+    .container h2 {
+        color: #ffffff;
+    }
+
+    .breadcrumb {
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .breadcrumb-item a {
+        color: #ffd700;
+    }
+
+    .breadcrumb-item.active {
+        color: #ffffff;
+    }
 </style>
 <body>
     <div id="app" class="page-container">
@@ -78,7 +104,7 @@ ViewBag.Title = "強檔熱映";
             <h2>強檔熱映</h2>
             <div class="movie-list">
                 <div class="movie" v-for="movie in movies" :key="movie.id">
-                    <a :href="`MovieDetail?id=${movie.id}`">
+                    <a v-on:click="viewMovieDetail(movie.id)">
                         <img :src="movie.mainPicture" :alt="movie.movieName" />
                     </a>
                     <div class="movie-info">
@@ -89,16 +115,16 @@ ViewBag.Title = "強檔熱映";
                             <p><strong>評分：</strong></p>
                             <div>
                                 <!-- 實心星星 -->
-                                <span v-for="star in Math.floor(movie.averageRating)" :key="'filled-' + star"> ★ </span>
+                                <!--<span v-for="star in Math.floor(movie.averageRating)" :key="'filled-' + star"> ★ </span>-->
                                 <!-- 半顆星星，若有需要，可用不同符號或樣式 -->
-                                <span v-if="(movie.averageRating % 1) >= 0.5">✭</span>
+                                <!--<span v-if="(movie.averageRating % 1) >= 0.5">✭</span>-->
                                 <!-- 空心星星 -->
-                                <span v-for="empty in 5 - Math.ceil(movie.averageRating)" :key="'empty-' + empty"> ☆ </span>
-                                <p>{{ movie.averageRating.toFixed(1) }} 顆星</p>
+                                <!--<span v-for="empty in 5 - Math.ceil(movie.averageRating)" :key="'empty-' + empty"> ☆ </span>-->
+                                <p>{{ movie.averageRating.toFixed(1) }} / 5.0 顆星</p>
                             </div>
                         </div>
                         <p v-else>無評分</p>
-                        <a :href="`MovieDetail?id=${movie.id}`">More</a>
+                        <a v-on:click="viewMovieDetail(movie.id)">More</a>
                     </div>
                 </div>
             </div>
@@ -128,11 +154,16 @@ ViewBag.Title = "強檔熱映";
                             console.error("Error fetching movies:", error);
                         }
                     };
+                    const viewMovieDetail = (movieId) => {
+                        localStorage.setItem('selectedMovieId', movieId);
+                        window.location.href = 'MovieDetail';
+                    };
 
                     onMounted(fetchMovies);
 
                     return {
                         movies,
+                        viewMovieDetail
                     };
                 },
             };

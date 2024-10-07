@@ -10,7 +10,7 @@ namespace Sunset.WebAPI.Site.Models.Exts
 	{
 		public static HomeDto.HomeIndexPicture MatchPath(this HomeDto.HomeIndexPicture dto, string path)
 		{
-			dto.Stills = path + dto.Stills;
+			dto.IndexPicture = path + dto.IndexPicture;
 
 			return dto;
 		}

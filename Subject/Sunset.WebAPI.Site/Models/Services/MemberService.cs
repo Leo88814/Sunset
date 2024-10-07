@@ -61,5 +61,21 @@ namespace Sunset.WebAPI.Site.Models.Services
 			//回傳結果
 			return isPasswordCorrect ? Result.Success() : Result.Fail("帳號或密碼錯誤"); //密碼錯誤
 		}
+
+		public void ChangePassword(string account, ChangePasswordDto dto)
+		{
+			CheckMemberLoginDto memberInDb = _repo.Get(account);
+			string salt = HashUtility.GetSalt();
+			string hasPassword = HashUtility.ToSHA256(dto.Password, salt);
+			if (hasPassword != memberInDb.Password)
+			{
+				throw new Exception("密碼錯誤");
+			}
+
+			var hashNewPassword = HashUtility.ToSHA256(dto.NewPassword, salt);
+			memberInDb.Password = hashNewPassword;
+
+			_repo.Update(memberInDb);
+		}
 	}
 }

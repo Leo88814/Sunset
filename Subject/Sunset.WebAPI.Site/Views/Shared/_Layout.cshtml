@@ -44,20 +44,10 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="@Url.Action("About", "Home")">品牌理念</a></li>
-                                <li><a class="dropdown-item" href="Theater-Info.html">影城位置</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                                News
-                            </a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="#">影城公告</a></li>
-                                <li><a class="dropdown-item" href="#">影城活動</a></li>
                             </ul>
                         </li>
                         <li class="nav-item">
-                            <a href="Support-QA.HTML" class="nav-link text-light">常見問題</a>
+                            <a href="~/Home/QandA" class="nav-link text-light">常見問題</a>
                         </li>
                     </ul>
                     <div class="contain-flex align-items-center text-end ">
@@ -77,8 +67,8 @@
                                                  class="login-icon" />
                                         </a>
                                         <ul class="dropdown-menu dropdown-menu-end">
-                                            <li><a class="dropdown-item" href="">變更資料</a></li>
-                                            <li><a class="dropdown-item" href="">變更密碼</a></li>
+                                            <li><a class="dropdown-item" href="~/MemberLogin/ChangeProfile">變更資料</a></li>
+                                            <li><a class="dropdown-item" href="@Url.Action("ChangePassword", "MemberLogin")">變更密碼</a></li>
                                             <li><a class="dropdown-item" href="~/Member/Tickets">票夾</a></li>
                                             <li><a class="dropdown-item" href="~/Member/UserHistory">歷史訂單</a></li>
                                             <li><a class="dropdown-item" href="~/Member/TransactionHistory">儲值資訊</a></li>
@@ -116,12 +106,12 @@
                     <div class="col-md-6 text-center text-md-start mb-2 mb-md-0">
                         <span>&copy; Sunset</span>
                     </div>
-                    <div class="col-md-6 text-center text-md-end">
-                        <a href="#" class="text-light mx-2">關於我們</a>
-                        <a href="#" class="text-light mx-2">隱私政策</a>
-                        <a href="#" class="text-light mx-2">聯繫我們</a>
-                        <a href="#" class="text-light mx-2">人才招募</a>
-                    </div>
+                    @*<div class="col-md-6 text-center text-md-end">
+                            <a href="#" class="text-light mx-2">關於我們</a>
+                            <a href="#" class="text-light mx-2">隱私政策</a>
+                            <a href="#" class="text-light mx-2">聯繫我們</a>
+                            <a href="#" class="text-light mx-2">人才招募</a>
+                        </div>*@
                 </div>
             </div>
         </footer>

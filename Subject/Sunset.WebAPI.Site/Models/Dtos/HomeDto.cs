@@ -11,7 +11,7 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 		public class HomeIndexPicture 
 		{
 			public int Id { get; set; }
-			public string Stills { get; set; }
+			public string IndexPicture { get; set; }
 		}
 
 		public class HomeIndexFeaturedFilms

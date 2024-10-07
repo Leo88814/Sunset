@@ -1,0 +1,155 @@
+﻿@{
+    ViewBag.Title = "變更資料";
+}
+<head>
+    <title>會員專區-變更資料</title>
+</head>
+
+<body>
+    <div id="app" class="page-container">
+        <!-- Breadcrumb 導航列 -->
+        <div class="container">
+            <nav aria-label="breadcrumb">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="@Url.Action("index", "Home")">首頁</a></li>
+                    <li class="breadcrumb">會員專區</li>
+                    <li class="breadcrumb">變更資料</li>
+                </ol>
+            </nav>
+        </div>
+
+        <main class="content-wrap">
+            <div class="container mt-5">
+                <h2 class="mb-4">變更資料</h2>
+                <form v-on:submit.prevent="updateProfile">
+                    <div class="mb-3">
+                        <label for="account" class="form-label">帳號名稱:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="account"
+                               v-model="formData.account"
+                               required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">姓名:</label>
+                        <input type="text"
+                               class="form-control"
+                               id="name"
+                               v-model="formData.memberName"
+                               required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="phone" class="form-label">電話</label>
+                        <input type="tel"
+                               class="form-control"
+                               id="phone"
+                               v-model="formData.phoneNumber" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="address" class="form-label">住址</label>
+                        <input type="text"
+                               class="form-control"
+                               id="address"
+                               v-model="formData.address" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="birthday" class="form-label">生日:</label>
+                        <input type="date"
+                               class="form-control"
+                               id="birthday"
+                               v-model="formData.dateOfBirth" />
+                    </div>
+                    <div class="d-flex justify-content-end">
+                        <button type="submit" class="btn btn-primary">保存</button>
+                    </div>
+                </form>
+            </div>
+        </main>
+    </div>
+    @section scripts{
+        <script>
+            const { createApp, ref, onMounted } = Vue;
+
+            const app = createApp({
+                setup() {
+                    function getCookie(name) {
+                        const value = `; ${document.cookie}`;
+                        const parts = value.split(`; ${name}=`);
+                        if (parts.length === 2) return parts.pop().split(';').shift();
+                        return null;
+                    }
+
+                    const token = getCookie('bookmovie');
+
+                    const memberId = getCookie('memberId');
+
+                    const formData = ref({
+                        id: memberId || 0,
+                        account: "",
+                        memberName: "",
+                        phoneNumber: "",
+                        address: "",
+                        dateOfBirth: "",
+                    });
+
+                    const fetchProfile = async () => {
+                        if (!memberId) {
+                            return;
+                        }
+
+                        try {
+                            const response = await fetch(`/api/RegisterApiController/getProfile/${memberId}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+
+                            if (response.ok) {
+                                const data = await response.json();
+                                formData.value = data;
+                            } else {
+                                console.error("無法獲取個人資料");
+                            }
+                        } catch (error) {
+                            console.error("獲取個人資料失敗:", error);
+                        }
+                    };
+
+                    const updateProfile = async () => {
+                        try {
+                            const response = await fetch('/api/RegisterApiController/updateProfile', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                },
+                                body: JSON.stringify(formData.value)
+                            });
+
+                            if (response.ok) {
+                                alert("用戶資料已更新");
+                            } else {
+                                alert("更新失敗");
+                            }
+                        } catch (error) {
+                            console.error("更新失敗:", error);
+                            alert("更新失敗");
+                        }
+                    };
+
+                    onMounted(() => {
+                        fetchProfile();
+                    });
+
+                    return {
+                        formData,
+                        updateProfile,
+                    };
+                },
+            });
+
+            app.mount("#app");
+        </script>
+    }
+</body>
