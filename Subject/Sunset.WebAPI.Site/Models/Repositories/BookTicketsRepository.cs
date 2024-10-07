@@ -8,6 +8,7 @@ using System.Web;
 using System.Web.Http.Results;
 using static Sunset.WebAPI.Site.Models.Dtos.CheckOrderDto;
 using static Sunset.WebAPI.Site.Models.Dtos.ChoiceDatesDto;
+using static Sunset.WebAPI.Site.Models.Dtos.GetCurrentOrderDto;
 
 
 namespace Sunset.WebAPI.Site.Models.Repositories
@@ -231,17 +232,13 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 					Rating = null
 				};
 				_db.MovieRatings.Add(movieRating);
+                _db.SaveChanges();
 
-
-				var memberBalance = _db.Members
-			   .Where(m => m.Id == memberId)
-			   .Select(m => m.CurrentBalance)
-			   .FirstOrDefault();
-			
-
-				try
+                try
 				{
-					_db.SaveChanges();
+                    member.CurrentBalance -= dto.DataForRemainingBalance.CurrentBalance;
+                    _db.Entry(member).Property(m => m.CurrentBalance).IsModified = true;
+                    _db.SaveChanges();
 					return true;
 				}
 				catch (Exception ex)
@@ -252,15 +249,39 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 			}
 		}
 
-		private string GenerateTicketNumber()
+        public GetCurrentOrderDto GetCurrentOrder(int memberIdInt)
+        {
+				var order = _db.Orders
+					.Where(o => o.MemberId == memberIdInt)
+					.OrderByDescending(o => o.OrderDate)
+					.Select(o => new GetCurrentOrderDto
+					{
+						OrderDate = o.OrderDate,
+						OrderNumber = o.OrderNumber,
+						MovieName = o.MovieReleaseSchedule.MovieInfo.MovieName,
+						ShowTimeDate = o.MovieReleaseSchedule.ShowDate.ShowTimeDate,
+						StartTime = o.MovieReleaseSchedule.ShowTime.StartTime,
+						AuditoriumName = o.MovieReleaseSchedule.Auditorium.AuditoriumName,
+						TicketDetails = o.OrderDetails.Select(od => new TicketDetailDto
+						{
+							TicketNumber = od.TicketNumber,
+							SeatNumber = od.Seat.SeatNumber,
+		
+						}).ToList()
+					})
+					.FirstOrDefault();
+            return order;
+        }
+
+        private string GenerateTicketNumber()
 		{
-			var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
-			var random = new Random();
+			var timestamp = DateTime.Now.Ticks.ToString();
+            var random = new Random();
 			var randomNumber = random.Next(1000, 9999);
-			var ticketNumber = "TIC-" + timestamp + "-" + randomNumber;
+			var ticketNumber = $"TIC-{timestamp}-{randomNumber}";
 			return ticketNumber;
 		}
 
-	
-	}
+      
+    }
 }

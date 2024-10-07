@@ -62,8 +62,6 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 			}
 		}
 
-
-
 		private (string url, string token) ProcessLogin(string email)
 		{
 			var roles = string.Empty; // 沒有用到角色權限，所以存入空白

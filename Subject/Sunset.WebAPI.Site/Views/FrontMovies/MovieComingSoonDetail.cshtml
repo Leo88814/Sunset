@@ -48,9 +48,9 @@
                 <!-- 右邊電影詳細資料 -->
                 <div class="col-md-8">
                     <h1 class="movie-title">
-                        {{ movie.movieName }} <small>{{ movie.englishName }}</small>
+                        {{ movie.movieName }}
                     </h1>
-                    <p><strong>分級：</strong>{{ movie.grading }}</p>
+                    <p><strong>{{ movie.englishName }}</strong></p>
                     <p><strong>類型：</strong>{{ movie.genreName }}</p>
                     <p><strong>片長：</strong>{{ movie.duration }} </p>
                     <p><strong>語言：</strong>{{ movie.movieLanguage }}</p>
@@ -114,14 +114,14 @@
             const app = createApp({
                 setup() {
                     const movie = ref({});
-                    const apiUrl = "/api/FrontMoviesApiController/MovieComingSoonDetail"; // 確保API的路徑正確
-
-                    // 從 URL 中取得電影的 ID
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const movieId = urlParams.get('id');
+                    const apiUrl = "/api/FrontMoviesApiController/MovieComingSoonDetail";
 
                     const fetchMovieDetail = async () => {
                         try {
+                            const movieId = localStorage.getItem('selectedMovieId');
+                            if (!movieId) {
+                                throw new Error("Movie ID not found.");
+                            }
                             const response = await fetch(`${apiUrl}?id=${movieId}`);
                             if (!response.ok) {
                                 throw new Error(`API request failed with status: ${response.status}`);
@@ -129,8 +129,6 @@
                             const data = await response.json();
                             movie.value = {
                                 ...data,
-                                showtimes: Array.isArray(data.showtimes) ? data.showtimes : [], // 確保 showtimes 是陣列
-                                totalRating: isNaN(data.totalRating) ? 0 : data.totalRating,
                                 stills: Array.isArray(data.stills) ? data.stills : [],
                             };
                         } catch (error) {
@@ -140,11 +138,10 @@
 
                     onMounted(fetchMovieDetail);
 
-                    // 使用 computed 來格式化日期，僅顯示日期部分
                     const formattedPremiereDate = computed(() => {
                         if (!movie.value.premiereDate) return '';
                         const date = new Date(movie.value.premiereDate);
-                        return date.toISOString().split('T')[0];  // ISO 字串格式，分離出日期部分
+                        return date.toISOString().split('T')[0];
                     });
 
                     return {

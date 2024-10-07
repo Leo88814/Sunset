@@ -22,7 +22,7 @@ namespace Sunset.WebAPI.Site
 			RouteConfig.RegisterRoutes(RouteTable.Routes);
 			BundleConfig.RegisterBundles(BundleTable.Bundles);
 
-			// AutoMapper �t�m
+			// AutoMapper 
 			var config = new MapperConfiguration(cfg =>
 			{
 				cfg.AddProfile<MappingProfile>();

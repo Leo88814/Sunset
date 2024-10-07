@@ -104,12 +104,11 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
             {
                 return BadRequest("DataForMovieRating 的數據無效。");
             }
-			if (dto.DataForRemainingBalance == null)
-			{
-				return BadRequest("DataForRemainingBalance 的數據無效。");
-			}
-
-			var authHeader = Request.Headers.Authorization;
+            if (dto.DataForRemainingBalance == null)
+            {
+                return BadRequest("DataForMovieRating 的數據無效。");
+            }
+            var authHeader = Request.Headers.Authorization;
 			if (authHeader == null || authHeader.Scheme != "Bearer")
 			{
 				return Unauthorized();
@@ -132,51 +131,31 @@ namespace Sunset.WebAPI.Site.Controllers.Apis
 
             return Ok(result);
         }
-        
-        [HttpPut]
-        [Route("api/CheckOrderApi/RemainingBalance")]
-        public IHttpActionResult RemainingBalance([FromBody] RemainingBalanceDto dto)
+
+        [HttpGet]
+        [Route("api/CheckOrderApi/OrderComplete")]
+        public IHttpActionResult OrderComplete()
         {
-			if (dto == null)
-			{
-				return BadRequest("Invalid rating data.");
-			}
-			if (dto.Id <= 0)
-			{
-				return BadRequest("RemainingBalance 的數據無效。");
-			}
-			var authHeader = Request.Headers.Authorization;
-			if (authHeader == null || authHeader.Scheme != "Bearer")
-			{
-				return Unauthorized();
-			}
+            var authHeader = Request.Headers.Authorization;
+            if (authHeader == null || authHeader.Scheme != "Bearer")
+            {
+                return Unauthorized();
+            }
 
-			var token = authHeader.Parameter;
-			var memberId = GetMemberIdFromToken(token);
+            var token = authHeader.Parameter;
+            var memberId = GetMemberIdFromToken(token);
 
-			if (string.IsNullOrEmpty(memberId))
-			{
-				return Unauthorized();
-			}
-			var result = _service.PutCurrentBalance(dto, memberId);
+            if (string.IsNullOrEmpty(memberId))
+            {
+                return Unauthorized();
+            }
 
-			if (!result)
-			{
-				return InternalServerError();
-			}
+            var currentOrder = _service.GetCurrentOrder(memberId);
 
-			return Ok(result);
+            return Ok(currentOrder);
+        }
 
-		}
-
-		//[HttpGet]
-		//[Route("api/CheckOrderApi/OrderComplete")]
-		//public IHttpActionResult OrderComplete()
-		//      { 
-
-		//      }
-
-		private string GetMemberIdFromToken(string token)
+        private string GetMemberIdFromToken(string token)
         {
             try
             {

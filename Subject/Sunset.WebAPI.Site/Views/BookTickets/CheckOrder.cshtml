@@ -112,10 +112,8 @@
             </div>
 
             <div class="text-end mt-3">
-                <button v-on:click="goToPreviousPage" class="btn btn-outline-danger">
-                    上一頁
-                </button>
-                <button v-on:click="goToNextPage" class="btn btn-outline-primary ms-2">
+
+                <button v-on:click="goToNextPage" class="btn btn-primary ms-2">
                     確認訂單
                 </button>
             </div>
@@ -222,7 +220,7 @@
                         }
                     };
  
-                    const getCurrentBalance = async () => {
+                    const getCurrentBalance = async (data) => {
 
                         try {
                             const token = getCookie("bookmovie");
@@ -241,7 +239,7 @@
 
                             const data = await response.json();
                             storedBalance.value = data;
-
+                            return storedBalance.value
 
                         } catch (error) {
                             console.error('Error fetching topup history:', error);
@@ -270,9 +268,12 @@
                         DataForMovieRating: {
                             MovieInfoId: choiceMovieId.value,
                             rating: null,
+                        },
+                        DataForRemainingBalance: {
+                            CurrentBalance: totalTicketPrice.value
                         }
                     }
-                    
+                    console.log("remainingBalance.value", totalTicketPrice.value);
                     const goToNextPage = async () => {
                         try {
                             const token = getCookie("bookmovie");
@@ -309,8 +310,6 @@
                                 alert('Token not found. Please log in again.');
                                 return;
                             }
-
-
                         } catch { }
                     };
 

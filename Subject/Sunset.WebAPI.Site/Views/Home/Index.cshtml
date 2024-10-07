@@ -47,7 +47,7 @@
                          v-for="(movie, index) in featuredMovies"
                          :key="movie.id"
                          :class="{ active: index === 0 }">
-                        <img :src="movie.stills"
+                        <img :src="movie.indexPicture"
                              class="d-block w-100"
                              />
 
@@ -81,12 +81,12 @@
                          v-for="movie in recommendedMovies"
                          :key="movie.id"
                          style="width: 200px; margin: 10px"
-                         v-on:click="goToBooking(movie.id)">
+                         v-on:click="viewMovieDetail(movie.id)">
                         <img :src="movie.mainPicture" :alt="movie.movieName" />
                         <div class="movie-description">
                             <h5>{{ movie.movieName }}</h5>
                             <p>{{ movie.englishName }}</p>
-                            <p>總評分: {{ movie.totalRating }}</p>
+                          
                         </div>
                     </div>
                 </div>
@@ -118,9 +118,9 @@
                           throw new Error(`HTTP error! status: ${response.status}`);
                       }
 
-                      const data = await response.json();   
+                      const data = await response.json();
                       featuredMovies.value = data;
-                      
+
 
                   } catch (error) {
                       console.error("Error:", error);
@@ -142,35 +142,35 @@
 
                       const data = await response.json();
                       recommendedMovies.value = data;
-                  
+
 
                   } catch (error) {
                       console.error("Error:", error);
                   }
               };
-          
 
+              const viewMovieDetail = (movieId) => {
+                  localStorage.setItem('selectedMovieId', movieId);
+                  window.location.href = '@Url.Action("MovieDetail", "FrontMovies")';
+              };
 
               onMounted(() => {
                   GetHomeIndexPicture();
                   GetTopFive();
               })
 
-          const goToBooking = (movieId) => {
-            window.location.href = `Booking-ChoiceDate.html?movieId=${movieId}`;
-          };
 
           return {
             GetHomeIndexPicture,
             featuredMovies,
             recommendedMovies,
-              goToBooking,
+              viewMovieDetail,
               GetTopFive,
-            
+
           };
         }
       }
-       
+
       const app = createApp(config)
       app.mount("#app");
     </script>

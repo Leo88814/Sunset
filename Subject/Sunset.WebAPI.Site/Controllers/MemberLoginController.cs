@@ -47,7 +47,9 @@ namespace Sunset.WebAPI.Site.Controllers
 
 			if (result.IsSuccess)
 			{
-				return RedirectToAction("Index"); //更新成功，回到會員中心頁
+                TempData["SuccessMessage"] = "密碼已成功更改！";
+              
+                return RedirectToAction("ChangePassword", "MemberLogin"); //更新成功，回到會員中心頁
 			}
 
 			ModelState.AddModelError(string.Empty, result.ErrorMessage);

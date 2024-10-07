@@ -84,5 +84,11 @@ namespace Sunset.WebAPI.Site.Models.Services
 			var orderNumber = "MOV-" + timestamp + "-" + randomNumber;
 			return _repo.PostOrder(dto, memberIdInt,orderNumber);
 		}
-	}
+
+        public GetCurrentOrderDto GetCurrentOrder(string memberId)
+        {
+            int memberIdInt = int.Parse(memberId);
+            return _repo.GetCurrentOrder(memberIdInt);
+        }
+    }
 }

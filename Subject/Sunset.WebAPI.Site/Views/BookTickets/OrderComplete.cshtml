@@ -27,30 +27,30 @@
                     </tr>
                     <tr>
                         <th>訂單編號</th>
-                        <td>{{ordernumber}}</td>
+                        <td>{{order.orderNumber}}</td>
                     </tr>
                     <tr>
                         <th>電影票號</th>
                         <td>
                             <ul>
                                 <!-- 顯示多個電影票號 -->
-                                <li v-for="(ticket, index) in ticketnumbers" :key="index">
-                                    {{ ticket }}
+                                <li v-for="(seat, index) in selectedSeats" :key="index">
+                                    {{ seat.ticketNumber }}
                                 </li>
                             </ul>
                         </td>
                     </tr>
                     <tr>
                         <th>電影名稱</th>
-                        <td>{{ selectedMovie?.name }}</td>
+                        <td>{{ order.movieName }}</td>
                     </tr>
                     <tr>
                         <th>日期場次</th>
-                        <td>{{ selectedDate?.date }} {{ selectedTime?.time }}</td>
+                        <td>{{ order.showtimeDateString }} {{ order.startTimeMin }}</td>
                     </tr>
                     <tr>
                         <th>影廳</th>
-                        <td></td>
+                        <td>{{ order.auditoriumName }}</td>
                     </tr>
                     <tr>
                         <th>票種</th>
@@ -63,7 +63,10 @@
                     <tr>
                         <th>座位</th>
                         <td>
-                            <span> {{ formattedSeats }} </span>
+                            <span v-for="(seat, index) in selectedSeats" :key="index">
+                                {{ seat.seatNumber }}
+                                <span v-if="index < selectedSeats.length - 1">, </span>
+                            </span>
                         </td>
                     </tr>
                 </tbody>
@@ -87,13 +90,9 @@
             const config = {
 
                 setup() {
-                    const selectedMovie = ref(null);
-                    const selectedDate = ref(null);
-                    const selectedTime = ref(null);
-                    const ordernumber = ref("0120240831001");
-                    const ticketnumbers = ref([]);
+                    const order = ref([]);
                     const selectedTickets = ref([]);
-                    const selectedSeats = ref([]);
+                    const selectedSeats = ref();
 
                     // 計算總票數
                     const totalTickets = computed(() => {
@@ -102,15 +101,39 @@
                             0
                         );
                     });
+                    const getOrder = async () => {
+                        const token = getCookie("bookmovie");
+                        if (!token) {
+                            alert('Token not found. Please log in again.');
+                            return;
+                        }
+                        try {
+                            const response = await fetch(`/api/CheckOrderApi/OrderComplete`, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            order.value = data;
+                            selectedSeats.value = data.ticketDetails;
 
+
+                            //return choiceMovieId.value
+                        } catch (error) {
+                            console.error("Error:", error);
+                        }
+                    };
 
                     // 當頁面掛載時，從 localStorage 讀取資料
                     onMounted(() => {
-                   
+                        getOrder();
                         const savedTickets = JSON.parse(
                             localStorage.getItem("selectedTickets")
                         );
-                    
+
                         if (savedTickets) selectedTickets.value = savedTickets;
                     });
 
@@ -136,24 +159,32 @@
                     };
 
                     const goToNextPage = () => {
-                        window.location.href = "User-Ticket.html"; // 跳轉到票夾
+                        window.location.href = "@Url.Action("Tickets", "Member")"; // 跳轉到票夾
                     };
 
                     return {
+                        order,
+                        selectedSeats,
                         orderInfo,
                         goBack,
                         goToNextPage,
-                    
                         selectedTickets,
                         formattedSeats,
-                     
-                      
+                        getOrder,
+
                     };
                 },
             };
 
             const app = createApp(config);
             app.mount("#app");
+
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
         </script>
     }
 </body>

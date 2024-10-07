@@ -236,6 +236,7 @@
     <Compile Include="Models\Dtos\ChoiceMoviesDto.cs" />
     <Compile Include="Models\Dtos\ChoiceSeatsDto.cs" />
     <Compile Include="Models\Dtos\CurrentBalanceDto.cs" />
+    <Compile Include="Models\Dtos\GetCurrentOrderDto.cs" />
     <Compile Include="Models\Dtos\GetMovieScheduleDto.cs" />
     <Compile Include="Models\Dtos\GetTicketsInfoDto.cs" />
     <Compile Include="Models\Dtos\HomeDto.cs" />
@@ -246,6 +247,7 @@
     <Compile Include="Models\Dtos\MovieDto.cs" />
     <Compile Include="Models\Dtos\MovieReleaseScheduleDto.cs" />
     <Compile Include="Models\Dtos\PostOrderDto.cs" />
+    <Compile Include="Models\Dtos\ProfileDto.cs" />
     <Compile Include="Models\Dtos\RateOrderDto.cs" />
     <Compile Include="Models\Dtos\RegisterDto.cs" />
     <Compile Include="Models\Dtos\TopupDto.cs" />
@@ -254,6 +256,7 @@
     <Compile Include="Models\EFModels\Auditorium.cs" />
     <Compile Include="Models\EFModels\Cinema.cs" />
     <Compile Include="Models\EFModels\CustomerService.cs" />
+    <Compile Include="Models\EFModels\MediaSlide.cs" />
     <Compile Include="Models\EFModels\Member.cs" />
     <Compile Include="Models\EFModels\MovieGenre.cs" />
     <Compile Include="Models\EFModels\MovieImage.cs" />
@@ -265,6 +268,7 @@
     <Compile Include="Models\EFModels\Seat.cs" />
     <Compile Include="Models\EFModels\ShowDate.cs" />
     <Compile Include="Models\EFModels\ShowTime.cs" />
+    <Compile Include="Models\EFModels\sysdiagram.cs" />
     <Compile Include="Models\EFModels\Ticket.cs" />
     <Compile Include="Models\EFModels\Topup.cs" />
     <Compile Include="Models\EFModels\TransactionHistory.cs" />
@@ -281,6 +285,7 @@
     <Compile Include="Models\Repositories\MovieBlockbusterRepository.cs" />
     <Compile Include="Models\Repositories\MovieComingSoonRepository.cs" />
     <Compile Include="Models\Repositories\MovieDetailRepository.cs" />
+    <Compile Include="Models\Repositories\ProfileRepository.cs" />
     <Compile Include="Models\Repositories\TransactionHistoryRepository.cs" />
     <Compile Include="Models\Repositories\UserHistoryRepository.cs" />
     <Compile Include="Models\Result.cs" />
@@ -290,6 +295,7 @@
     <Compile Include="Models\Services\MovieBlockbusterService.cs" />
     <Compile Include="Models\Services\MovieComingSoonService.cs" />
     <Compile Include="Models\Services\MovieDetailService.cs" />
+    <Compile Include="Models\Services\ProfileService.cs" />
     <Compile Include="Models\Services\TransactionHistoryService.cs" />
     <Compile Include="Models\Services\UserHistoryService.cs" />
     <Compile Include="Models\ViewModels\ChangePasswordVm.cs" />
@@ -479,6 +485,7 @@
     <Content Include="Views\MemberLogin\ChangeProfile.cshtml" />
     <Content Include="Views\BookTickets\OrderComplete.cshtml" />
     <Content Include="Views\MemberLogin\ChangePassword.cshtml" />
+    <Content Include="Views\Home\QandA.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

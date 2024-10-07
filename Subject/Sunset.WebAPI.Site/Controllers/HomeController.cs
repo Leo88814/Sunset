@@ -6,13 +6,17 @@ using System.Web.Mvc;
 
 namespace Sunset.WebAPI.Site.Controllers
 {
-	public class HomeController : Controller
-	{
-		public ActionResult Index()
-		{
-			return View();
-		}
+    public class HomeController : Controller
+    {
+        public ActionResult Index()
+        {
+            return View();
+        }
         public ActionResult About()
+        {
+            return View();
+        }
+        public ActionResult QandA()
         {
             return View();
         }

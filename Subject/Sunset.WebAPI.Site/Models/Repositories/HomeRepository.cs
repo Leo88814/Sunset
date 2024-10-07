@@ -17,13 +17,13 @@ namespace Sunset.WebAPI.Site.Models.Repositories
 
 		public List<HomeDto.HomeIndexPicture> GetHomePicture()
 		{
-			var movieImages = _db.MovieImages
-				.Where(mig => mig.stills == "Main1.jpg" || mig.stills == "Main2.jpg" || mig.stills == "Main4.jpg")
+			var movieImages = _db.MediaSlides
+				.Where(mig => mig.IndexPicture == "Main1.jpg" || mig.IndexPicture == "Main2.jpg" || mig.IndexPicture == "Main4.jpg")
 				.Select(mig => new HomeDto.HomeIndexPicture
 				{
 					Id = mig.Id,
-					Stills = mig.stills
-				})
+                    IndexPicture = mig.IndexPicture
+                })
 				.ToList();
 
 			return movieImages;

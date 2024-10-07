@@ -12,7 +12,7 @@ namespace Sunset.WebAPI.Site.Models.Services
 
         public MovieBlockbusterService()
         {
-			_repository = new MovieBlockbusterRepository();
+            _repository = new MovieBlockbusterRepository();
         }
 
         public List<MovieBlockbusterDto> GetInfo()
@@ -39,21 +39,21 @@ namespace Sunset.WebAPI.Site.Models.Services
             }
         }
 
-		public List<MovieBlockbusterDto> GetMovies()
-		{
-			return _repository.GetMoviesWithAverageRatings();
-		}
+        public List<MovieBlockbusterDto> GetMovies()
+        {
+            return _repository.GetMoviesWithAverageRatings();
+        }
 
-		// 計算電影平均評分的方法
-		private decimal CalculateAverageRating(int movieId)
-		{
-			var ratings = _repository.GetRatingsByMovieId(movieId);
-			if (ratings == null || ratings.Count == 0)
-			{
-				return 0; // 如果沒有評分，返回 0
-			}
+        // 計算電影平均評分的方法
+        private decimal CalculateAverageRating(int movieId)
+        {
+            var ratings = _repository.GetRatingsByMovieId(movieId);
+            if (ratings == null || ratings.Count == 0)
+            {
+                return 0; // 如果沒有評分，返回 0
+            }
 
-			return (decimal)ratings.Average(r => r.Rating); // 假設 Rating 是評分的數值
-		}
+            return (decimal)ratings.Average(r => r.Rating); // 假設 Rating 是評分的數值
+        }
     }
 }

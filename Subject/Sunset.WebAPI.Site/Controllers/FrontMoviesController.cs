@@ -18,11 +18,11 @@ namespace Sunset.WebAPI.Site.Controllers
         }
         public ActionResult MovieComingSoon()
         {
-			return View();
-		}
-		public ActionResult MovieComingSoonDetail()
-		{
-			return View();
-		}
-	}
+            return View();
+        }
+        public ActionResult MovieComingSoonDetail()
+        {
+            return View();
+        }
+    }
 }
