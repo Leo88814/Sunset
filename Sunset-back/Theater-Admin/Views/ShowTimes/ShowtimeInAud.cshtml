@@ -1,0 +1,232 @@
+﻿@model IEnumerable<Theater_Admin.Models.Vms.ShowtimeVm>
+
+@{
+    ViewBag.Title = "影廳場次";
+}
+
+<div id="app">
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
+        <h2 class="text-center text-white mb-4">管理系統</h2>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <!-- 維護會員系統 -->
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMember"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMember">
+                    維護會員系統
+                </a>
+                <div class="collapse" id="collapseMember">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Members")" class="nav-link text-white">註銷會員</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 電影詳情頁面 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMovie"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMovie">
+                    電影清單頁面
+                </a>
+                <div class="collapse" id="collapseMovie">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Movie")" class="nav-link text-white">電影清單</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 購票訂位系統 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseBooking"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseBooking">
+                    購票訂位系統
+                </a>
+                <div class="collapse" id="collapseBooking">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Auditorum")" class="nav-link text-white">影廳管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ShowtimeIndex", "ShowTimes")" class="nav-link text-white">場次管理</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 客服Q&A -->
+            <li>
+                <a href="@Url.Action("Logout", "Users")" class="nav-link text-white">登出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="header ">
+        <div class="container-fluid d-flex  ">
+
+            <h1 class="text-end pe-5 pt-2" style="align-content">Sunset影城管理系統</h1>
+            <img src="~/Img/sunset-svgrepo-com.png" alt="Logo" class="me-3" />
+        </div>
+    </div>
+    <div class="content">
+        <div class="container mt-4">
+            <button v-on:click="addShowtime" class="btn btn-primary mb-3 text-end">新增場次</button>
+
+
+            <h1 class="mb-4">影廳場次列表</h1>
+
+            <table class="table table-striped">
+                <thead>
+                    <tr>
+                        <th>電影名稱</th>
+                        <th>日期</th>
+                        <th>開始時間</th>
+                        <th>結束時間</th>
+                        <th>操作</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr v-for="showtime in showtimes" :key="showtime.id">
+                        <td>{{ getMovieName(showtime.movieInfoId) }}</td>
+                        <td>{{ getDate(showtime.showDateId) }}</td>
+                        <td>{{ showtime.startTime }}</td>
+                        <td>{{ showtime.endTime }}</td>
+                        <td>
+                            <button v-on:click="deleteShowtime(showtime.id)" class="btn btn-danger btn-sm">刪除</button>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+@section scripts {
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const { ref, onMounted } = Vue;
+
+        const app = Vue.createApp({
+            
+            setup() {
+                const showtimes = ref([]);
+                const movies = ref({});
+                const dates = ref({});
+
+                const fetchShowtimes = async () => {
+                    try {
+                        const urlParams = new URLSearchParams(window.location.search);
+                        const auditoriumId = urlParams.get('id');
+                        const response = await fetch(`/apis/showtime/GetAll?id=${auditoriumId}`);
+                        if (!response.ok) {
+                            throw new Error('獲取場次列表失敗');
+                        }
+                        const data = await response.json();
+                        showtimes.value = data;
+                        await fetchMovies(data);
+                        await fetchDates(data);
+                    } catch (error) {
+                        console.error("獲取場次列表失敗:", error);
+                    }
+                };
+
+                const fetchMovies = async (showtimes) => {
+                    const movieIds = [...new Set(showtimes.map(s => s.movieInfoId))];
+                    if (movieIds.length === 0) return;
+                    try {
+                        const response = await fetch(`/apis/showtime/GetMoviesByIds?ids=${movieIds.join(',')}`);
+                        if (!response.ok) {
+                            throw new Error('獲取電影信息失敗');
+                        }
+                        const data = await response.json();
+                        movies.value = data.reduce((acc, movie) => {
+                            acc[movie.id] = movie.movieName;
+                            return acc;
+                        }, {});
+                    } catch (error) {
+                        console.error("獲取電影信息失敗:", error);
+                    }
+                };
+
+                const fetchDates = async (showtimes) => {
+                    const dateIds = [...new Set(showtimes.map(s => s.showDateId))];
+                    if (dateIds.length === 0) return;
+                    try {
+                        const response = await fetch(`/apis/showtime/GetDatesByIds?ids=${dateIds.join(',')}`);
+                        if (!response.ok) {
+                            throw new Error('獲取日期信息失敗');
+                        }
+                        const data = await response.json();
+                        dates.value = data.reduce((acc, date) => {
+                            acc[date.id] = date.showTimeDate;
+                            return acc;
+                        }, {});
+                    } catch (error) {
+                        console.error("獲取日期信息失敗:", error);
+                    }
+                };
+
+                const getMovieName = (movieId) => {
+                    return movies.value[movieId] || '未知電影';
+                };
+
+                const getDate = (dateId) => {
+                    /*return dates.value[dateId] || '未知日期';*/
+                    const fullDate = dates.value[dateId];
+                    if (fullDate) {
+                        return fullDate.split('T')[0]; // 只返回 'T' 之前的部分
+                    }
+                    return '未知日期';
+                };
+
+                const deleteShowtime = async (showtimeId) => {
+                    if (!confirm('確定要刪除這個場次嗎？')) {
+                        return;
+                    }
+                    try {
+                        const response = await fetch(`/apis/showtime/Delete/${showtimeId}`, {
+                            method: 'DELETE'
+                        });
+                        if (!response.ok) {
+                            throw new Error('刪除場次失敗');
+                        }
+                        // 刪除成功後，重新獲取場次列表
+                        await fetchShowtimes();
+                    } catch (error) {
+                        console.error("刪除場次失敗:", error);
+                        alert("刪除場次失敗，無法刪除已有訂單的場次");
+                    }
+                };
+
+                const addShowtime = () => {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const auditoriumId = urlParams.get('id');
+                    window.location.href = `@Url.Action("CreateShowtime", "Showtimes")?auditoriumId=${auditoriumId}`;
+                };
+              
+                onMounted(() => {
+                    fetchShowtimes();
+                });
+
+                return {
+                    showtimes,
+                    getMovieName,
+                    getDate,
+                    deleteShowtime,
+                                addShowtime
+                };
+            },
+        });
+
+        app.mount("#app");
+    </script>
+}

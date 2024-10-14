@@ -1,0 +1,180 @@
+﻿@{
+    ViewBag.Title = "QandA";
+}
+<title>Q&A</title>
+<style>
+    .faq-item {
+        cursor: pointer;
+    }
+    .page-container {
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .breadcrumb {
+        display: flex;
+        list-style: none;
+        padding: 0;
+        margin: 10px 0;
+        align-items: center;
+        background-color: transparent; /* 移除背景色 */
+    }
+    .breadcrumb-item {
+        display: inline-flex;
+        align-items: center;
+        margin-right: 10px;
+    }
+    .breadcrumb-item a {
+        text-decoration: none;
+        color: #5c4f3a; /* 使用styles2的文字顏色 */
+    }
+    .breadcrumb-item a:hover {
+        font-weight: bold;
+        color: #4a3f35; /* 使用styles2的懸停顏色 */
+    }
+    .breadcrumb-item::after {
+        content: ">";
+        margin-left: 10px;
+        color: #a67c52; /* 使用styles2的分隔符號顏色 */
+    }
+    .breadcrumb-item:last-child::after {
+        content: "";
+    }
+    h1 {
+        color: #343a40; /* 深灰色文字 */
+        font-size: 2rem;
+        margin-bottom: 20px;
+    }
+    .list-unstyled {
+        padding-left: 0;
+    }
+    .list-unstyled li {
+        background-color: #f1f3f5; /* 更淺的灰色背景 */
+        padding: 15px;
+        margin-bottom: 10px;
+        border-radius: 4px;
+        transition: background-color 0.3s;
+    }
+    .list-unstyled li:hover {
+        background-color: #e2e6ea; /* 當滑鼠懸停時的背景色 */
+    }
+    .list-unstyled li strong {
+        color: #495057; /* 中灰色文字 */
+    }
+    .list-unstyled li div {
+        color: #6c757d; /* 灰色文字 */
+        font-size: 0.9rem;
+    }
+    .breadcrumb {
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .breadcrumb-item a {
+        color: #ffd700;
+    }
+
+    .breadcrumb-item.active {
+        color: #ffffff;
+    }
+</style>
+<body>
+    <div id="app">
+        <div class="page-container">
+            <!-- Breadcrumb 導航列 -->
+            <div class="container">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="@Url.Action("index", "Home")">首頁</a></li>
+                        <li class="breadcrumb">常見問題</li>
+                    </ol>
+                </nav>
+            </div>
+
+            <div class="content-wrap">
+                <main class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h1 class="mt-5">常見問題</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12">
+                            <ul class="list-unstyled">
+                                <li class="mt-3"
+                                    v-for="item in faqList"
+                                    :key="item.id"
+                                    v-on:click="toggleDetail(item.id)"
+                                    style="cursor: pointer">
+                                    <strong>{{ item.title }}</strong>
+                                    <div v-if="item.showDetail" class="mt-2">
+                                        {{ item.detail }}
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </main>
+            </div>
+        </div>
+    </div>
+    @section scripts{
+        <script>
+            const { createApp, ref, onMounted } = Vue;
+            const app = createApp({
+                setup() {
+                    // 範例資料
+                    const faqList = ref([
+                        {
+                            id: 1,
+                            title: "如何取消預訂的票？",
+                            detail: "預訂的票無法於電影開始30分鐘前取消，請提前做好規劃。",
+                            showDetail: false,
+                        },
+                        {
+                            id: 2,
+                            title: "退票問題",
+                            detail:
+                                "關於取消的票，退款的金額會接退至您的儲值金中，請在確認您的儲值金餘額。",
+                            showDetail: false,
+                        },
+                        {
+                            id: 3,
+                            title: "票種分類有哪些？",
+                            detail: "全票$230、優待票$200、愛心票$180。",
+                            showDetail: false,
+                        },
+                        {
+                            id: 4,
+                            title: "票種證明",
+                            detail: "優待票：學生證、軍警相關證明文件。愛心票：未滿5歲、年滿65歲以上，身心障礙人士需出示身心障礙證件入場需出示證件。",
+                            showDetail: false,
+                        },
+                        {
+                            id: 5,
+                            title: "取票須知",
+                            detail:
+                                "請於電影開演前30分鐘，持訂單編號或此確認單及相關證明文件至售票櫃台取票，逾時完成取票者，此訂票紀錄作廢。",
+                            showDetail: false,
+                        },
+                    ]);
+
+                    const toggleDetail = (id) => {
+                        const faq = faqList.value.find((item) => item.id === id);
+                        if (faq) {
+                            faq.showDetail = !faq.showDetail;
+                        }
+                    };
+
+                    //onMounted(() => {
+                    //    fetchFaq(); // 預留 API 呼叫
+                    //});
+
+                    return { faqList, toggleDetail };
+                },
+            });
+            app.mount("#app");
+        </script>
+    }
+</body>

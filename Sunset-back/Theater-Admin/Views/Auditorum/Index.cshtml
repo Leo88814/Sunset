@@ -1,0 +1,234 @@
+﻿@model IEnumerable<Theater_Admin.Models.Vms.AuditoriumVm>
+
+@{
+    ViewBag.Title = "影廳管理";
+
+}
+
+<div id="app">
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
+        <h2 class="text-center text-white mb-4">管理系統</h2>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <!-- 維護會員系統 -->
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMember"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMember">
+                    維護會員系統
+                </a>
+                <div class="collapse" id="collapseMember">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Members")" class="nav-link text-white">註銷會員</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 電影詳情頁面 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMovie"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMovie">
+                    電影清單頁面
+                </a>
+                <div class="collapse" id="collapseMovie">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Movie")" class="nav-link text-white">電影清單</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 購票訂位系統 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseBooking"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseBooking">
+                    購票訂位系統
+                </a>
+                <div class="collapse" id="collapseBooking">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Auditorum")" class="nav-link text-white">影廳管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ShowtimeIndex", "ShowTimes")" class="nav-link text-white">場次管理</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 客服Q&A -->
+            <li>
+                <a href="@Url.Action("Logout", "Users")" class="nav-link text-white">登出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="header ">
+        <div class="container-fluid d-flex  ">
+
+            <h1 class="text-end pe-5 pt-2" style="align-content">Sunset影城管理系統</h1>
+            <img src="~/Img/sunset-svgrepo-com.png" alt="Logo" class="me-3" />
+        </div>
+    </div>
+    <div class="content">
+        <!-- 影廳管理的内容 -->
+        <div class="container mt-4">
+            <h1 class="mb-4">影廳管理</h1>
+
+            <!-- 影廳列表 -->
+            <div class="row">
+                <div v-for="auditorium in auditoriums" :key="auditorium.id" class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title" v-on:click="openEditModal(auditorium)" style="cursor: pointer; color: #007bff">
+                                {{ auditorium.auditoriumName }}
+                            </h5>
+                            <p class="card-text">座位數: {{ auditorium.seatCapacity }}</p>
+                            <p class="card-text">
+                                狀態:
+                                <span :class="auditorium.statusBadgeClass">{{ auditorium.statusText }}</span>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 編輯影廳狀態的彈出視窗 -->
+            <div v-if="editingAuditorium" class="modal fade show" style="display: block" tabindex="-1">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">編輯影廳狀態</h5>
+                            <button type="button" class="btn-close" v-on:click="closeEditModal"></button>
+                        </div>
+                        <div class="modal-body">
+                            <p>影廳名稱: {{ editingAuditorium.auditoriumName }}</p>
+                            <select v-model="editingAuditorium.auditoriumStatus" class="form-select">
+                                <option value="Active">使用中</option>
+                                <option value="Maintenance">維護中</option>
+                                <option value="Idle">閒置中</option>
+                            </select>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" v-on:click="closeEditModal">取消</button>
+                            <button type="button" class="btn btn-primary" v-on:click="updateAuditoriumStatus">保存</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div v-if="editingAuditorium" class="modal-backdrop fade show"></div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const { ref, onMounted } = Vue;
+
+        const app = Vue.createApp({
+            
+            setup() {
+                const auditoriums = ref([]);
+                const editingAuditorium = ref(null);
+
+                const getStatusText = (status) => {
+                    const statusMap = {
+                        Active: "使用中",
+                        Maintenance: "維護中",
+                        Idle: "閒置中",
+                    };
+                    return statusMap[status] || "未知狀態";
+                };
+
+                const getStatusBadgeClass = (status) => {
+                    const classMap = {
+                        Active: "badge bg-success",
+                        Maintenance: "badge bg-warning text-dark",
+                        Idle: "badge bg-secondary",
+                    };
+                    return classMap[status] || "badge bg-light text-dark";
+                };
+
+                const fetchAuditoriums = async () => {
+                    try {
+                        const response = await fetch('/apis/aud/Getall');
+                        if (!response.ok) {
+                            throw new Error('獲取影廳列表失敗');
+                        }
+                        const data = await response.json();
+                        auditoriums.value = data.map(auditorium => ({
+                            ...auditorium,
+                            statusText: getStatusText(auditorium.auditoriumStatus),
+                            statusBadgeClass: getStatusBadgeClass(auditorium.auditoriumStatus)
+                        }));
+                        console.log(auditoriums.value);
+                    } catch (error) {
+                        console.error("獲取影廳列表失敗:", error);
+                    }
+                };
+
+                const openEditModal = (auditorium) => {
+                    editingAuditorium.value = { ...auditorium };
+                };
+
+                const closeEditModal = () => {
+                    editingAuditorium.value = null;
+                };
+
+                const updateAuditoriumStatus = async () => {
+                    try {
+                        const response = await fetch(`/apis/aud/edit/${editingAuditorium.value.id}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                            },
+                            body: JSON.stringify(editingAuditorium.value),
+                        });
+
+                        if (!response.ok) {
+                            throw new Error('更新影廳狀態失敗');
+                        }
+
+                        const updatedAuditorium = await response.json();
+                        const index = auditoriums.value.findIndex(a => a.id === updatedAuditorium.id);
+                        if (index !== -1) {
+                            auditoriums.value[index] = {
+                                ...auditoriums.value[index],
+                                ...updatedAuditorium,
+                                statusText: getStatusText(updatedAuditorium.auditoriumStatus),
+                                statusBadgeClass: getStatusBadgeClass(updatedAuditorium.auditoriumStatus)
+                            };
+                        }
+                        closeEditModal();
+                    } catch (error) {
+                        console.error("更新影廳狀態失敗:", error);
+                    }
+                };
+
+                onMounted(() => {
+                    fetchAuditoriums();
+                });
+
+                return {
+                    auditoriums,
+                    editingAuditorium,
+                    openEditModal,
+                    closeEditModal,
+                    updateAuditoriumStatus,
+                };
+            },
+        });
+
+        app.mount("#app");
+    </script>
+}

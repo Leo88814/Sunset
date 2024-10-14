@@ -1,0 +1,147 @@
+﻿@model IEnumerable<Theater_Admin.Models.Dtos.AuditoriumDto>
+
+@{
+    ViewBag.Title = "場次管理";
+}
+
+<div id="app">
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
+        <h2 class="text-center text-white mb-4">管理系統</h2>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <!-- 維護會員系統 -->
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMember"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMember">
+                    維護會員系統
+                </a>
+                <div class="collapse" id="collapseMember">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Members")" class="nav-link text-white">註銷會員</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 電影詳情頁面 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMovie"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMovie">
+                    電影清單頁面
+                </a>
+                <div class="collapse" id="collapseMovie">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Movie")" class="nav-link text-white">電影清單</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 購票訂位系統 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseBooking"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseBooking">
+                    購票訂位系統
+                </a>
+                <div class="collapse" id="collapseBooking">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Auditorum")" class="nav-link text-white">影廳管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ShowtimeIndex", "ShowTimes")" class="nav-link text-white">場次管理</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 客服Q&A -->
+            <li>
+                <a href="@Url.Action("Logout", "Users")" class="nav-link text-white">登出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="header ">
+        <div class="container-fluid d-flex  ">
+
+            <h1 class="text-end pe-5 pt-2" style="align-content">Sunset影城管理系統</h1>
+            <img src="~/Img/sunset-svgrepo-com.png" alt="Logo" class="me-3" />
+        </div>
+    </div>
+    <div class="content">
+
+
+        <div class="container mt-4">
+            <h1 class="mb-4">選擇影廳</h1>
+
+            <div class="row">
+                <div v-for="auditorium in auditoriums" :key="auditorium.id" class="col-md-4 mb-3">
+                    <div class="card">
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="#" v-on:click.prevent="theaterShowtimesPage(auditorium.id)" class="text-decoration-none">
+                                    {{ auditorium.auditoriumName }}
+                                </a>
+                            </h5>
+                            <p class="card-text">座位數: {{ auditorium.seatCapacity }}</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section scripts {
+    <script src="https://unpkg.com/vue@3"></script>
+    <script>
+        const { ref, onMounted } = Vue;
+
+        const app = Vue.createApp({
+            
+            setup() {
+                const auditoriums = ref([]);
+
+                const fetchAuditoriums = async () => {
+                    try {
+                        const response = await fetch('/apis/aud/Getall');
+                        if (!response.ok) {
+                            throw new Error('獲取影廳列表失敗');
+                        }
+                        const data = await response.json();
+                        auditoriums.value = data;
+                        console.log(auditoriums.value);
+                    } catch (error) {
+                        console.error("獲取影廳列表失敗:", error);
+                    }
+                };
+
+                const theaterShowtimesPage = (auditoriumId) => {
+                    window.location.href = `@Url.Action("ShowtimeInAud", "Showtimes")?id=${auditoriumId}`;
+                };
+
+                onMounted(() => {
+                    fetchAuditoriums();
+                });
+
+                return {
+                    auditoriums,
+                    theaterShowtimesPage,
+                };
+            },
+        });
+
+        app.mount("#app");
+    </script>
+}
+

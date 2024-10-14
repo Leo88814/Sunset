@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.Title = "電影詳情";
 }
-
+<title>電影詳情</title>
 <style>
     iframe {
         width: 100%;
@@ -20,6 +20,19 @@
             height: 100%;
             object-fit: cover;
         }
+        .breadcrumb {
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .breadcrumb-item a {
+        color: #ffd700;
+    }
+
+    .breadcrumb-item.active {
+        color: #ffffff;
+    }
 </style>
 
 <body>
@@ -27,7 +40,7 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">首頁</a></li>
                     <li class="breadcrumb">電影列表</li>
                     <li class="breadcrumb">
                         <a href="MovieBlockbuster">強檔熱映</a>
@@ -48,8 +61,9 @@
                 <!-- 右邊電影詳細資料 -->
                 <div class="col-md-8">
                     <h1 class="movie-title">
-                        {{ movie.movieName }} <small>{{ movie.englishName }}</small>
+                        {{ movie.movieName }}
                     </h1>
+                    <p><strong>{{ movie.englishName }}</strong></p>
                     <p><strong>分級：</strong>{{ movie.grading }}</p>
                     <p><strong>類型：</strong>{{ movie.genreName }}</p>
                     <p><strong>片長：</strong>{{ movie.duration }} </p>
@@ -60,15 +74,15 @@
                     <p><strong>上映日期：</strong>{{ formattedPremiereDate }}</p>
                     <div class="rating" v-if="movie.totalRating && !isNaN(movie.totalRating)">
                         <div class="rating" v-if="movie.averageRating !== undefined && !isNaN(movie.averageRating)">
-                            <p><strong>評分：</strong></p>
+                            <p><strong>平均評分: </strong></p>
                             <div>
                                 <!-- 實心星星 -->
-                                <span v-for="star in Math.floor(movie.averageRating)" :key="'filled-' + star"> ★ </span>
+                                <!--<span v-for="star in Math.floor(movie.averageRating)" :key="'filled-' + star"> ★ </span>-->
                                 <!-- 半顆星星，若有需要，可用不同符號或樣式 -->
-                                <span v-if="(movie.averageRating % 1) >= 0.5">✭</span>
+                                <!--<span v-if="(movie.averageRating % 1) >= 0.5">✭</span>-->
                                 <!-- 空心星星 -->
-                                <span v-for="empty in 5 - Math.ceil(movie.averageRating)" :key="'empty-' + empty"> ☆ </span>
-                                <p>平均評分: {{ movie.averageRating.toFixed(1) }} 顆星</p>
+                                <!--<span v-for="empty in 5 - Math.ceil(movie.averageRating)" :key="'empty-' + empty"> ☆ </span>-->
+                                <p>{{ movie.averageRating.toFixed(1) }} / 5.0顆星</p>
                             </div>
                         </div>
                     </div>
@@ -78,13 +92,13 @@
                 <div class="container">
                     <h2>電影場次</h2>
                     <div v-if="movie.showtimes && movie.showtimes.length > 0">
-                        <div v-for="(times, date) in groupShowtimesByDate(movie.showtimes)" :key="date" class="mb-3">
+                        <div v-for="(group, date) in groupShowtimesByDate(movie.showtimes)" :key="date" class="mb-3">
                             <h5>{{ date }}</h5>
                             <div class="d-flex flex-wrap gap-2">
-                                <button v-for="(showtime, index) in times"
+                                <button v-for="(showtime, index) in group.times"
                                         :key="index"
                                         class="btn btn-outline-primary"
-                                        v-on:click="goToSeatSelection(showtime)">
+                                        v-on:click="goToSeatSelection(movie.id, group.showDateId, showtime.showtimeId)">
                                     {{ showtime.time }}
                                 </button>
                             </div>
@@ -123,10 +137,10 @@
                 </div>
 
 
-                <div class="container" v-if="movie.trailerUrl">
+                <div class="container" v-if="movie.trailerURL">
                     <h2>電影預告片</h2>
                     <!-- 動態設定 src 為 TrailerURL -->
-                    <iframe :src="movie.trailerUrl"
+                    <iframe :src="movie.trailerURL"
                             width="560"
                             height="315"
                             title="YouTube video player"
@@ -149,27 +163,24 @@
             const app = createApp({
                 setup() {
                     const movie = ref({});
-                    const apiUrl = "/api/FrontMoviesApiController/MovieDetail"; // 確保API的路徑正確
-
-                    // 從 URL 中取得電影的 ID
-                    const urlParams = new URLSearchParams(window.location.search);
-                    const movieId = urlParams.get('id');
+                    const apiUrl = "/api/FrontMoviesApiController/MovieDetail";
 
                     const fetchMovieDetail = async () => {
                         try {
+                            const movieId = localStorage.getItem('selectedMovieId');
+                            if (!movieId) {
+                                throw new Error("Movie ID not found.");
+                            }
                             const response = await fetch(`${apiUrl}?id=${movieId}`);
                             if (!response.ok) {
                                 throw new Error(`API request failed with status: ${response.status}`);
                             }
                             const data = await response.json();
-                            console.log("Fetched movie details:", data); // 除錯訊息
                             movie.value = {
                                 ...data,
-                                showtimes: Array.isArray(data.showtimes) ? data.showtimes : [], // 確保 showtimes 是陣列
-                                totalRating: isNaN(data.totalRating) ? 0 : data.totalRating,
+                                showtimes: Array.isArray(data.showtimes) ? data.showtimes : [],
                                 stills: Array.isArray(data.stills) ? data.stills : [],
                             };
-                            console.log("Processed movie details:", movie.value); // 除錯訊息
                         } catch (error) {
                             console.error("Error fetching movie details:", error);
                         }
@@ -177,33 +188,29 @@
 
                     onMounted(fetchMovieDetail);
 
-                    // 使用 computed 來格式化日期，僅顯示日期部分
                     const formattedPremiereDate = computed(() => {
                         if (!movie.value.premiereDate) return '';
                         const date = new Date(movie.value.premiereDate);
-                        return date.toISOString().split('T')[0];  // ISO 字串格式，分離出日期部分
+                        return date.toISOString().split('T')[0];
                     });
 
                     const groupShowtimesByDate = (showtimes) => {
-                        // 確保 showtimes 為陣列，若為 undefined 或 null 則設定為空陣列
                         if (!Array.isArray(showtimes)) showtimes = [];
-
                         return showtimes.reduce((acc, showtime) => {
-                            const date = new Date(showtime.date).toISOString().split('T')[0];
-                            if (!acc[date]) acc[date] = [];
-                            acc[date].push(showtime);
+                            const date = new Date(showtime.date).toLocaleDateString('zh-TW'); // 使用本地日期格式
+                            if (!acc[date]) acc[date] = { showDateId: showtime.showDateId, times: [] };
+                            acc[date].times.push(showtime);
                             return acc;
                         }, {});
                     };
 
-                    // 點擊場次跳轉到選擇座位的頁面
-                    const goToSeatSelection = (showtime) => {
-                        if (showtime) {
-                            // 轉跳到座位選擇頁面，並附上 showtime 參數
-                            const showtimeParam = encodeURIComponent(JSON.stringify(showtime));
-                            window.location.href = `/SeatSelection.html?showtime=${showtimeParam}`;
+                    const goToSeatSelection = (movieId, showDateId, showtimeId) => {
+                        if (movieId && showtimeId && showDateId) {
+                            const url = `/BookTickets/ChoiceSeats/${movieId}/${showDateId}/${showtimeId}`;
+                            window.location.href = url;
                         } else {
-                            console.error("Showtime is missing.");
+                            console.error("Missing parameters.");
+                            console.log(movie.value.showtimes);
                         }
                     };
 

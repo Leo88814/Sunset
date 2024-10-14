@@ -2,22 +2,35 @@
 @{
     ViewBag.Title = "線上訂票-確認訂單";
 }
-
 <head>
     <title>線上訂票-確認訂單</title>
     <link rel="stylesheet" href="~/CSS/styles.css" />
 </head>
+<style>
+    .breadcrumb {
+  background-color: #2a2a2a;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.breadcrumb-item a {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #ffffff;
+}
+</style>
 <body>
     <div id="app" class="page-container">
+        
         <section class="login-section container">
             <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
                 <ol class="breadcrumb ms-3">
                     <li class="breadcrumb-item"><a href="@Url.Action("index", "Home")">首頁</a></li>
                     <li class="breadcrumb">線上訂票</li>
                     <li class="breadcrumb"><a href="@Url.Action("ChoiceMovies", "BookTickets")">選擇電影</a></li>
-                    <li class="breadcrumb"><a href="Booking-ChoiceDate.html">選擇日期</a></li>
-                    <li class="breadcrumb"><a href="Booking-ChoiceSeats.html">選擇座位</a></li>
-                    <li class="breadcrumb">確認訂單</li>
                 </ol>
             </nav>
 
@@ -32,10 +45,11 @@
             <div class="container mt-3">
                 <div class="row">
                     <div class="col-md-3 col-sm-6">
-                        <img class="img-fluid" :src="selectedMovie?.image" />
+                        <img class="img-fluid mt-4" :src="`/images/${orderDetail.mainPicture}`"/>
                         <p class="text-center fw-bolder mt-2">
-                            {{ selectedMovie?.name }}
+                            {{ orderDetail.movieName }}
                         </p>
+                        <p v-if="false"> {{ orderDetail.id }}</p>
                     </div>
 
                     <div class="col-md-9 col-sm-6">
@@ -52,11 +66,16 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>{{ selectedMovie?.name }}</td>
-                                        <td>{{ selectedDate?.date }}</td>
-                                        <td>{{ selectedTime?.time }}</td>
-                                        <td>{{ movie.cinema }}</td>
-                                        <td>{{ formattedSeats }}</td>
+                                        <td>{{ orderDetail.movieName }}</td>
+                                        <td>{{ orderDetail.showtimeDateString }}</td>
+                                        <td>{{ orderDetail.startTimeMin}}</td>
+                                        <td>{{ orderDetail.auditoriumName }}</td>
+                                        <td>
+                                            <span v-for="(seat, index) in seatInfo" :key="index">
+                                                {{ seat.seatNumber }}
+                                                <span v-if="index < seatInfo.length - 1">, </span>
+                                            </span>
+                                        </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -92,9 +111,9 @@
                                 </thead>
                                 <tbody>
                                     <tr>
-                                        <td>NT${{storedBalance}}</td>
-                                        <td>NT${{totalTicketPrice}}</td>
-                                        <td>NT${{remainingBalance}}</td>
+                                        <td>NT$ {{storedBalance.currentBalance}}</td>
+                                        <td>NT$ {{totalTicketPrice}}</td>
+                                        <td>NT$ {{remainingBalance}}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -108,10 +127,8 @@
             </div>
 
             <div class="text-end mt-3">
-                <button v-on:click="goToPreviousPage" class="btn btn-outline-danger">
-                    上一頁
-                </button>
-                <button v-on:click="goToNextPage" class="btn btn-outline-primary ms-2">
+
+                <button v-on:click="goToNextPage" class="btn btn-primary ms-2">
                     確認訂單
                 </button>
             </div>
@@ -123,58 +140,21 @@
             const { createApp, ref, onMounted, computed } = Vue;
 
             const config = {
-                components: {
-                    "header-component": HeaderComponent,
-                    "footer-component": FooterComponent,
-                },
                 setup() {
-                    const orderDetail = ref([]);
-                    const selectedMovie = ref(null);
-                    const selectedDate = ref(null);
-                    const selectedTime = ref(null);
-                    const movieScheduleId = @Html.ViewBag.movieScheduleId;
-                    const seatIds = @Html.ViewBag.seatIds ;
-                    const storedBalance = ref(3000); // 儲值金
-
                     onMounted(async () => {
-                            try {
-                                const response = await fetch(`/api/CheckOrderApi/CheckOrder/${movieScheduleId}/${seatIds}`, {
-                                    method: 'GET',
-                                    headers: {
-                                        'Content-Type': 'application/json'
-                                    }
-                                });
-                                if (!response.ok) {
-                                    throw new Error(`HTTP error! status: ${response.status}`);
-                                }
-                                const data = await response.json();
-                                orderDetail.value = data;
-                            } catch (error) {
-                                console.error("Error:", error);
-                            }
+                        const movieId = await getOrder();
+                        getCurrentBalance();
+                        forData.DataForMovieRating.MovieInfoId = movieId;
 
                     });
 
-                    const goToPreviousPage = () => {
-                        window.location.href = "Booking-ChoiceSeats.html";
-                    };
-
-                    const goToNextPage = () => {
-                        if (!isBalanceInsufficient.value) {
-                            window.location.href = "Booking-OrderComplete.html"; // 跳轉到下一頁
-                        }
-                    };
-
-
-
-                    const confirmOrder = () => {
-                        alert("訂單已確認！");
-                    };
-
+                    const choiceMovieId = ref(null);
                     const selectedTickets = JSON.parse(
                         localStorage.getItem("selectedTickets")
                     );
-
+                    const ticketIds = selectedTickets
+                        .map((ticket) => ticket.id)
+                        .join(", ");
                     const ticketNames = selectedTickets
                         .map((ticket) => ticket.name)
                         .join(", ");
@@ -185,11 +165,32 @@
                         .map((ticket) => ticket.quantity)
                         .join(", ");
 
+                    const totalTicketCount = computed(() => {
+                        return selectedTickets.reduce((total, ticket) => total + ticket.quantity, 0);
+                    });
+
+                    const orderDetail = ref([]);
+                    const seatInfo = ref([]);
+                    const selectedMovie = ref(null);
+                    const selectedDate = ref(null);
+                    const selectedTime = ref(null);
+                    const movieScheduleId = @Html.Raw(ViewBag.movieScheduleId);
+                    const seatIds = @Html.Raw(Json.Encode(ViewBag.seatsId));
+                    const storedBalance = ref([]);
+                    
+
+                    // 首先，提取 TicketId
+                    const choicedticketIds = selectedTickets.map(ticket => ticket.id);
+
+                    // 將 seatIds 字符串轉換為數組
+                    const seatIdArray = seatIds.split(',').map(Number);
+
+
+                    //分別取得各票種的總票價
                     const ticketTotalPrice =
                         parseInt(ticketPrices) * parseInt(ticketQuantities);
 
-
-
+                    //取得總票價
                     const totalTicketPrice = computed(() => {
                         return selectedTickets.reduce(
                             (total, ticket) => total + ticket.price * ticket.quantity,
@@ -197,8 +198,9 @@
                         );
                     });
 
+                    //取得購票後餘額
                     const remainingBalance = computed(() => {
-                        return storedBalance.value - totalTicketPrice.value;
+                        return storedBalance.value.currentBalance - totalTicketPrice.value;
                     });
 
                     // 檢查儲值金是否不足
@@ -206,17 +208,137 @@
                         return remainingBalance.value < 0;
                     });
 
+                    const getOrder = async (data) => {
+                        const token = getCookie("bookmovie");
+                        if (!token) {
+                            alert('Token not found. Please log in again.');
+                            return;
+                        }
+                        try {
+                            const response = await fetch(`/api/CheckOrderApi/CheckOrder/${movieScheduleId}/${seatIds}`, {
+                                method: 'GET',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                }
+                            });
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            
+                            orderDetail.value = data.movieScheduleInfo;
+                            seatInfo.value = data.choiceSeatInfo;
+                            choiceMovieId.value = data.movieScheduleInfo.id;
+                            return choiceMovieId.value
+                        } catch (error) {
+                            console.error("Error:", error);
+                        }
+                    };
+ 
+                    const getCurrentBalance = async (data) => {
+
+                        try {
+                            const token = getCookie("bookmovie");
+                            if (!token) {
+                                throw new Error('Token not found');
+                            }
+                            const response = await fetch(`/api/CheckOrderApi/CheckCurrentBalance`, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+
+                            if (!response.ok) {
+                                throw new Error(`API request failed with status: ${response.status}`);
+                            }
+
+                            const data = await response.json();
+                            storedBalance.value = data;
+                            return storedBalance.value
+
+                        } catch (error) {
+                            console.error('Error fetching topup history:', error);
+                        }
+                    }
+
+                    const confirmOrder = () => {
+                        alert("訂單已確認！");
+                    };
+   
+                    const goToPreviousPage = () => {
+                        window.location.href = "Booking-ChoiceSeats.html";
+                    };
+          
+
+                    const forData = {
+                        DataForOrder: {
+                            MovieReleaseScheduleId: movieScheduleId,
+                            TotalTicketCount: totalTicketCount.value,
+                            TotalAmount: totalTicketPrice.value,
+                        },
+                        DataForOrderDetail: seatIdArray.map((seatId, index) => ({
+                            TicketId: choicedticketIds[index % choicedticketIds.length],
+                            SeatId: seatId
+                        })),
+                        DataForMovieRating: {
+                            MovieInfoId: choiceMovieId.value,
+                            rating: null,
+                        },
+                        DataForRemainingBalance: {
+                            CurrentBalance: totalTicketPrice.value
+                        }
+                    }
+                    console.log("remainingBalance.value", totalTicketPrice.value);
+                    const goToNextPage = async () => {
+                        try {
+                            const token = getCookie("bookmovie");
+                            if (!token) {
+                                alert('Token not found. Please log in again.');
+                                return;
+                            }
+
+                            const response = await fetch('/api/CheckOrderApi/PostOrder', {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                },
+                                body: JSON.stringify(forData)
+                            });
+
+                            if (!response.ok) {
+                                throw new Error('訂單創建失敗');
+                            }
+                            const result = await response.json();
+                            console.log('訂票成功:', result);
+
+                            // 訂票成功後跳轉
+                            window.location.href = "@Url.Action("OrderComplete", "BookTickets")";
+                        } catch (error) {
+                            console.error('Error during order creation:', error);
+                            alert('訂票失敗，請稍後再試');
+                        }
+
+                        try {
+                            const token = getCookie("bookmovie");
+                            if (!token) {
+                                alert('Token not found. Please log in again.');
+                                return;
+                            }
+                        } catch { }
+                    };
+
                     return {
                         selectedMovie,
                         goToPreviousPage,
                         goToNextPage,
 
+                        choiceMovieId,
                         confirmOrder,
                         selectedDate,
                         selectedTime,
                         selectedTickets,
 
-                        formattedSeats,
                         ticketNames,
                         ticketPrices,
                         ticketQuantities,
@@ -225,12 +347,27 @@
                         remainingBalance,
                         isBalanceInsufficient,
                         storedBalance,
+                        orderDetail,
+                        seatInfo,
+
+                        getCurrentBalance,
+                        getOrder,
+
+                        choicedticketIds,
+                        seatIdArray,
+                
                     };
                 },
             };
 
             const app = createApp(config);
             app.mount("#app");
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
         </script>
     }
 </body>

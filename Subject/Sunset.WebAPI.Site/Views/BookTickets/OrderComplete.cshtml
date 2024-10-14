@@ -1,0 +1,207 @@
+﻿
+@{
+    ViewBag.Title = "線上訂票-訂單完成";
+}
+<head>
+    <title>線上訂票-訂單完成</title>
+</head>
+<style>
+    .breadcrumb {
+  background-color: #2a2a2a;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.breadcrumb-item a {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #ffffff;
+}
+</style>
+<body>
+    <div id="app" class="page-container">
+        <section class="order-completion mt-5 container">
+            <nav style="--bs-breadcrumb-divider: '>'" aria-label="breadcrumb">
+                <ol class="breadcrumb ms-3">
+                    <li class="breadcrumb-item"><a href="@Url.Action("index", "Home")">首頁</a></li>
+                    <li class="breadcrumb">線上訂票</li>
+                    <li class="breadcrumb">訂單完成</li>
+                </ol>
+            </nav>
+            <h2 class="text-center">感謝您使用訂票平台</h2>
+
+            <!-- 訂單資訊表格 -->
+            <table class="table table-bordered mt-3">
+                <tbody>
+                    <tr>
+                        <th>訂單時間</th>
+                        <td>{{orderInfo}}</td>
+                    </tr>
+                    <tr>
+                        <th>訂單編號</th>
+                        <td>{{order.orderNumber}}</td>
+                    </tr>
+                    <tr>
+                        <th>電影票號</th>
+                        <td>
+                            <ul>
+                                <!-- 顯示多個電影票號 -->
+                                <li v-for="(seat, index) in selectedSeats" :key="index">
+                                    {{ seat.ticketNumber }}
+                                </li>
+                            </ul>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>電影名稱</th>
+                        <td>{{ order.movieName }}</td>
+                    </tr>
+                    <tr>
+                        <th>日期場次</th>
+                        <td>{{ order.showtimeDateString }} {{ order.startTimeMin }}</td>
+                    </tr>
+                    <tr>
+                        <th>影廳</th>
+                        <td>{{ order.auditoriumName }}</td>
+                    </tr>
+                    <tr>
+                        <th>票種</th>
+                        <td>
+                            <span v-for="(ticket, index) in selectedTickets" :key="index">
+                                {{ ticket.name }}:{{ ticket.quantity }}張
+                            </span>
+                        </td>
+                    </tr>
+                    <tr>
+                        <th>座位</th>
+                        <td>
+                            <span v-for="(seat, index) in selectedSeats" :key="index">
+                                {{ seat.seatNumber }}
+                                <span v-if="index < selectedSeats.length - 1">, </span>
+                            </span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+
+            <div class="text-end mt-3">
+                <button v-on:click="goBack" class="btn btn-danger">
+                    回到首頁
+                </button>
+                <button v-on:click="goToNextPage" class="btn btn-primary ms-2">
+                    前往票夾
+                </button>
+            </div>
+        </section>
+    </div>
+
+    @section scripts{
+        <script>
+            const { createApp, ref, onMounted, computed } = Vue;
+
+            const config = {
+
+                setup() {
+                    const order = ref([]);
+                    const selectedTickets = ref([]);
+                    const selectedSeats = ref();
+
+                    // 計算總票數
+                    const totalTickets = computed(() => {
+                        return selectedTickets.value.reduce(
+                            (sum, ticket) => sum + ticket.quantity,
+                            0
+                        );
+                    });
+                    const getOrder = async () => {
+                        const token = getCookie("bookmovie");
+                        if (!token) {
+                            alert('Token not found. Please log in again.');
+                            return;
+                        }
+                        try {
+                            const response = await fetch(`/api/CheckOrderApi/OrderComplete`, {
+                                headers: {
+                                    'Authorization': `Bearer ${token}`
+                                }
+                            });
+                            if (!response.ok) {
+                                throw new Error(`HTTP error! status: ${response.status}`);
+                            }
+                            const data = await response.json();
+                            order.value = data;
+                            selectedSeats.value = data.ticketDetails;
+
+
+                            //return choiceMovieId.value
+                        } catch (error) {
+                            console.error("Error:", error);
+                        }
+                    };
+
+                    // 當頁面掛載時，從 localStorage 讀取資料
+                    onMounted(() => {
+                        getOrder();
+                        const savedTickets = JSON.parse(
+                            localStorage.getItem("selectedTickets")
+                        );
+
+                        if (savedTickets) selectedTickets.value = savedTickets;
+                    });
+
+                    const orderInfo = ref(
+                        new Date().toLocaleString("zh-TW", {
+                            year: "numeric",
+                            month: "2-digit",
+                            day: "2-digit",
+                            hour: "2-digit",
+                            minute: "2-digit",
+                            second: "2-digit",
+                            hour12: false,
+                        })
+                    );
+
+
+                    const formattedSeats = computed(() => {
+                        return selectedSeats.value.join(", ");
+                    });
+
+                    const goBack = () => {
+                        window.location.href = "@Url.Action("index", "Home")"; // 回首頁
+                    };
+
+                    const goToNextPage = () => {
+                        window.location.href = "@Url.Action("Tickets", "Member")"; // 跳轉到票夾
+                    };
+
+                    return {
+                        order,
+                        selectedSeats,
+                        orderInfo,
+                        goBack,
+                        goToNextPage,
+                        selectedTickets,
+                        formattedSeats,
+                        getOrder,
+
+                    };
+                },
+            };
+
+            const app = createApp(config);
+            app.mount("#app");
+
+
+            function getCookie(name) {
+                const value = `; ${document.cookie}`;
+                const parts = value.split(`; ${name}=`);
+                if (parts.length === 2) return parts.pop().split(';').shift();
+            }
+        </script>
+    }
+</body>
+
+

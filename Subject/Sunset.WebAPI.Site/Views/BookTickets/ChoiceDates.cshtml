@@ -2,11 +2,26 @@
 @{
     ViewBag.Title = "線上訂票-選擇日期";
 }
-
 <head>
     <title>線上訂票-選擇日期</title>
     <link rel="stylesheet" href="~/CSS/styles.css" />
 </head>
+<style>
+    .breadcrumb {
+  background-color: #2a2a2a;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.breadcrumb-item a {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #ffffff;
+}
+</style>
 <body>
     <div id="app" class="page-container">
         <div class="login-section container">
@@ -15,7 +30,6 @@
                     <li class="breadcrumb-item"><a href="@Url.Action("index", "Home")">首頁</a></li>
                     <li class="breadcrumb">線上訂票</li>
                     <li class="breadcrumb"><a href="@Url.Action("ChoiceMovies", "BookTickets")">選擇電影</a></li>
-                    <li class="breadcrumb">選擇日期</li>
                 </ol>
             </nav>
 
@@ -67,10 +81,7 @@
                     </div>
                 </div>
                 <div class="text-end">
-                    <a :href="`@Url.Action("ChoiceMovies", "BookTickets")`" class="btn btn-outline-danger">
-                        上一頁
-                    </a>
-                    <a href="#" v-on:click.prevent="handleNextPage" class="btn btn-outline-primary ms-2">
+                    <a href="#" v-on:click.prevent="handleNextPage" class="btn btn-primary ms-2">
                         下一頁
                     </a>
                 </div>

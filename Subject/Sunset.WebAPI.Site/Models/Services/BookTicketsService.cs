@@ -2,6 +2,7 @@
 using Sunset.WebAPI.Site.Models.EFModels;
 using Sunset.WebAPI.Site.Models.Exts;
 using Sunset.WebAPI.Site.Models.Repositories;
+using Sunset.WebAPI.Site.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,20 +49,46 @@ namespace Sunset.WebAPI.Site.Models.Services
 			});
 			return allSeats;
 		}
-		public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
+        public List<GetTicketsInfoDto> GetTicketsInfo()
+        {
+			return _repo.GetTicketsInfo();
+        }
+        public GetMovieScheduleDto GetMovieScheduleId(int movieId, int showdateId, int showtimeId)
 		{
-			var movieScheduleId = _repo.GetMovieScheduleId(movieId, showdateId, showtimeId);
-
-
-			return movieScheduleId;
+			return _repo.GetMovieScheduleId(movieId, showdateId, showtimeId);
 		}
 
-		public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds/*, int memberId*/)
+		public CheckOrderDto CheckOrder(int movieScheduleId, List<int> seatIds)
 		{
-			var orderdetail = _repo.CheckOrder(movieScheduleId, seatIds/*, memberId*/);
-
-			return orderdetail;
+			return _repo.CheckOrder(movieScheduleId, seatIds);
 		}
-  
+
+		public Member GetMemberByEmail(string email)
+		{
+			return _repo.GetMemberByEmail(email);
+		}
+
+		public CurrentBalanceDto GetCurrentBalance(string memberId)
+		{
+			int memberIdInt = int.Parse(memberId);
+			return _repo.GetCurrentBalance(memberIdInt);
+		}
+
+		public bool PostOrder(PostOrderDto dto, string memberId)
+		{
+			int memberIdInt = int.Parse(memberId);
+			var timestamp = DateTime.Now.ToString("yyyyMMddHHmmss");
+			var random = new Random();
+			var randomNumber = random.Next(1000, 9999);
+
+			var orderNumber = "MOV-" + timestamp + "-" + randomNumber;
+			return _repo.PostOrder(dto, memberIdInt,orderNumber);
+		}
+
+        public GetCurrentOrderDto GetCurrentOrder(string memberId)
+        {
+            int memberIdInt = int.Parse(memberId);
+            return _repo.GetCurrentOrder(memberIdInt);
+        }
     }
 }

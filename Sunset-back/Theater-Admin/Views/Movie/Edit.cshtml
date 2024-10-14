@@ -1,0 +1,305 @@
+﻿@model Theater_Admin.Models.Vms.MovieVm
+
+@{
+    ViewBag.Title = "編輯電影";
+}
+
+<h2>編輯電影</h2>
+
+<div id="app">
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
+        <h2 class="text-center text-white mb-4">管理系統</h2>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <!-- 維護會員系統 -->
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMember"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMember">
+                    維護會員系統
+                </a>
+                <div class="collapse" id="collapseMember">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Members")" class="nav-link text-white">註銷會員</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 電影詳情頁面 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMovie"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMovie">
+                    電影清單頁面
+                </a>
+                <div class="collapse" id="collapseMovie">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Movie")" class="nav-link text-white">電影清單</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 購票訂位系統 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseBooking"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseBooking">
+                    購票訂位系統
+                </a>
+                <div class="collapse" id="collapseBooking">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Auditorum")" class="nav-link text-white">影廳管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ShowtimeIndex", "ShowTimes")" class="nav-link text-white">場次管理</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 客服Q&A -->
+            <li>
+                <a href="@Url.Action("Logout", "Users")" class="nav-link text-white">登出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="header ">
+        <div class="container-fluid d-flex  ">
+
+            <h1 class="text-end pe-5 pt-2" style="align-content">Sunset影城管理系統</h1>
+            <img src="~/Img/sunset-svgrepo-com.png" alt="Logo" class="me-3" />
+        </div>
+    </div>
+    <form id="movieForm" enctype="multipart/form-data" class="main-content container justify-content-center text-center">
+        <div class="mb-3">
+            <label for="movieName" class="form-label">電影名稱</label>
+            <input type="text" class="form-control " id="movieName" v-model="movie.movieName" required>
+        </div>
+        <div class="mb-3">
+            <label for="englishName" class="form-label">英文名稱</label>
+            <input type="text" class="form-control" id="englishName" v-model="movie.englishName" required>
+        </div>
+        <div class="mb-3">
+            <label for="genreId" class="form-label">類型</label>
+            <select class="form-select" id="genre" v-model="movie.genreId" required>
+                <option value="1">動作</option>
+                <option value="2">冒險</option>
+                <option value="3">喜劇</option>
+                <option value="4">劇情</option>
+                <option value="5">恐怖</option>
+                <option value="6">科幻</option>
+                <option value="7">奇幻</option>
+                <option value="8">動畫</option>
+                <option value="9">紀錄片</option>
+                <option value="10">愛情</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="grading" class="form-label">分級</label>
+            <select class="form-select" id="grading" v-model="movie.grading" required>
+                <option value="普遍級">普遍級</option>
+                <option value="保護級">保護級</option>
+                <option value="輔導級">輔導級</option>
+                <option value="限制級">限制級</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="synopsis" class="form-label">劇情簡介</label>
+            <textarea class="form-control" id="synopsis" v-model="movie.synopsis" rows="3" required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="trailerURL" class="form-label">預告片連結</label>
+            <input type="url" class="form-control" id="trailerURL" v-model="movie.trailerURL" required>
+        </div>
+        <div class="mb-3">
+            <label for="premiereDate" class="form-label">首映日期</label>
+            <input type="date" class="form-control" id="premiereDate" v-model="movie.premiereDate" required>
+        </div>
+        <div class="mb-3">
+            <label for="onAir" class="form-label">是否上映</label>
+            <select class="form-select" id="onAir" v-model="movie.onAir" required>
+                <option :value="true">是</option>
+                <option :value="false">否</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="director" class="form-label">導演</label>
+            <input type="text" class="form-control" id="director" v-model="movie.director" required>
+        </div>
+        <div class="mb-3">
+            <label for="movieCast" class="form-label">演員</label>
+            <input type="text" class="form-control" id="movieCast" v-model="movie.movieCast" required>
+        </div>
+        <div class="mb-3">
+            <label for="movieLanguage" class="form-label">語言</label>
+            <input type="text" class="form-control" id="movieLanguage" v-model="movie.movieLanguage" required>
+        </div>
+        <div class="mb-3">
+            <label for="duration" class="form-label">片長 (分鐘)</label>
+            <input type="number" class="form-control" id="duration" v-model="movie.duration" required>
+        </div>
+        <div class="mb-3">
+            <label for="distributor" class="form-label">發行商</label>
+            <input type="text" class="form-control" id="distributor" v-model="movie.distributor" required>
+        </div>
+        <div class="mb-3">
+            <label for="mainPicture" class="form-label">主要海報</label>
+            <input type="file" class="form-control" id="mainPicture" ref="mainPicture" v-on:change="previewImage">
+            <img :src="previewImageUrl" alt="電影海報" class="img-thumbnail mt-2" v-if="previewImageUrl">
+        </div>
+
+        <button type="button" class="btn btn-primary" v-on:click="EditMovie">保存更改</button>
+    </form>
+</div>
+
+@section scripts {
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const app = Vue.createApp({
+            
+            setup() {
+                const movie = Vue.reactive({
+                    id: 0,
+                    movieName: "",
+                    englishName: "",
+                    genreId: null,
+                    grading: "",
+                    synopsis: "",
+                    trailerURL: "",
+                    premiereDate: null,
+                    onAir: false,
+                    director: "",
+                    movieCast: "",
+                    movieLanguage: "",
+                    duration: null,
+                    distributor: "",
+                    mainPicture: "",
+                    totalRating: 0
+                });
+                const previewImageUrl = Vue.ref(null);
+                const originalMainPicture = Vue.ref("");
+
+                const getMovieIdFromUrl = () => {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    return urlParams.get('id');
+                };
+
+                const fetchMovieData = async (id) => {
+                    try {
+                        const response = await fetch(`/apis/movie/Get${id}`);
+                        if (response.ok) {
+                            const data = await response.json();
+                            console.log('API 返回的電影數據:', data);
+                            Object.assign(movie, data);
+                            if (data.mainPicture) {
+                                previewImageUrl.value = `/Images/${data.mainPicture}`;
+                                originalMainPicture.value = data.mainPicture;
+                            }
+                            if (movie.premiereDate) {
+                                movie.premiereDate = new Date(movie.premiereDate).toISOString().split('T')[0];
+                            }
+                            console.log('更新後的 movie 對象:', movie);
+                        } else {
+                            console.error('獲取電影數據失敗');
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                    }
+                };
+
+                Vue.onMounted(() => {
+                    const movieId = getMovieIdFromUrl();
+                    if (movieId) {
+                        fetchMovieData(movieId);
+                    } else {
+                        console.log('未找到電影ID，這可能是新增電影的情況');
+                    }
+                });
+
+                const previewImage = async (event) => {
+                    const file = event.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onload = (e) => {
+                            previewImageUrl.value = e.target.result;
+                        };
+                        reader.readAsDataURL(file);
+
+                        // 上傳圖片
+                        const formData = new FormData();
+                        formData.append('file', file);
+                        try {
+                            const response = await fetch('/apis/movie/UploadImage', {
+                                method: 'POST',
+                                body: formData
+                            });
+                            if (response.ok) {
+                                const result = await response.json();
+                                movie.mainPicture = result.fileName; // 移除 .value
+                            } else {
+                                alert('圖片上傳失敗，請重試。');
+                            }
+                        } catch (error) {
+                            console.error('Error:', error);
+                            alert('圖片上傳時發生錯誤，請重試。');
+                        }
+                    }
+                };
+
+                const EditMovie = async () => {
+                    if (!movie.movieName || !movie.genreId || !movie.duration) { // 移除 .value
+                        alert('請填寫所有必填欄位');
+                        return;
+                    }
+
+                    // 如果沒有上傳新圖片，使用原始圖片文件名
+                    if (!movie.mainPicture) { // 移除 .value
+                        movie.mainPicture = originalMainPicture.value;
+                    }
+
+                    try {
+                        const movieId = getMovieIdFromUrl();
+                        const response = await fetch(`/apis/movie/Update/${movieId}`, {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type': 'application/json',
+                                'Accept': 'application/json'
+                            },
+                            body: JSON.stringify(movie) // 移除 .value
+                        });
+
+                        if (response.ok) {
+                            alert('電影更新成功！');
+                            window.location.href = '/Movie/Index';
+                        } else {
+                            const errorText = await response.text();
+                            alert(`更新電影失敗，請重試。錯誤訊息：${errorText}`);
+                        }
+                    } catch (error) {
+                        console.error('Error:', error);
+                        alert('發生錯誤，請重試。');
+                    }
+                };
+
+                return {
+                    movie,
+                    previewImageUrl,
+                    previewImage,
+                    EditMovie
+                };
+            }
+        });
+
+        app.mount("#app");
+    </script>
+}

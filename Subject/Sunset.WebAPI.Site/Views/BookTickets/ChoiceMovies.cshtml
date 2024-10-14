@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewBag.Title = "線上訂票-選擇電影";
 }
 <head>
@@ -15,6 +14,10 @@
             justify-content: center;
             margin: 10px;
             overflow: visible; /* 確保按鈕顯示 */
+            background-color: #fff; /* 白色背景 */
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            padding: 10px;
         }
 
             .card img {
@@ -32,6 +35,21 @@
         .btn {
             margin-top: 5px;
         }
+
+    .breadcrumb {
+  background-color: #2a2a2a;
+  padding: 10px;
+  border-radius: 5px;
+}
+
+.breadcrumb-item a {
+  color: #ffd700;
+  text-decoration: none;
+}
+
+.breadcrumb-item.active {
+  color: #ffffff;
+}
     </style>
 </head>
 <body>
@@ -65,7 +83,7 @@
                         <img :src="c.mainPicture" :alt="c.movieName" />
                         <div class="text-center fw-bolder mt-1">{{ c.movieName }}</div>
                         <div class="text-center">
-                            <a :href="`@Url.Action("ChoiceDates", "BookTickets")/${c.id}`" class="btn btn-dark">立即購票</a>
+                            <a :href="`@Url.Action("ChoiceDates", "BookTickets")/${c.id}`" class="btn btn-primary">立即購票</a>
                         </div>
                     </div>
                 </div>

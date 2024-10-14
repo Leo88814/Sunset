@@ -1,54 +1,87 @@
 ﻿@{
     ViewBag.Title = "票夾";
 }
-
+<title>會員專區-票夾</title>
 <style>
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #f4f4f9;
+        margin: 0;
+        padding: 0;
+    }
+
+    .pageContainer {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+
     .ticket {
-        border: 1px solid #000;
+        border: 1px solid #ddd;
         padding: 15px;
         margin-bottom: 20px;
-        background-color: #e7d7bc;
-        border-radius: 15px;
+        background-color: #fff;
+        border-radius: 8px;
         display: flex;
-        justify-content: space-between;
         align-items: center;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
         .ticket img {
-            width: 100px;
+            width: 120px;
+            height: auto;
             cursor: pointer;
-            border-radius: 10px;
+            border-radius: 8px;
+            margin-right: 20px;
         }
 
     .ticket-details {
         flex: 1;
         margin-left: 20px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
     }
 
         .ticket-details p {
             margin: 5px 0;
+            color: #333;
         }
 
-    .rating {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .rating-stars {
-        display: flex;
-        margin-top: 10px;
-    }
-
-        .rating-stars span {
-            font-size: 24px;
+        .ticket-details button {
+            align-self: flex-end;
+            background-color: #ff0000;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
             cursor: pointer;
-            color: #ccc;
+            transition: background-color 0.3s;
         }
 
-            .rating-stars span.active {
-                color: gold;
+            .ticket-details button:disabled {
+                background-color: #ccc;
+                cursor: not-allowed;
             }
+
+            .ticket-details button:hover:not(:disabled) {
+                background-color: #cc0000;
+            }
+
+    .breadcrumb {
+        background-color: #2a2a2a;
+        padding: 10px;
+        border-radius: 5px;
+    }
+
+    .breadcrumb-item a {
+        color: #ffd700;
+    }
+
+    .breadcrumb-item.active {
+        color: #ffffff;
+    }
 </style>
 
 <body>
@@ -56,7 +89,7 @@
         <div class="container">
             <nav aria-label="breadcrumb">
                 <ol class="breadcrumb">
-                    <li class="breadcrumb-item"><a href="Main.html">首頁</a></li>
+                    <li class="breadcrumb-item"><a href="@Url.Action("Index", "Home")">首頁</a></li>
                     <li class="breadcrumb">會員專區</li>
                     <li class="breadcrumb active">票夾</li>
                 </ol>
@@ -71,11 +104,10 @@
                     <p><strong>電影名稱：</strong> {{ ticket.movieName }}</p>
                     <p><strong>訂單編號：</strong> {{ ticket.orderNumber }}</p>
                     <p><strong>票數：</strong> {{ ticket.totalTicketCount }} 張</p>
-                    <p><strong>場次時間：</strong> {{ ticket.showTime }}</p> <!-- 顯示時間 -->
-                    <p><strong>場次日期：</strong> {{ ticket.showDate }}</p> <!-- 顯示日期 -->
-                    <button 
-                        :disabled="isCancellationDisabled(ticket.showDate, ticket.showTime)"
-                        v-on:click="cancelOrder(ticket.orderId)">
+                    <p><strong>場次時間：</strong> {{ ticket.showTime }}</p>
+                    <p><strong>場次日期：</strong> {{ ticket.showDate }}</p>
+                    <button :disabled="isCancellationDisabled(ticket.showDate, ticket.showTime)"
+                            v-on:click="cancelOrder(ticket.orderId, ticket.totalAmount)">
                         取消訂單
                     </button>
                 </div>
@@ -84,20 +116,24 @@
     </div>
 
     @section scripts{
-        <script>const { createApp, ref, onMounted } = Vue;
+        <script>
+            const { createApp, ref, onMounted } = Vue;
 
             const config = {
                 setup() {
                     const tickets = ref([]);
-                    const memberId = getCookie("memberId"); // 從 Cookies 中獲取 memberId
                     const apiUrl = `/api/MemberApiController/UserHistory`;
 
                     const fetchOrders = async () => {
                         try {
-                            const token = getCookie("bookmovie"); // 確保這裡的 token 是正確的
+                            const token = getCookie("bookmovie");
+                            if (!token) {
+                                console.error("Token not found");
+                                return;
+                            }
                             const response = await fetch(apiUrl, {
                                 headers: {
-                                    'Authorization': `Bearer ${token}` // 使用 Bearer token
+                                    'Authorization': `Bearer ${token}`
                                 }
                             });
                             if (!response.ok) {
@@ -107,8 +143,11 @@
                             const now = new Date();
                             tickets.value = data.filter(ticket => {
                                 const showDateTime = new Date(`${ticket.showDate}T${ticket.showTime}`);
-                                return showDateTime > now;
-                            });
+                                return showDateTime > now && ticket.PaymentStatus !== 'Cancelled';
+                            }).map(ticket => ({
+                                ...ticket,
+                                orderId: ticket.id
+                            }));
                         } catch (error) {
                             console.error("Error fetching orders:", error);
                         }
@@ -117,36 +156,45 @@
                     const isCancellationDisabled = (showDate, showTime) => {
                         const showDateTime = new Date(`${showDate}T${showTime}`);
                         const now = new Date();
-                        const timeDifference = showDateTime - now;
-                        return timeDifference <= 30 * 60 * 1000; // 30 分鐘
+                        return showDateTime - now <= 30 * 60 * 1000;
                     };
 
-                    const cancelOrder = async (orderId) => {
-                        const memberId = getMemberId();
-                        if (!memberId) {
-                            console.error("Member ID not found");
+                    const cancelOrder = async (orderId, totalAmount) => {
+                        if (!window.confirm("確定要取消訂單嗎?")) return;
+
+                        const token = getCookie("bookmovie");
+                        if (!token || !orderId) {
+                            console.error("Token or Order ID not found");
                             return;
                         }
                         try {
-                            const response = await fetch(`/api/MemberApiController/CancelOrder`, {
+                            await fetch(`/api/MemberApiController/CancelOrder`, {
                                 method: 'POST',
                                 headers: {
                                     'Content-Type': 'application/json',
                                     'Authorization': `Bearer ${token}`
                                 },
-                                body: JSON.stringify({ orderId, memberId })
+                                body: JSON.stringify({ orderId })
                             });
-                        if (!response.ok) {
-                            throw new Error(`API request failed with status: ${response.status}`);
-                        }
-                        await fetchOrders(); // 重新取訂單以更新狀態
+
+                            await fetch(`/api/MemberApiController/UpdateBalance`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json',
+                                    'Authorization': `Bearer ${token}`
+                                },
+                                body: JSON.stringify({ amount: totalAmount })
+                            });
+
+                            await fetchOrders();
                         } catch (error) {
                             console.error("Error cancelling order:", error);
                         }
                     };
 
                     const viewDetails = (orderNumber) => {
-                        window.location.href = `/Member/OrderDetails/${orderNumber}`;
+                        localStorage.setItem('orderNumber', orderNumber);
+                        window.location.href = '/Member/OrderDetails';
                     };
 
                     onMounted(fetchOrders);
@@ -167,15 +215,7 @@
                 const value = `; ${document.cookie}`;
                 const parts = value.split(`; ${name}=`);
                 if (parts.length === 2) return parts.pop().split(';').shift();
-                return null; // 如果沒有找到，返回 null
-            }
-
-            function getMemberId() {
-                const memberId = getCookie("memberId"); // 假設 memberId 存於名為 "memberId" 的 Cookie 中
-                if (!memberId) {
-                    console.error("Member ID not found in cookies");
-                }
-                return memberId;
+                return null;
             }
         </script>
     }

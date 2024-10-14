@@ -14,14 +14,17 @@ namespace Sunset.WebAPI.Site.Controllers
         {
             return View();
         }
-		public ActionResult OrderDetails()
-		{
-			return View();
-		}
-		public ActionResult Tickets()
-		{
-			return View();
-		}
-
+        public ActionResult OrderDetails()
+        {
+            return View();
+        }
+        public ActionResult Tickets()
+        {
+            return View();
+        }
+        public ActionResult TransactionHistory()
+        {
+            return View();
+        }
     }
 }

@@ -17,10 +17,10 @@ namespace Sunset.WebAPI.Site.Models
         {
             CreateMap<MemberLoginVm, MemberLoginDto>();
             CreateMap<RegisterVm, RegisterDto>();
-			CreateMap<MemberLoginVm, CheckMemberLoginDto>()
-	        .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
-	        .ForMember(dest => dest.Password, opt => opt.MapFrom(src => src.Password)).ReverseMap();
+            CreateMap<MemberLoginVm, CheckMemberLoginDto>();
+	      
 			CreateMap<Member, CheckMemberLoginDto>().ReverseMap();
+			CreateMap<ChangePasswordVm, ChangePasswordDto>();
 
 		}
     }

@@ -23,7 +23,9 @@ namespace Sunset.WebAPI.Site.Models.Dtos
 
 		public string Address { get; set; }
 
-		public string ConfirmCode { get; set; }
+		public bool MemberStatus { get; set; }
+
+        public string ConfirmCode { get; set; }
 
 		public string EncryptedPassword { get; set; }
 

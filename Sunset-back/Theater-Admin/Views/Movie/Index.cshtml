@@ -1,0 +1,254 @@
+﻿@model IEnumerable<Theater_Admin.Models.Dtos.MovieDto>
+
+@{
+    ViewBag.Title = "電影清單";
+}
+
+<div id="app">
+    <div class="sidebar d-flex flex-column flex-shrink-0 p-3">
+        <h2 class="text-center text-white mb-4">管理系統</h2>
+        <ul class="nav nav-pills flex-column mb-auto">
+            <!-- 維護會員系統 -->
+            <li class="nav-item">
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMember"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMember">
+                    維護會員系統
+                </a>
+                <div class="collapse" id="collapseMember">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Members")" class="nav-link text-white">註銷會員</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 電影詳情頁面 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseMovie"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseMovie">
+                    電影清單頁面
+                </a>
+                <div class="collapse" id="collapseMovie">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Movie")" class="nav-link text-white">電影清單</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 購票訂位系統 -->
+            <li>
+                <a class="nav-link text-white"
+                   data-bs-toggle="collapse"
+                   href="#collapseBooking"
+                   role="button"
+                   aria-expanded="false"
+                   aria-controls="collapseBooking">
+                    購票訂位系統
+                </a>
+                <div class="collapse" id="collapseBooking">
+                    <ul class="nav flex-column ms-3">
+                        <li>
+                            <a href="@Url.Action("Index", "Auditorum")" class="nav-link text-white">影廳管理</a>
+                        </li>
+                        <li>
+                            <a href="@Url.Action("ShowtimeIndex", "ShowTimes")" class="nav-link text-white">場次管理</a>
+                        </li>
+                    </ul>
+                </div>
+            </li>
+            <!-- 客服Q&A -->
+            <li>
+                <a href="@Url.Action("Logout", "Users")" class="nav-link text-white">登出</a>
+            </li>
+        </ul>
+    </div>
+    <div class="header ">
+        <div class="container-fluid d-flex  ">
+
+            <h1 class="text-end pe-5 pt-2" style="align-content">Sunset影城管理系統</h1>
+
+            <img src="~/Img/sunset-svgrepo-com.png" alt="Logo" class="me-3" />
+        </div>
+    </div>
+    <div class="content">
+        <h2>電影清單</h2>
+
+        <div class="mb-3">
+            <input v-model="searchName" placeholder="搜索電影名稱" class="form-control mb-3">
+
+        </div>
+        <table class="table">
+            <thead>
+                <div >
+                    <button class="btn btn-add btn-warning  text-center" v-on:click="goToAddMovie">新增電影</button>
+                </div>
+                <tr>
+                    <th>電影名稱</th>
+                    <th>英文名稱</th>
+                    <th>類型</th>
+                    <th>分級</th>
+                    <th>語言</th>
+                    <th>首映日期</th>
+                    <th>片長(分鐘)</th>
+                    <th>操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="movie in paginatedMovies" >
+                    <td>{{ movie.movieName }}</td>
+                    <td>{{ movie.englishName }}</td>
+                    <td>{{ getGenreText(movie.genreId) }}</td>
+                    <td>{{ movie.grading }}</td>
+                    <td>{{ movie.movieLanguage }}</td>
+                    <td>{{ formatDate(movie.premiereDate) }}</td>
+                    <td>{{ movie.duration }}</td>
+                    <td>
+                        <button class="btn btn-primary" v-on:click="editMovie(movie.id)">編輯</button>
+                        <button class="ms-2 btn btn-secondary" v-on:click="movieStillPage(movie.id)">劇照管理</button>
+                       
+                    </td>
+                        
+                    
+                </tr>
+                
+            </tbody>
+            
+        </table>
+
+        
+        <div class=" justify-content-between align-items-center">
+            <div class="text-center">
+
+                <button v-on:click="prevPage" :disabled="currentPage === 1" class="btn btn-secondary">上一頁</button>
+                <span>第 {{ currentPage }} 頁，共 {{ totalPages }} 頁</span>
+                <button v-on:click="nextPage" :disabled="currentPage === totalPages" class="btn btn-secondary">下一頁</button>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+@section scripts{
+    <script src="https://unpkg.com/vue@3/dist/vue.global.js"></script>
+    <script>
+        const { ref, computed, onMounted, watch } = Vue;
+
+        const app = Vue.createApp({
+
+            setup() {
+                const movies = ref([]);
+                const currentPage = ref(1);
+                const pageSize = 10;
+                const searchName = ref('');
+
+                const filteredMovies = computed(() => {
+                    return movies.value.filter(movie =>
+                        movie.movieName.toLowerCase().includes(searchName.value.toLowerCase()) ||
+                        movie.englishName.toLowerCase().includes(searchName.value.toLowerCase())
+                    );
+                });
+
+                const totalPages = computed(() => Math.ceil(filteredMovies.value.length / pageSize));
+
+                const paginatedMovies = computed(() => {
+                    const start = (currentPage.value - 1) * pageSize;
+                    return filteredMovies.value.slice(start, start + pageSize);
+                });
+
+                onMounted(async () => {
+                    try {
+                        const response = await fetch('/apis/movie/getmovies');
+                        const data = await response.json();
+                        movies.value = data;
+
+                        console.log('設置後的 movies 數據:', movies.value);
+                    } catch (error) {
+                        console.error('無法獲取電影數據:', error);
+                    }
+                });
+
+                const prevPage = () => {
+                    if (currentPage.value > 1) currentPage.value--;
+                };
+
+                const nextPage = () => {
+                    if (currentPage.value < totalPages.value) currentPage.value++;
+                };
+
+                watch(searchName, () => {
+                    currentPage.value = 1;
+                });
+
+                const formatDate = (dateString) => {
+                    const options = { year: 'numeric', month: '2-digit', day: '2-digit' };
+                    return new Date(dateString).toLocaleDateString('zh-TW', options);
+                };
+
+                const goToAddMovie = () => {
+                    window.location.href = '/Movie/Add';
+                };
+
+                const editMovie = (id) => {
+                    window.location.href = `@Url.Action("Edit", "Movie")?id=${id}`;
+                };
+
+                const movieStillPage = (id) => {
+                    window.location.href = `@Url.Action("GetAllStills", "Stills")?id=${id}`;
+                };
+
+                const getGenreText = (genreId) => {
+                    switch (genreId) {
+                        case 1:
+                            return '動作';
+                        case 2:
+                            return '冒險';
+                        case 3:
+                            return '喜劇';
+                        case 4:
+                            return '劇情';
+                        case 5:
+                            return '恐怖片';
+                        case 6:
+                            return '恐怖片';
+                        case 7:
+                            return '恐怖片';
+                        case 5:
+                            return '恐怖片';
+                        case 5:
+                            return '恐怖片';
+                        default:
+                            return '未知類型';
+                    }
+                };
+
+               
+
+                return {
+                    paginatedMovies,
+                    currentPage,
+                    totalPages,
+                    searchName,
+                    prevPage,
+                    nextPage,
+                    formatDate,
+                    goToAddMovie,
+                    editMovie,
+                    movieStillPage,
+                    getGenreText,  // 添加新的方法
+                  
+                };
+            },
+        });
+
+        app.mount("#app");
+    </script>
+}

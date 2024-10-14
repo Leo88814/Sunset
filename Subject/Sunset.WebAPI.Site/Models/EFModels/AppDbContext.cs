@@ -15,6 +15,7 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 		public virtual DbSet<Auditorium> Auditoriums { get; set; }
 		public virtual DbSet<Cinema> Cinemas { get; set; }
 		public virtual DbSet<CustomerService> CustomerServices { get; set; }
+		public virtual DbSet<MediaSlide> MediaSlides { get; set; }
 		public virtual DbSet<Member> Members { get; set; }
 		public virtual DbSet<MovieGenre> MovieGenres { get; set; }
 		public virtual DbSet<MovieImage> MovieImages { get; set; }
@@ -78,6 +79,10 @@ namespace Sunset.WebAPI.Site.Models.EFModels
 
 			modelBuilder.Entity<CustomerService>()
 				.Property(e => e.Answer)
+				.IsUnicode(false);
+
+			modelBuilder.Entity<MediaSlide>()
+				.Property(e => e.IndexPicture)
 				.IsUnicode(false);
 
 			modelBuilder.Entity<Member>()
